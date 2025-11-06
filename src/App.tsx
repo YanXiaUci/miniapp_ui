@@ -4,6 +4,7 @@ import { ArrowLeft, Check, HelpCircle } from 'lucide-react';
 function App() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
 
   if (showConfirm) {
     return (
@@ -154,27 +155,38 @@ function App() {
                 <span className="text-sm text-gray-600">服务费用</span>
                 <span className="text-2xl font-bold text-gray-900">¥0.20</span>
               </div>
-              <button className="text-sm text-gray-600 flex items-center gap-1">
+              <button
+                onClick={() => setShowDetail(!showDetail)}
+                className="text-sm text-gray-600 flex items-center gap-1"
+              >
                 明细
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  className={`w-4 h-4 transition-transform ${showDetail ? 'rotate-180' : ''}`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <polyline points="6 9 12 15 18 9"/>
                 </svg>
               </button>
             </div>
-            <div className="text-xs text-gray-500 mb-2.5 space-y-0.5">
-              <div className="flex justify-between">
-                <span>单价</span>
-                <span>¥0.1/天</span>
+            {showDetail && (
+              <div className="text-xs text-gray-500 mb-2.5 space-y-0.5">
+                <div className="flex justify-between">
+                  <span>单价</span>
+                  <span>¥0.1/天</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>天数</span>
+                  <span>2天</span>
+                </div>
+                <div className="flex justify-between font-medium text-gray-700">
+                  <span>总价</span>
+                  <span>¥0.20</span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span>天数</span>
-                <span>2天</span>
-              </div>
-              <div className="flex justify-between font-medium text-gray-700">
-                <span>总价</span>
-                <span>¥0.20</span>
-              </div>
-            </div>
+            )}
             <button
               className="w-full text-white text-base font-semibold py-3 rounded-full transition-all shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ backgroundColor: '#5B6FED' }}
