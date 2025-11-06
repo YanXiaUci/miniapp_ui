@@ -42,9 +42,9 @@ function App() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto bg-gray-50 pb-32">
-            <div className="bg-white rounded-2xl mx-4 mt-4 px-5 py-3.5 shadow-sm">
-              <div className="flex items-baseline justify-between mb-2">
+          <div className="flex-1 bg-gray-50 pb-2 flex flex-col">
+            <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-2.5 shadow-sm">
+              <div className="flex items-baseline justify-between mb-1.5">
                 <div>
                   <span className="text-sm text-gray-600">11月6日 今天</span>
                   <span className="mx-2 text-gray-400">→</span>
@@ -52,20 +52,25 @@ function App() {
                   <span className="ml-3 text-sm font-medium text-gray-900">1晚</span>
                 </div>
               </div>
-              <div className="text-base text-gray-900 mb-1.5">北京市 · 朝阳区</div>
+              <div className="text-base text-gray-900 mb-1">北京市 · 朝阳区</div>
               <div className="text-sm text-gray-500">每日行程费用 ¥100</div>
             </div>
 
-            <div className="bg-white rounded-2xl mx-4 mt-3 px-5 py-3.5 shadow-sm">
-              <div className="flex items-center justify-between mb-2.5">
+            <div className="bg-white rounded-2xl mx-4 mt-2.5 px-4 py-2.5 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
                 <h2 className="text-base font-semibold text-gray-900">服务详情</h2>
-                <div className="text-right">
-                  <div className="text-lg font-bold text-gray-900">¥0.1<span className="text-sm font-normal text-gray-600">/天</span></div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#F59E0B' }} viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                  </svg>
+                  <span className="text-xs text-gray-700">
+                    <span className="font-semibold" style={{ color: '#F59E0B' }}>25:06</span>
+                  </span>
                 </div>
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-3.5 mb-2.5">
-                <p className="text-sm text-gray-700 leading-relaxed mb-2.5">
+              <div className="bg-blue-50 rounded-xl p-3 mb-2">
+                <p className="text-sm text-gray-700 leading-relaxed mb-2">
                   陪你天气®将在您行程期间每天监测天气预报。
                 </p>
                 <div className="space-y-1.5">
@@ -84,54 +89,43 @@ function App() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 bg-amber-50 px-3 py-2 rounded-lg mb-2.5">
-                <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#F59E0B' }} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                </svg>
-                <div className="text-xs text-gray-700">
-                  <span className="font-medium" style={{ color: '#F59E0B' }}>报价有效期</span>
-                  <span className="mx-1.5">剩余</span>
-                  <span className="font-semibold" style={{ color: '#F59E0B' }}>25:06</span>
-                </div>
-              </div>
-
               <button className="text-sm font-medium flex items-center gap-1" style={{ color: '#5B6FED' }}>
                 <HelpCircle className="w-4 h-4" />
                 查看详情
               </button>
             </div>
 
-            <div className="bg-white rounded-2xl mx-4 mt-3 mb-4 px-5 py-3.5 shadow-sm">
-              <h2 className="text-base font-semibold text-gray-900 mb-3">联系信息</h2>
+            <div className="bg-white rounded-2xl mx-4 mt-2.5 mb-2 px-4 py-2.5 shadow-sm flex-1">
+              <h2 className="text-base font-semibold text-gray-900 mb-2.5">联系信息</h2>
 
-              <div className="space-y-3 mb-3">
+              <div className="space-y-2.5 mb-2.5">
                 <div>
-                  <label className="text-sm text-gray-600 mb-1.5 block">姓名</label>
+                  <label className="text-sm text-gray-600 mb-1 block">姓名</label>
                   <input
                     type="text"
                     placeholder="请输入姓名"
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-all"
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-all"
                     style={{ focusRing: '#5B6FED' }}
                   />
                 </div>
                 <div>
-                  <label className="text-sm text-gray-600 mb-1.5 block">手机号码</label>
+                  <label className="text-sm text-gray-600 mb-1 block">手机号码</label>
                   <input
                     type="tel"
                     placeholder="请输入手机号码"
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-all"
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-all"
                     style={{ focusRing: '#5B6FED' }}
                   />
                 </div>
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-3 mb-3">
+              <div className="bg-blue-50 rounded-xl p-2.5 mb-2.5">
                 <p className="text-xs text-gray-600 leading-relaxed">
                   陪你天气仅监测出行期间的天气。如有需要，可能需提供行程凭证（如机票、酒店订单）以核实退款。
                 </p>
               </div>
 
-              <div className="flex items-start gap-2.5">
+              <div className="flex items-start gap-2">
                 <button
                   onClick={() => setAgreed(!agreed)}
                   className="flex-shrink-0 mt-0.5"
@@ -154,8 +148,8 @@ function App() {
             </div>
           </div>
 
-          <div className="fixed bottom-0 w-[375px] bg-white border-t border-gray-200 px-5 py-4 shadow-lg">
-            <div className="flex items-center justify-between mb-3">
+          <div className="fixed bottom-0 w-[375px] bg-white border-t border-gray-200 px-5 py-3 shadow-lg">
+            <div className="flex items-center justify-between mb-2.5">
               <div className="flex items-baseline gap-2">
                 <span className="text-sm text-gray-600">服务费用</span>
                 <span className="text-2xl font-bold text-gray-900">¥0.20</span>
@@ -167,8 +161,22 @@ function App() {
                 </svg>
               </button>
             </div>
+            <div className="text-xs text-gray-500 mb-2.5 space-y-0.5">
+              <div className="flex justify-between">
+                <span>单价</span>
+                <span>¥0.1/天</span>
+              </div>
+              <div className="flex justify-between">
+                <span>天数</span>
+                <span>2天</span>
+              </div>
+              <div className="flex justify-between font-medium text-gray-700">
+                <span>总价</span>
+                <span>¥0.20</span>
+              </div>
+            </div>
             <button
-              className="w-full text-white text-base font-semibold py-3.5 rounded-full transition-all shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full text-white text-base font-semibold py-3 rounded-full transition-all shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ backgroundColor: '#5B6FED' }}
               disabled={!agreed}
             >
