@@ -51,8 +51,10 @@ function App() {
                 <span className="text-sm text-gray-600">11月7日 明天</span>
                 <span className="ml-auto text-sm font-medium text-gray-900">1晚</span>
               </div>
-              <div className="text-base text-gray-900 mb-2">北京市 · 朝阳区</div>
-              <div className="text-sm text-gray-500">每日行程费用 ¥100</div>
+              <div className="flex items-center justify-between">
+                <span className="text-base text-gray-900">北京市 · 朝阳区</span>
+                <span className="text-sm text-gray-500">每日行程费用 ¥100</span>
+              </div>
             </div>
 
             <div className="bg-white rounded-2xl mx-4 mt-2.5 px-4 py-2.5 shadow-sm">
@@ -88,10 +90,6 @@ function App() {
                 </div>
               </div>
 
-              <button className="text-sm font-medium flex items-center gap-1" style={{ color: '#5B6FED' }}>
-                <HelpCircle className="w-4 h-4" />
-                查看详情
-              </button>
             </div>
 
             <div className="bg-white rounded-2xl mx-4 mt-2.5 mb-4 px-4 py-2.5 shadow-sm">
