@@ -351,7 +351,7 @@ function App() {
                 </button>
                 <h1 className="text-lg font-semibold text-gray-900">订单详情</h1>
               </div>
-{selectedTrip?.status !== '待支付' && (
+{(selectedTrip?.status === '进行中' || selectedTrip?.status === '已完成') && (
                 <div className="relative">
                   <button
                     onClick={() => setShowMenu(!showMenu)}
