@@ -17,7 +17,7 @@ interface Trip {
   startDate: string;
   endDate: string;
   days: number;
-  status: '待支付' | '进行中' | '已完成' | '已失效' | '退款中';
+  status: '待支付' | '进行中' | '已完成' | '已失效';
   statusColor: string;
   dailyPrice: number;
   serviceFee: number;
@@ -44,11 +44,11 @@ const trips: Trip[] = [
   {
     id: 'MHGG3R23456789',
     location: '深圳欢乐谷',
-    startDate: '11月08日',
-    endDate: '11月10日',
+    startDate: '11月20日',
+    endDate: '11月22日',
     days: 3,
-    status: '退款中',
-    statusColor: 'bg-purple-100 text-purple-600',
+    status: '进行中',
+    statusColor: 'bg-blue-100 text-blue-600',
     dailyPrice: 160,
     serviceFee: 0.40,
     totalAmount: 0.40,
@@ -351,56 +351,47 @@ function App() {
                 </button>
                 <h1 className="text-lg font-semibold text-gray-900">订单详情</h1>
               </div>
-              <div className="relative">
-                <button
-                  onClick={() => setShowMenu(!showMenu)}
-                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  <MoreVertical className="w-5 h-5 text-gray-600" />
-                </button>
+{selectedTrip?.status !== '待支付' && (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowMenu(!showMenu)}
+                    className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <MoreVertical className="w-5 h-5 text-gray-600" />
+                  </button>
 
-                {showMenu && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-30"
-                      onClick={() => setShowMenu(false)}
-                    ></div>
-                    <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-40">
-                      {selectedTrip?.status === '待支付' && (
+                  {showMenu && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-30"
+                        onClick={() => setShowMenu(false)}
+                      ></div>
+                      <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-40">
+                        {selectedTrip?.status === '进行中' && selectedTrip.weatherData.length === 0 && (
+                          <button
+                            onClick={() => {
+                              setShowMenu(false);
+                              setShowRefundModal(true);
+                            }}
+                            className="w-full px-4 py-3 text-sm text-left text-gray-700 hover:bg-gray-50 transition-colors"
+                          >
+                            申请退款
+                          </button>
+                        )}
                         <button
                           onClick={() => {
                             setShowMenu(false);
-                            alert('取消订单');
+                            alert('联系客服');
                           }}
                           className="w-full px-4 py-3 text-sm text-left text-gray-700 hover:bg-gray-50 transition-colors"
                         >
-                          取消订单
+                          联系客服
                         </button>
-                      )}
-                      {(selectedTrip?.status === '进行中' || selectedTrip?.status === '已完成') && (
-                        <button
-                          onClick={() => {
-                            setShowMenu(false);
-                            setShowRefundModal(true);
-                          }}
-                          className="w-full px-4 py-3 text-sm text-left text-gray-700 hover:bg-gray-50 transition-colors"
-                        >
-                          申请退款
-                        </button>
-                      )}
-                      <button
-                        onClick={() => {
-                          setShowMenu(false);
-                          alert('联系客服');
-                        }}
-                        className="w-full px-4 py-3 text-sm text-left text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
-                      >
-                        联系客服
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -570,12 +561,12 @@ function App() {
                   </div>
                 </div>
 
-                <div className="bg-yellow-50 rounded-xl p-4 mb-6">
+                <div className="bg-blue-50 rounded-xl p-4 mb-6">
                   <div className="flex items-start gap-2">
-                    <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                    <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                     <div className="text-sm text-gray-700">
                       <p className="font-semibold text-gray-900 mb-1">退款说明</p>
-                      <p className="leading-relaxed">退款将在3-5个工作日内原路退回。如保障期已开始，将按比例退款。</p>
+                      <p className="leading-relaxed">由于保障期尚未开始，退款将自动处理并在1-3个工作日内原路退回。</p>
                     </div>
                   </div>
                 </div>
@@ -590,7 +581,7 @@ function App() {
                   <button
                     onClick={() => {
                       setShowRefundModal(false);
-                      alert('退款申请已提交');
+                      alert('退款成功！款项将在1-3个工作日内退回');
                     }}
                     className="flex-1 py-3 rounded-xl text-white font-semibold transition-all hover:opacity-90"
                     style={{ backgroundColor: '#5B6FED' }}
