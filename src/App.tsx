@@ -217,20 +217,22 @@ function App() {
             </div>
           </div>
 
-          <div className="sticky top-0 bg-white z-20 px-5 pt-16 pb-6">
-            <div className="flex items-center justify-between mb-2">
-              <h1 className="text-3xl font-bold text-gray-900">我的保障</h1>
+          <div className="sticky top-0 bg-white z-20 px-6 pt-16 pb-8">
+            <div className="flex items-center justify-between">
+              <h1 className="text-4xl font-bold text-gray-900">我的保障</h1>
               <button
                 onClick={() => setCurrentPage('profile')}
-                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center hover:scale-105 transition-transform shadow-md"
+                className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 hover:border-blue-400 transition-all shadow-sm"
               >
-                <User className="w-5 h-5 text-white" />
+                <div className="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                  <User className="w-6 h-6 text-white" />
+                </div>
               </button>
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto bg-gray-50 px-5 pb-24">
-            <div className="space-y-3">
+          <div className="flex-1 overflow-y-auto bg-gray-50 px-6 pb-24">
+            <div className="space-y-4">
               {trips.map((trip) => (
                 <button
                   key={trip.id}
@@ -238,30 +240,28 @@ function App() {
                     setSelectedTrip(trip);
                     setCurrentPage('tripDetail');
                   }}
-                  className="w-full bg-white rounded-2xl p-4 shadow-sm text-left hover:shadow-md transition-shadow"
+                  className="w-full bg-white rounded-3xl p-5 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98]"
                 >
-                  <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-start justify-between mb-4">
                     <div>
-                      <div className="text-xs text-gray-400 mb-1">订单号</div>
-                      <div className="text-sm font-medium text-gray-900">{trip.id}</div>
+                      <div className="text-xs text-gray-400 mb-1.5">订单号</div>
+                      <div className="text-sm font-semibold text-gray-900">{trip.id}</div>
                     </div>
-                    <span className={`text-xs px-2.5 py-1 rounded-full ${trip.statusColor}`}>{trip.status}</span>
+                    <span className={`text-xs px-3 py-1.5 rounded-full font-medium ${trip.statusColor}`}>{trip.status}</span>
                   </div>
-                  <div className="mb-3">
-                    <div className="text-xs text-gray-400 mb-1">地点</div>
-                    <div className="text-base text-gray-900">{trip.location}</div>
+                  <div className="mb-4">
+                    <div className="text-xs text-gray-400 mb-1.5">地点</div>
+                    <div className="text-lg font-semibold text-gray-900">{trip.location}</div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-xs text-gray-400 mb-1">日期</div>
-                      <div className="text-sm text-gray-900">{trip.startDate} - {trip.endDate}</div>
-                      <div className="text-xs text-gray-500 mt-0.5">共{trip.days}天</div>
+                      <div className="text-xs text-gray-400 mb-1.5">日期</div>
+                      <div className="text-sm text-gray-700">{trip.startDate} - {trip.endDate}</div>
+                      <div className="text-xs text-gray-500 mt-1">共{trip.days}天</div>
                     </div>
-                    <div className="flex items-center gap-1 text-sm" style={{ color: '#5B6FED' }}>
+                    <div className="flex items-center gap-1 text-sm font-medium" style={{ color: '#5B6FED' }}>
                       查看详情
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="9 18 15 12 9 6"/>
-                      </svg>
+                      <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
                 </button>
@@ -271,10 +271,10 @@ function App() {
 
           <button
             onClick={() => setCurrentPage('add')}
-            className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-xl hover:scale-110 transition-transform z-30"
-            style={{ right: 'calc(50% - 187.5px + 24px)' }}
+            className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-black flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-transform z-30"
+            style={{ right: 'calc(50% - 187.5px + 32px)' }}
           >
-            <Plus className="w-7 h-7 text-white" strokeWidth={2.5} />
+            <Plus className="w-8 h-8 text-white" strokeWidth={3} />
           </button>
         </div>
       </div>
@@ -745,7 +745,7 @@ function App() {
   if (currentPage === 'profile') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="w-[375px] bg-gradient-to-b from-blue-50 to-gray-50 min-h-screen flex flex-col relative">
+        <div className="w-[375px] bg-gradient-to-b from-blue-100/30 via-blue-50/20 to-white min-h-screen flex flex-col relative">
           <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-gray-800 text-sm z-10">
             <span className="font-semibold">9:41</span>
             <div className="flex items-center gap-1">
@@ -761,88 +761,82 @@ function App() {
             </div>
           </div>
 
-          <div className="px-5 pt-16 pb-8">
+          <div className="px-6 pt-14 pb-6">
             <button
               onClick={() => setCurrentPage('trips')}
-              className="p-2 -ml-2 hover:bg-white/50 rounded-full transition-colors"
+              className="p-2 -ml-2 hover:bg-black/5 rounded-full transition-colors"
             >
-              <ArrowLeft className="w-6 h-6 text-gray-700" />
+              <ArrowLeft className="w-7 h-7 text-gray-800" strokeWidth={2} />
             </button>
           </div>
 
-          <div className="flex flex-col items-center px-5 pb-8">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg mb-4">
-              <User className="w-12 h-12 text-white" />
+          <div className="flex flex-col items-center px-5 pb-12">
+            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg mb-5 overflow-hidden">
+              <User className="w-16 h-16 text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">xy</h2>
-            <p className="text-sm text-gray-500">131****9439</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-0">xy</h2>
           </div>
 
-          <div className="flex-1 px-5 pb-6">
-            <div className="bg-white rounded-3xl shadow-sm overflow-hidden">
+          <div className="flex-1 px-6 pb-8">
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
               <button
                 onClick={() => setCurrentPage('trips')}
-                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <span className="text-base text-gray-900">我的保障</span>
+                <div className="flex items-center gap-4">
+                  <User className="w-6 h-6 text-gray-900" strokeWidth={2} />
+                  <span className="text-lg text-gray-900 font-medium">账号与安全</span>
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
 
               <button
-                onClick={() => alert('帮助中心')}
-                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
+                onClick={() => alert('和开发者聊聊')}
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
-                    <HelpCircle className="w-5 h-5 text-green-600" />
-                  </div>
-                  <span className="text-base text-gray-900">帮助中心</span>
+                <div className="flex items-center gap-4">
+                  <MessageCircle className="w-6 h-6 text-gray-900" strokeWidth={2} />
+                  <span className="text-lg text-gray-900 font-medium">和开发者聊聊</span>
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
 
               <button
-                onClick={() => alert('联系客服')}
-                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
+                onClick={() => alert('条款协议')}
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center">
-                    <MessageCircle className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <span className="text-base text-gray-900">联系客服</span>
+                <div className="flex items-center gap-4">
+                  <Info className="w-6 h-6 text-gray-900" strokeWidth={2} />
+                  <span className="text-lg text-gray-900 font-medium">条款协议</span>
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
-              </button>
-
-              <button
-                onClick={() => alert('服务条款')}
-                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
-                    <FileText className="w-5 h-5 text-orange-600" />
-                  </div>
-                  <span className="text-base text-gray-900">服务条款</span>
-                </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
 
               <button
                 onClick={() => alert('关于陪你天气')}
-                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                    <Info className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-base text-gray-900">关于陪你天气</span>
+                <div className="flex items-center gap-4">
+                  <HelpCircle className="w-6 h-6 text-gray-900" strokeWidth={2} />
+                  <span className="text-lg text-gray-900 font-medium">关于陪你天气</span>
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
+              </button>
+
+              <button
+                onClick={() => alert('加入用户社群')}
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  <svg className="w-6 h-6 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                  <span className="text-lg text-gray-900 font-medium">加入用户社群</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
             </div>
           </div>
