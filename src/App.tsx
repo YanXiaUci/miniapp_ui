@@ -38,8 +38,8 @@ const trips: Trip[] = [
     serviceFee: 0.35,
     totalCompensation: 4,
     weatherData: [
-      { date: '11月03日', rained: true, hours: 5.5, compensated: true, amount: 2 },
-      { date: '11月04日', rained: true, hours: 4.2, compensated: true, amount: 2 },
+      { date: '11月03日', rained: true, hours: 5, compensated: true, amount: 2 },
+      { date: '11月04日', rained: true, hours: 4, compensated: true, amount: 2 },
     ],
   },
   {
@@ -54,10 +54,10 @@ const trips: Trip[] = [
     serviceFee: 0.50,
     totalCompensation: 4,
     weatherData: [
-      { date: '10月25日', rained: true, hours: 6.0, compensated: true, amount: 2 },
-      { date: '10月26日', rained: true, hours: 2.0, compensated: false },
+      { date: '10月25日', rained: true, hours: 6, compensated: true, amount: 2 },
+      { date: '10月26日', rained: true, hours: 2, compensated: false },
       { date: '10月27日', rained: false, compensated: false },
-      { date: '10月28日', rained: true, hours: 4.5, compensated: true, amount: 2 },
+      { date: '10月28日', rained: true, hours: 5, compensated: true, amount: 2 },
     ],
   },
   {
@@ -73,10 +73,10 @@ const trips: Trip[] = [
     totalCompensation: 2,
     weatherData: [
       { date: '10月20日', rained: false, compensated: false },
-      { date: '10月21日', rained: true, hours: 3.5, compensated: false },
-      { date: '10月22日', rained: true, hours: 5.0, compensated: true, amount: 2 },
+      { date: '10月21日', rained: true, hours: 3, compensated: false },
+      { date: '10月22日', rained: true, hours: 5, compensated: true, amount: 2 },
       { date: '10月23日', rained: false, compensated: false },
-      { date: '10月24日', rained: true, hours: 2.8, compensated: false },
+      { date: '10月24日', rained: true, hours: 2, compensated: false },
     ],
   },
   {
@@ -107,8 +107,8 @@ const trips: Trip[] = [
     serviceFee: 0.45,
     totalCompensation: 0,
     weatherData: [
-      { date: '10月28日', rained: true, hours: 2.5, compensated: false },
-      { date: '10月29日', rained: true, hours: 3.0, compensated: false },
+      { date: '10月28日', rained: true, hours: 2, compensated: false },
+      { date: '10月29日', rained: true, hours: 3, compensated: false },
       { date: '10月30日', rained: false, compensated: false },
     ],
   },
