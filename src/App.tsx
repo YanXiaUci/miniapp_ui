@@ -870,49 +870,88 @@ function App() {
           </div>
         </div>
 
-        <div className="flex-1 pb-[56px]">
+        <div className="flex-1 pb-[72px]">
           <div className="relative">
             <img
               src="/image copy.png"
               alt="Mountain view"
-              className="w-full h-56 object-cover"
+              className="w-full h-64 object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-white"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/5 to-white"></div>
+
+            <div className="absolute bottom-0 left-0 right-0 px-6 pb-8">
+              <img src="/image copy copy.png" alt="陪你天气" className="h-11 drop-shadow-lg" />
+            </div>
           </div>
 
-          <div className="px-6 pt-8 pb-6 space-y-10 bg-white">
-            <div className="flex justify-start pl-1">
-              <img src="/image copy copy.png" alt="陪你天气" className="h-10" />
-            </div>
+          <div className="px-5 -mt-4">
+            <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 p-6 space-y-5">
+              <h2 className="text-lg font-bold text-gray-900 mb-1">创建天气保障</h2>
 
-            <div className="space-y-2 pl-1">
-              <div className="text-sm text-gray-500">目的地</div>
-              <div className="border-b border-gray-200 pb-3"></div>
-            </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 pl-1">目的地</label>
+                  <input
+                    type="text"
+                    placeholder="输入目的地城市"
+                    className="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-all"
+                  />
+                </div>
 
-            <div className="grid grid-cols-2 gap-4 pl-1">
-              <div className="space-y-2">
-                <div className="text-sm text-gray-500">开始日期</div>
-                <div className="border-b border-gray-200 pb-3"></div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 pl-1">开始日期</label>
+                    <input
+                      type="date"
+                      className="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base text-gray-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-all"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 pl-1">结束日期</label>
+                    <input
+                      type="date"
+                      className="w-full px-4 py-3.5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base text-gray-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 pl-1">每日行程费用</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-base">¥</span>
+                    <input
+                      type="number"
+                      placeholder="0"
+                      className="w-full pl-9 pr-4 py-3.5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="space-y-2">
-                <div className="text-sm text-gray-500">结束日期</div>
-                <div className="border-b border-gray-200 pb-3"></div>
+
+              <div className="pt-2">
+                <button
+                  onClick={() => setCurrentPage('add')}
+                  className="w-full text-white text-base font-semibold py-4 rounded-2xl transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 active:scale-[0.98]"
+                  style={{ backgroundColor: '#5B6FED' }}
+                >
+                  添加天气保障
+                </button>
               </div>
             </div>
 
-            <div className="space-y-2 pl-1">
-              <div className="text-sm text-gray-500">每日行程费用</div>
-              <div className="border-b border-gray-200 pb-3"></div>
+            <div className="mt-6 bg-gradient-to-br from-blue-50 to-indigo-50/50 rounded-2xl p-5 border border-blue-100/50">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}>
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-base font-semibold text-gray-900 mb-2">保障说明</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    如遇恶劣天气影响行程，我们将根据实际情况为您提供补偿，让您的旅行无忧。
+                  </p>
+                </div>
+              </div>
             </div>
-
-            <button
-              onClick={() => setCurrentPage('add')}
-              className="w-full text-white text-base font-medium py-3.5 rounded-full transition-all shadow-sm active:scale-[0.98]"
-              style={{ backgroundColor: '#5B6FED' }}
-            >
-              添加天气保障
-            </button>
           </div>
         </div>
 
