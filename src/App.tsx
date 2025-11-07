@@ -855,32 +855,19 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="w-[375px] bg-white min-h-screen flex flex-col relative">
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-sm z-20">
-          <span className="font-semibold drop-shadow-lg">9:41</span>
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-sm z-10">
+          <span className="font-semibold">9:41</span>
           <div className="flex items-center gap-1">
-            <svg className="w-4 h-4 drop-shadow-md" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
             </svg>
-            <svg className="w-4 h-4 drop-shadow-md" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
             </svg>
-            <svg className="w-4 h-4 drop-shadow-md" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
             </svg>
           </div>
-        </div>
-
-        <div className="absolute top-4 right-4 z-30">
-          <button
-            onClick={() => setCurrentPage('profile')}
-            className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-lg hover:scale-105 transition-transform active:scale-95"
-          >
-            <img
-              src="/4c3b9c4f58ed2b07bd1cf80f69b1b28f.jpg"
-              alt="User Avatar"
-              className="w-full h-full object-cover"
-            />
-          </button>
         </div>
 
         <div className="flex-1 pb-[56px]">
@@ -888,117 +875,44 @@ function App() {
             <img
               src="/image copy.png"
               alt="Mountain view"
-              className="w-full h-64 object-cover"
+              className="w-full h-56 object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/5 to-white"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-white"></div>
           </div>
 
-          <div className="px-6 pt-6 pb-6 bg-white">
-            <div className="flex justify-start pl-1 mb-6">
+          <div className="px-6 pt-8 pb-6 space-y-10 bg-white">
+            <div className="flex justify-start pl-1">
               <img src="/image copy copy.png" alt="陪你天气" className="h-10" />
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-5 mb-8 border border-blue-100">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}>
-                  <Shield className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-base font-semibold text-gray-900 mb-1">出行无忧，雨天补偿</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">旅行遇雨满4小时即可获得补偿，让您的出行更安心</p>
-                </div>
+            <div className="space-y-2 pl-1">
+              <div className="text-sm text-gray-500">目的地</div>
+              <div className="border-b border-gray-200 pb-3"></div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 pl-1">
+              <div className="space-y-2">
+                <div className="text-sm text-gray-500">开始日期</div>
+                <div className="border-b border-gray-200 pb-3"></div>
               </div>
-              <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-blue-200">
-                <div className="text-center">
-                  <div className="text-lg font-bold" style={{ color: '#5B6FED' }}>2元/天</div>
-                  <div className="text-xs text-gray-600 mt-0.5">雨天补偿</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold" style={{ color: '#5B6FED' }}>0.1元/天</div>
-                  <div className="text-xs text-gray-600 mt-0.5">保障费用</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold" style={{ color: '#5B6FED' }}>自动理赔</div>
-                  <div className="text-xs text-gray-600 mt-0.5">无需申请</div>
-                </div>
+              <div className="space-y-2">
+                <div className="text-sm text-gray-500">结束日期</div>
+                <div className="border-b border-gray-200 pb-3"></div>
               </div>
             </div>
 
-            <div className="space-y-6 mb-8">
-              <div className="space-y-2 pl-1">
-                <label className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
-                  目的地
-                  <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="例如：北京市 · 朝阳区"
-                  className="w-full border-b-2 border-gray-200 pb-3 text-base text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 pl-1">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
-                    开始日期
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="选择日期"
-                    className="w-full border-b-2 border-gray-200 pb-3 text-base text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
-                    结束日期
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="选择日期"
-                    className="w-full border-b-2 border-gray-200 pb-3 text-base text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2 pl-1">
-                <label className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
-                  每日行程费用
-                  <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="例如：¥100"
-                  className="w-full border-b-2 border-gray-200 pb-3 text-base text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                />
-              </div>
+            <div className="space-y-2 pl-1">
+              <div className="text-sm text-gray-500">每日行程费用</div>
+              <div className="border-b border-gray-200 pb-3"></div>
             </div>
 
             <button
               onClick={() => setCurrentPage('add')}
-              className="w-full text-white text-base font-semibold py-4 rounded-full transition-all shadow-lg hover:shadow-xl active:scale-[0.98] hover:opacity-90"
+              className="w-full text-white text-base font-medium py-3.5 rounded-full transition-all shadow-sm active:scale-[0.98]"
               style={{ backgroundColor: '#5B6FED' }}
             >
               添加天气保障
             </button>
-
-            <div className="mt-6 pt-6 border-t border-gray-100">
-              <div className="flex items-center justify-center gap-6 text-center">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>权威数据源</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>自动理赔</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>快速到账</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
