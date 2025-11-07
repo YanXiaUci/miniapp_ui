@@ -1,12 +1,292 @@
 import { useState } from 'react';
-import { ArrowLeft, Check, HelpCircle } from 'lucide-react';
+import { ArrowLeft, Check, User, Calendar } from 'lucide-react';
+
+type Page = 'home' | 'add' | 'trips' | 'tripDetail';
 
 function App() {
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [currentPage, setCurrentPage] = useState<Page>('trips');
   const [agreed, setAgreed] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
+  const [selectedTrip, setSelectedTrip] = useState<string | null>(null);
 
-  if (showConfirm) {
+  if (currentPage === 'trips') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="w-[375px] bg-gray-50 min-h-screen flex flex-col relative">
+          <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-gray-800 text-sm z-10">
+            <span className="font-semibold">9:41</span>
+            <div className="flex items-center gap-1">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+              </svg>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+              </svg>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div className="sticky top-0 bg-white z-20 px-5 pt-16 pb-4">
+            <div className="flex items-center justify-between">
+              <h1 className="text-xl font-semibold text-gray-900">行程</h1>
+              <div className="flex items-center gap-2">
+                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="5" r="2"/>
+                    <circle cx="12" cy="12" r="2"/>
+                    <circle cx="12" cy="19" r="2"/>
+                  </svg>
+                </button>
+                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                  </svg>
+                </button>
+                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto bg-gray-50 px-4 pb-24">
+            <div className="bg-white rounded-2xl p-4 mb-3 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                  <User className="w-6 h-6 text-gray-600" />
+                </div>
+                <div>
+                  <div className="text-base font-medium text-gray-900">xy</div>
+                  <div className="text-sm text-gray-400">131****9439</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={() => {
+                  setSelectedTrip('MHLDST5E069100');
+                  setCurrentPage('tripDetail');
+                }}
+                className="w-full bg-white rounded-2xl p-4 shadow-sm text-left hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">订单号</div>
+                    <div className="text-sm font-medium text-gray-900">MHLDST5E069100</div>
+                  </div>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">已失效</span>
+                </div>
+                <div className="mb-3">
+                  <div className="text-xs text-gray-400 mb-1">地点</div>
+                  <div className="text-base text-gray-900">上海迪士尼乐园酒店</div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">日期</div>
+                    <div className="text-sm text-gray-900">11月11日 - 11月11日</div>
+                    <div className="text-xs text-gray-500 mt-0.5">共1天</div>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm" style={{ color: '#5B6FED' }}>
+                    查看详情
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => {
+                  setSelectedTrip('MHJW7P95879232');
+                  setCurrentPage('tripDetail');
+                }}
+                className="w-full bg-white rounded-2xl p-4 shadow-sm text-left hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">订单号</div>
+                    <div className="text-sm font-medium text-gray-900">MHJW7P95879232</div>
+                  </div>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">已失效</span>
+                </div>
+                <div className="mb-3">
+                  <div className="text-xs text-gray-400 mb-1">地点</div>
+                  <div className="text-base text-gray-900">上海南站</div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">日期</div>
+                    <div className="text-sm text-gray-900">11月13日 - 11月13日</div>
+                    <div className="text-xs text-gray-500 mt-0.5">共1天</div>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm" style={{ color: '#5B6FED' }}>
+                    查看详情
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => {
+                  setSelectedTrip('MHEBP5ZI239310');
+                  setCurrentPage('tripDetail');
+                }}
+                className="w-full bg-white rounded-2xl p-4 shadow-sm text-left hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">订单号</div>
+                    <div className="text-sm font-medium text-gray-900">MHEBP5ZI239310</div>
+                  </div>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">已失效</span>
+                </div>
+                <div className="mb-3">
+                  <div className="text-xs text-gray-400 mb-1">地点</div>
+                  <div className="text-base text-gray-900">上海浦东国际机场</div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">日期</div>
+                    <div className="text-sm text-gray-900">11月14日 - 11月14日</div>
+                    <div className="text-xs text-gray-500 mt-0.5">共1天</div>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm" style={{ color: '#5B6FED' }}>
+                    查看详情
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div className="fixed bottom-0 w-[375px] bg-white border-t border-gray-200">
+            <div className="flex items-center justify-around py-2">
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="flex flex-col items-center justify-center py-1 px-6 text-center"
+              >
+                <svg className="w-6 h-6 mb-1 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="3" width="7" height="7" rx="1"/>
+                  <rect x="14" y="3" width="7" height="7" rx="1"/>
+                  <rect x="3" y="14" width="7" height="7" rx="1"/>
+                  <rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                <span className="text-xs text-gray-400">首页</span>
+              </button>
+              <button className="flex flex-col items-center justify-center py-1 px-6 text-center">
+                <Calendar className="w-6 h-6 mb-1" style={{ color: '#5B6FED' }} />
+                <span className="text-xs" style={{ color: '#5B6FED' }}>行程</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentPage === 'tripDetail') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="w-[375px] bg-gray-50 min-h-screen flex flex-col relative">
+          <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-gray-800 text-sm z-10">
+            <span className="font-semibold">9:41</span>
+            <div className="flex items-center gap-1">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+              </svg>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+              </svg>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div className="sticky top-0 bg-white z-20 px-5 pt-16 pb-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <button onClick={() => setCurrentPage('trips')} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
+                  <ArrowLeft className="w-5 h-5 text-gray-800" />
+                </button>
+                <h1 className="text-lg font-semibold text-gray-900">订单详情</h1>
+              </div>
+              <button className="p-1 hover:bg-gray-100 rounded-full transition-colors">
+                <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                  <circle cx="19" cy="12" r="1" fill="currentColor"/>
+                  <circle cx="5" cy="12" r="1" fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto bg-gray-50 px-4 pb-8">
+            <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
+              <div className="mb-3">
+                <div className="text-xs text-gray-400 mb-1">订单号</div>
+                <div className="text-base font-medium text-gray-900">{selectedTrip}</div>
+              </div>
+              <div className="mb-3">
+                <div className="text-xs text-gray-400 mb-1">地点</div>
+                <div className="text-base text-gray-900">上海迪士尼乐园酒店</div>
+              </div>
+              <div>
+                <div className="text-xs text-gray-400 mb-1">日期</div>
+                <div className="text-base text-gray-900">11月11日</div>
+                <div className="text-sm text-gray-500 mt-1">共1天</div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
+              <h2 className="text-base font-semibold text-gray-900 mb-3">补偿规则</h2>
+              <div className="bg-blue-50 rounded-xl p-4">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      每天下雨满 <span className="font-semibold" style={{ color: '#5B6FED' }}>4 小时</span>，可获得 <span className="font-semibold" style={{ color: '#5B6FED' }}>1 元/天</span> 补偿
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      降雨强度达到 <span className="font-semibold" style={{ color: '#5B6FED' }}>1.5 mm/h</span>
+                      <button className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full" style={{ backgroundColor: '#5B6FED' }}>
+                        <span className="text-white text-xs font-semibold">?</span>
+                      </button>
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      补偿通知将通过短信发送
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentPage === 'add') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="w-[375px] bg-gray-50 min-h-screen flex flex-col relative">
@@ -28,7 +308,7 @@ function App() {
           <div className="sticky top-0 bg-white z-20 px-5 pt-4 pb-3 shadow-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <button onClick={() => setShowConfirm(false)} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
+                <button onClick={() => setCurrentPage('home')} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
                   <ArrowLeft className="w-5 h-5 text-gray-800" />
                 </button>
                 <h1 className="text-lg font-semibold text-gray-900">添加天气服务</h1>
@@ -249,7 +529,7 @@ function App() {
             </div>
 
             <button
-              onClick={() => setShowConfirm(true)}
+              onClick={() => setCurrentPage('add')}
               className="w-full text-white text-base font-medium py-3.5 rounded-full transition-all shadow-sm active:scale-[0.98]"
               style={{ backgroundColor: '#5B6FED' }}
             >
@@ -269,12 +549,11 @@ function App() {
               </svg>
               <span className="text-xs" style={{ color: '#5B6FED' }}>首页</span>
             </button>
-            <button className="flex flex-col items-center justify-center py-1 px-6 text-center">
-              <svg className="w-6 h-6 mb-1 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="4" width="18" height="4" rx="1"/>
-                <rect x="3" y="10" width="18" height="4" rx="1"/>
-                <rect x="3" y="16" width="18" height="4" rx="1"/>
-              </svg>
+            <button
+              onClick={() => setCurrentPage('trips')}
+              className="flex flex-col items-center justify-center py-1 px-6 text-center"
+            >
+              <Calendar className="w-6 h-6 mb-1 text-gray-400" />
               <span className="text-xs text-gray-400">行程</span>
             </button>
           </div>
