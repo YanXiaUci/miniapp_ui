@@ -771,71 +771,71 @@ function App() {
             </button>
           </div>
 
-          <div className="flex flex-col items-center px-5 pb-12">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg mb-5 overflow-hidden">
-              <User className="w-16 h-16 text-white" />
+          <div className="flex flex-col items-center px-5 pb-10">
+            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg mb-4 overflow-hidden">
+              <User className="w-14 h-14 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-0">xy</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-0">xy</h2>
           </div>
 
           <div className="flex-1 px-6 pb-8">
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
               <button
                 onClick={() => setCurrentPage('trips')}
-                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
-                <div className="flex items-center gap-4">
-                  <User className="w-6 h-6 text-gray-900" strokeWidth={2} />
-                  <span className="text-lg text-gray-900 font-medium">账号与安全</span>
+                <div className="flex items-center gap-3.5">
+                  <User className="w-5 h-5 text-gray-900" strokeWidth={2} />
+                  <span className="text-base text-gray-900">账号与安全</span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
 
               <button
                 onClick={() => alert('和开发者聊聊')}
-                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
-                <div className="flex items-center gap-4">
-                  <MessageCircle className="w-6 h-6 text-gray-900" strokeWidth={2} />
-                  <span className="text-lg text-gray-900 font-medium">和开发者聊聊</span>
+                <div className="flex items-center gap-3.5">
+                  <MessageCircle className="w-5 h-5 text-gray-900" strokeWidth={2} />
+                  <span className="text-base text-gray-900">和开发者聊聊</span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
 
               <button
                 onClick={() => alert('条款协议')}
-                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
-                <div className="flex items-center gap-4">
-                  <Info className="w-6 h-6 text-gray-900" strokeWidth={2} />
-                  <span className="text-lg text-gray-900 font-medium">条款协议</span>
+                <div className="flex items-center gap-3.5">
+                  <Info className="w-5 h-5 text-gray-900" strokeWidth={2} />
+                  <span className="text-base text-gray-900">条款协议</span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
 
               <button
                 onClick={() => alert('关于陪你天气')}
-                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
-                <div className="flex items-center gap-4">
-                  <HelpCircle className="w-6 h-6 text-gray-900" strokeWidth={2} />
-                  <span className="text-lg text-gray-900 font-medium">关于陪你天气</span>
+                <div className="flex items-center gap-3.5">
+                  <HelpCircle className="w-5 h-5 text-gray-900" strokeWidth={2} />
+                  <span className="text-base text-gray-900">关于陪你天气</span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
 
               <button
                 onClick={() => alert('加入用户社群')}
-                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors"
               >
-                <div className="flex items-center gap-4">
-                  <svg className="w-6 h-6 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="flex items-center gap-3.5">
+                  <svg className="w-5 h-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                     <circle cx="9" cy="7" r="4"></circle>
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                   </svg>
-                  <span className="text-lg text-gray-900 font-medium">加入用户社群</span>
+                  <span className="text-base text-gray-900">加入用户社群</span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
