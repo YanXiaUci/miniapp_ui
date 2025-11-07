@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical } from 'lucide-react';
 
 type Page = 'home' | 'add' | 'trips' | 'tripDetail';
 
@@ -17,15 +17,44 @@ interface Trip {
   startDate: string;
   endDate: string;
   days: number;
-  status: '已完成' | '已失效' | '进行中';
+  status: '待支付' | '进行中' | '已完成' | '已失效' | '退款中';
   statusColor: string;
   dailyPrice: number;
   serviceFee: number;
+  totalAmount: number;
   totalCompensation: number;
   weatherData: DayWeather[];
 }
 
 const trips: Trip[] = [
+  {
+    id: 'MHFF8Q12345678',
+    location: '广州长隆欢乐世界',
+    startDate: '11月15日',
+    endDate: '11月17日',
+    days: 3,
+    status: '待支付',
+    statusColor: 'bg-orange-100 text-orange-600',
+    dailyPrice: 180,
+    serviceFee: 0.45,
+    totalAmount: 0.45,
+    totalCompensation: 0,
+    weatherData: [],
+  },
+  {
+    id: 'MHGG3R23456789',
+    location: '深圳欢乐谷',
+    startDate: '11月08日',
+    endDate: '11月10日',
+    days: 3,
+    status: '退款中',
+    statusColor: 'bg-purple-100 text-purple-600',
+    dailyPrice: 160,
+    serviceFee: 0.40,
+    totalAmount: 0.40,
+    totalCompensation: 0,
+    weatherData: [],
+  },
   {
     id: 'MHAA3X21456789',
     location: '杭州西湖风景区',
@@ -36,6 +65,7 @@ const trips: Trip[] = [
     statusColor: 'bg-green-100 text-green-600',
     dailyPrice: 200,
     serviceFee: 0.35,
+    totalAmount: 0.35,
     totalCompensation: 4,
     weatherData: [
       { date: '11月03日', rained: true, hours: 5, compensated: true, amount: 2 },
@@ -52,6 +82,7 @@ const trips: Trip[] = [
     statusColor: 'bg-green-100 text-green-600',
     dailyPrice: 160,
     serviceFee: 0.50,
+    totalAmount: 0.50,
     totalCompensation: 4,
     weatherData: [
       { date: '10月25日', rained: true, hours: 6, compensated: true, amount: 2 },
@@ -70,6 +101,7 @@ const trips: Trip[] = [
     statusColor: 'bg-green-100 text-green-600',
     dailyPrice: 140,
     serviceFee: 0.55,
+    totalAmount: 0.55,
     totalCompensation: 2,
     weatherData: [
       { date: '10月20日', rained: false, compensated: false },
@@ -89,6 +121,7 @@ const trips: Trip[] = [
     statusColor: 'bg-green-100 text-green-600',
     dailyPrice: 150,
     serviceFee: 0.30,
+    totalAmount: 0.30,
     totalCompensation: 0,
     weatherData: [
       { date: '11月01日', rained: false, compensated: false },
@@ -105,6 +138,7 @@ const trips: Trip[] = [
     statusColor: 'bg-green-100 text-green-600',
     dailyPrice: 180,
     serviceFee: 0.45,
+    totalAmount: 0.45,
     totalCompensation: 0,
     weatherData: [
       { date: '10月28日', rained: true, hours: 2, compensated: false },
@@ -122,6 +156,7 @@ const trips: Trip[] = [
     statusColor: 'bg-gray-100 text-gray-500',
     dailyPrice: 100,
     serviceFee: 0.10,
+    totalAmount: 0.10,
     totalCompensation: 0,
     weatherData: [],
   },
@@ -135,6 +170,7 @@ const trips: Trip[] = [
     statusColor: 'bg-gray-100 text-gray-500',
     dailyPrice: 50,
     serviceFee: 0.05,
+    totalAmount: 0.05,
     totalCompensation: 0,
     weatherData: [],
   },
@@ -148,6 +184,7 @@ const trips: Trip[] = [
     statusColor: 'bg-gray-100 text-gray-500',
     dailyPrice: 80,
     serviceFee: 0.08,
+    totalAmount: 0.08,
     totalCompensation: 0,
     weatherData: [],
   },
@@ -158,6 +195,8 @@ function App() {
   const [agreed, setAgreed] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showRefundModal, setShowRefundModal] = useState(false);
 
   if (currentPage === 'trips') {
     return (
@@ -312,13 +351,56 @@ function App() {
                 </button>
                 <h1 className="text-lg font-semibold text-gray-900">订单详情</h1>
               </div>
-              <button className="p-1 hover:bg-gray-100 rounded-full transition-colors">
-                <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="1" fill="currentColor"/>
-                  <circle cx="19" cy="12" r="1" fill="currentColor"/>
-                  <circle cx="5" cy="12" r="1" fill="currentColor"/>
-                </svg>
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setShowMenu(!showMenu)}
+                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <MoreVertical className="w-5 h-5 text-gray-600" />
+                </button>
+
+                {showMenu && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-30"
+                      onClick={() => setShowMenu(false)}
+                    ></div>
+                    <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-40">
+                      {selectedTrip?.status === '待支付' && (
+                        <button
+                          onClick={() => {
+                            setShowMenu(false);
+                            alert('取消订单');
+                          }}
+                          className="w-full px-4 py-3 text-sm text-left text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          取消订单
+                        </button>
+                      )}
+                      {(selectedTrip?.status === '进行中' || selectedTrip?.status === '已完成') && (
+                        <button
+                          onClick={() => {
+                            setShowMenu(false);
+                            setShowRefundModal(true);
+                          }}
+                          className="w-full px-4 py-3 text-sm text-left text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          申请退款
+                        </button>
+                      )}
+                      <button
+                        onClick={() => {
+                          setShowMenu(false);
+                          alert('联系客服');
+                        }}
+                        className="w-full px-4 py-3 text-sm text-left text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
+                      >
+                        联系客服
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
@@ -441,6 +523,84 @@ function App() {
               </>
             )}
           </div>
+
+          {selectedTrip?.status === '待支付' && (
+            <div className="fixed bottom-0 w-[375px] bg-white border-t border-gray-200 px-4 py-3 shadow-lg">
+              <button
+                onClick={() => alert('跳转支付页面')}
+                className="w-full py-3 rounded-xl text-white font-semibold transition-all hover:opacity-90"
+                style={{ backgroundColor: '#5B6FED' }}
+              >
+                立即支付 ¥{selectedTrip.totalAmount}
+              </button>
+            </div>
+          )}
+
+          {showRefundModal && (
+            <div className="fixed inset-0 z-50 flex items-end justify-center">
+              <div
+                className="absolute inset-0 bg-black bg-opacity-50"
+                onClick={() => setShowRefundModal(false)}
+              ></div>
+              <div className="relative w-[375px] bg-white rounded-t-3xl p-6 animate-slide-up">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold text-gray-900">申请退款</h2>
+                  <button
+                    onClick={() => setShowRefundModal(false)}
+                    className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <X className="w-5 h-5 text-gray-500" />
+                  </button>
+                </div>
+
+                <div className="bg-gray-50 rounded-xl p-4 mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-gray-600">订单号</span>
+                    <span className="text-sm font-medium text-gray-900">{selectedTrip?.id}</span>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-gray-600">地点</span>
+                    <span className="text-sm text-gray-900">{selectedTrip?.location}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">退款金额</span>
+                    <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>
+                      ¥{selectedTrip?.totalAmount}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bg-yellow-50 rounded-xl p-4 mb-6">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-gray-700">
+                      <p className="font-semibold text-gray-900 mb-1">退款说明</p>
+                      <p className="leading-relaxed">退款将在3-5个工作日内原路退回。如保障期已开始，将按比例退款。</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowRefundModal(false)}
+                    className="flex-1 py-3 rounded-xl border-2 border-gray-200 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
+                  >
+                    取消
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowRefundModal(false);
+                      alert('退款申请已提交');
+                    }}
+                    className="flex-1 py-3 rounded-xl text-white font-semibold transition-all hover:opacity-90"
+                    style={{ backgroundColor: '#5B6FED' }}
+                  >
+                    确认退款
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
