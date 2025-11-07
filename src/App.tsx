@@ -232,9 +232,11 @@ function App() {
                 onClick={() => setCurrentPage('profile')}
                 className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 hover:border-blue-400 transition-all shadow-sm"
               >
-                <div className="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
-                  <User className="w-6 h-6 text-white" />
-                </div>
+                <img 
+                  src="/4c3b9c4f58ed2b07bd1cf80f69b1b28f.jpg" 
+                  alt="User Avatar" 
+                  className="w-full h-full object-cover"
+                />
               </button>
             </div>
           </div>
@@ -772,8 +774,12 @@ function App() {
           </div>
 
           <div className="flex flex-col items-center px-5 pb-10">
-            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg mb-4 overflow-hidden">
-              <User className="w-14 h-14 text-white" />
+            <div className="w-28 h-28 rounded-full shadow-lg mb-4 overflow-hidden">
+              <img 
+                src="/4c3b9c4f58ed2b07bd1cf80f69b1b28f.jpg" 
+                alt="User Avatar" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-0">xy</h2>
           </div>
