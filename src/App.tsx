@@ -198,6 +198,22 @@ function App() {
   const [showMenu, setShowMenu] = useState(false);
   const [showRefundModal, setShowRefundModal] = useState(false);
 
+  const getCardGradient = (index: number) => {
+    const gradients = [
+      'bg-gradient-to-br from-orange-50 to-orange-100/50',
+      'bg-gradient-to-br from-blue-50 to-blue-100/50',
+      'bg-gradient-to-br from-emerald-50 to-emerald-100/50',
+      'bg-gradient-to-br from-purple-50 to-purple-100/50',
+      'bg-gradient-to-br from-pink-50 to-pink-100/50',
+      'bg-gradient-to-br from-amber-50 to-amber-100/50',
+      'bg-gradient-to-br from-cyan-50 to-cyan-100/50',
+      'bg-gradient-to-br from-rose-50 to-rose-100/50',
+      'bg-gradient-to-br from-indigo-50 to-indigo-100/50',
+      'bg-gradient-to-br from-teal-50 to-teal-100/50',
+    ];
+    return gradients[index % gradients.length];
+  };
+
   if (currentPage === 'trips') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -232,9 +248,9 @@ function App() {
                 onClick={() => setCurrentPage('profile')}
                 className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 hover:border-blue-400 transition-all shadow-sm"
               >
-                <img 
-                  src="/4c3b9c4f58ed2b07bd1cf80f69b1b28f.jpg" 
-                  alt="User Avatar" 
+                <img
+                  src="/4c3b9c4f58ed2b07bd1cf80f69b1b28f.jpg"
+                  alt="User Avatar"
                   className="w-full h-full object-cover"
                 />
               </button>
@@ -243,33 +259,33 @@ function App() {
 
           <div className="flex-1 overflow-y-auto bg-gray-50 px-6 pb-24">
             <div className="space-y-4">
-              {trips.map((trip) => (
+              {trips.map((trip, index) => (
                 <button
                   key={trip.id}
                   onClick={() => {
                     setSelectedTrip(trip);
                     setCurrentPage('tripDetail');
                   }}
-                  className="w-full bg-white rounded-3xl p-5 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98]"
+                  className={`w-full rounded-3xl p-6 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98] ${getCardGradient(index)}`}
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <div className="text-xs text-gray-400 mb-1.5">订单号</div>
-                      <div className="text-sm font-semibold text-gray-900">{trip.id}</div>
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="flex-1 pr-3">
+                      <div className="text-xs text-gray-500 mb-1.5 font-medium">订单号</div>
+                      <div className="text-base font-bold text-gray-900">{trip.id}</div>
                     </div>
-                    <span className={`text-xs px-3 py-1.5 rounded-full font-medium ${trip.statusColor}`}>{trip.status}</span>
+                    <span className={`text-xs px-3.5 py-1.5 rounded-full font-semibold whitespace-nowrap ${trip.statusColor}`}>{trip.status}</span>
                   </div>
-                  <div className="mb-4">
-                    <div className="text-xs text-gray-400 mb-1.5">地点</div>
-                    <div className="text-lg font-semibold text-gray-900">{trip.location}</div>
+                  <div className="mb-5">
+                    <div className="text-xs text-gray-500 mb-2 font-medium">地点</div>
+                    <div className="text-xl font-bold text-gray-900">{trip.location}</div>
                   </div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-end justify-between">
                     <div>
-                      <div className="text-xs text-gray-400 mb-1.5">日期</div>
-                      <div className="text-sm text-gray-700">{trip.startDate} - {trip.endDate}</div>
-                      <div className="text-xs text-gray-500 mt-1">共{trip.days}天</div>
+                      <div className="text-xs text-gray-500 mb-1.5 font-medium">日期</div>
+                      <div className="text-sm text-gray-700 font-medium">{trip.startDate} - {trip.endDate}</div>
+                      <div className="text-xs text-gray-600 mt-1.5">共{trip.days}天</div>
                     </div>
-                    <div className="flex items-center gap-1 text-sm font-medium" style={{ color: '#5B6FED' }}>
+                    <div className="flex items-center gap-1 text-sm font-semibold" style={{ color: '#5B6FED' }}>
                       查看详情
                       <ChevronRight className="w-4 h-4" />
                     </div>
