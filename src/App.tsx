@@ -226,7 +226,7 @@ function App() {
                 >
                   <ArrowLeft className="w-7 h-7 text-gray-800" strokeWidth={2} />
                 </button>
-                <h1 className="text-4xl font-bold text-gray-900">我的保障</h1>
+                <h1 className="text-2xl font-bold text-gray-900">我的保障</h1>
               </div>
               <button
                 onClick={() => setCurrentPage('profile')}
@@ -787,7 +787,7 @@ function App() {
           <div className="flex-1 px-6 pb-8">
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
               <button
-                onClick={() => setCurrentPage('trips')}
+                onClick={() => alert('账号与安全功能即将推出')}
                 className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
                 <div className="flex items-center gap-3.5">
