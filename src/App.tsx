@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical } from 'lucide-react';
+import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info } from 'lucide-react';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile';
 
 interface DayWeather {
   date: string;
@@ -217,49 +217,19 @@ function App() {
             </div>
           </div>
 
-          <div className="sticky top-0 bg-white z-20 px-5 pt-16 pb-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-xl font-semibold text-gray-900">行程</h1>
-              <div className="flex items-center gap-2">
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
-                    <circle cx="12" cy="5" r="2"/>
-                    <circle cx="12" cy="12" r="2"/>
-                    <circle cx="12" cy="19" r="2"/>
-                  </svg>
-                </button>
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="3" width="7" height="7" rx="1"/>
-                    <rect x="14" y="3" width="7" height="7" rx="1"/>
-                    <rect x="3" y="14" width="7" height="7" rx="1"/>
-                    <rect x="14" y="14" width="7" height="7" rx="1"/>
-                  </svg>
-                </button>
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="12" y1="8" x2="12" y2="12"/>
-                    <line x1="12" y1="16" x2="12.01" y2="16"/>
-                  </svg>
-                </button>
-              </div>
+          <div className="sticky top-0 bg-white z-20 px-5 pt-16 pb-6">
+            <div className="flex items-center justify-between mb-2">
+              <h1 className="text-3xl font-bold text-gray-900">我的保障</h1>
+              <button
+                onClick={() => setCurrentPage('profile')}
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center hover:scale-105 transition-transform shadow-md"
+              >
+                <User className="w-5 h-5 text-white" />
+              </button>
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto bg-gray-50 px-4 pb-24">
-            <div className="bg-white rounded-2xl p-4 mb-3 shadow-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                  <User className="w-6 h-6 text-gray-600" />
-                </div>
-                <div>
-                  <div className="text-base font-medium text-gray-900">xy</div>
-                  <div className="text-sm text-gray-400">131****9439</div>
-                </div>
-              </div>
-            </div>
-
+          <div className="flex-1 overflow-y-auto bg-gray-50 px-5 pb-24">
             <div className="space-y-3">
               {trips.map((trip) => (
                 <button
@@ -299,26 +269,13 @@ function App() {
             </div>
           </div>
 
-          <div className="fixed bottom-0 w-[375px] bg-white border-t border-gray-200">
-            <div className="flex items-center justify-around py-2">
-              <button
-                onClick={() => setCurrentPage('home')}
-                className="flex flex-col items-center justify-center py-1 px-6 text-center"
-              >
-                <svg className="w-6 h-6 mb-1 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="7" height="7" rx="1"/>
-                  <rect x="14" y="3" width="7" height="7" rx="1"/>
-                  <rect x="3" y="14" width="7" height="7" rx="1"/>
-                  <rect x="14" y="14" width="7" height="7" rx="1"/>
-                </svg>
-                <span className="text-xs text-gray-400">首页</span>
-              </button>
-              <button className="flex flex-col items-center justify-center py-1 px-6 text-center">
-                <Calendar className="w-6 h-6 mb-1" style={{ color: '#5B6FED' }} />
-                <span className="text-xs" style={{ color: '#5B6FED' }}>行程</span>
-              </button>
-            </div>
-          </div>
+          <button
+            onClick={() => setCurrentPage('add')}
+            className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-xl hover:scale-110 transition-transform z-30"
+            style={{ right: 'calc(50% - 187.5px + 24px)' }}
+          >
+            <Plus className="w-7 h-7 text-white" strokeWidth={2.5} />
+          </button>
         </div>
       </div>
     );
@@ -779,6 +736,115 @@ function App() {
             >
               立即购买
             </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentPage === 'profile') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="w-[375px] bg-gradient-to-b from-blue-50 to-gray-50 min-h-screen flex flex-col relative">
+          <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-gray-800 text-sm z-10">
+            <span className="font-semibold">9:41</span>
+            <div className="flex items-center gap-1">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+              </svg>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+              </svg>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div className="px-5 pt-16 pb-8">
+            <button
+              onClick={() => setCurrentPage('trips')}
+              className="p-2 -ml-2 hover:bg-white/50 rounded-full transition-colors"
+            >
+              <ArrowLeft className="w-6 h-6 text-gray-700" />
+            </button>
+          </div>
+
+          <div className="flex flex-col items-center px-5 pb-8">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg mb-4">
+              <User className="w-12 h-12 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-1">xy</h2>
+            <p className="text-sm text-gray-500">131****9439</p>
+          </div>
+
+          <div className="flex-1 px-5 pb-6">
+            <div className="bg-white rounded-3xl shadow-sm overflow-hidden">
+              <button
+                onClick={() => setCurrentPage('trips')}
+                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <span className="text-base text-gray-900">我的保障</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" />
+              </button>
+
+              <button
+                onClick={() => alert('帮助中心')}
+                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
+                    <HelpCircle className="w-5 h-5 text-green-600" />
+                  </div>
+                  <span className="text-base text-gray-900">帮助中心</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" />
+              </button>
+
+              <button
+                onClick={() => alert('联系客服')}
+                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center">
+                    <MessageCircle className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <span className="text-base text-gray-900">联系客服</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" />
+              </button>
+
+              <button
+                onClick={() => alert('服务条款')}
+                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-100"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-orange-600" />
+                  </div>
+                  <span className="text-base text-gray-900">服务条款</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" />
+              </button>
+
+              <button
+                onClick={() => alert('关于陪你天气')}
+                className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                    <Info className="w-5 h-5 text-gray-600" />
+                  </div>
+                  <span className="text-base text-gray-900">关于陪你天气</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
