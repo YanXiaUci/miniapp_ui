@@ -191,7 +191,7 @@ const trips: Trip[] = [
 ];
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('trips');
+  const [currentPage, setCurrentPage] = useState<Page>('home');
   const [agreed, setAgreed] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
@@ -219,7 +219,15 @@ function App() {
 
           <div className="sticky top-0 bg-white z-20 px-6 pt-16 pb-8">
             <div className="flex items-center justify-between">
-              <h1 className="text-4xl font-bold text-gray-900">我的保障</h1>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setCurrentPage('home')}
+                  className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <ArrowLeft className="w-7 h-7 text-gray-800" strokeWidth={2} />
+                </button>
+                <h1 className="text-4xl font-bold text-gray-900">我的保障</h1>
+              </div>
               <button
                 onClick={() => setCurrentPage('profile')}
                 className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 hover:border-blue-400 transition-all shadow-sm"
@@ -269,13 +277,6 @@ function App() {
             </div>
           </div>
 
-          <button
-            onClick={() => setCurrentPage('add')}
-            className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-black flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-transform z-30"
-            style={{ right: 'calc(50% - 187.5px + 32px)' }}
-          >
-            <Plus className="w-8 h-8 text-white" strokeWidth={3} />
-          </button>
         </div>
       </div>
     );
