@@ -7,7 +7,6 @@ interface DayWeather {
   date: string;
   rained: boolean;
   hours?: number;
-  intensity?: number;
   compensated: boolean;
   amount?: number;
 }
@@ -39,8 +38,45 @@ const trips: Trip[] = [
     serviceFee: 0.35,
     totalCompensation: 4,
     weatherData: [
-      { date: '11月03日', rained: true, hours: 5.5, intensity: 2.3, compensated: true, amount: 2 },
-      { date: '11月04日', rained: true, hours: 4.2, intensity: 1.8, compensated: true, amount: 2 },
+      { date: '11月03日', rained: true, hours: 5.5, compensated: true, amount: 2 },
+      { date: '11月04日', rained: true, hours: 4.2, compensated: true, amount: 2 },
+    ],
+  },
+  {
+    id: 'MHDD7M45678901',
+    location: '苏州园林',
+    startDate: '10月25日',
+    endDate: '10月28日',
+    days: 4,
+    status: '已完成',
+    statusColor: 'bg-green-100 text-green-600',
+    dailyPrice: 160,
+    serviceFee: 0.50,
+    totalCompensation: 4,
+    weatherData: [
+      { date: '10月25日', rained: true, hours: 6.0, compensated: true, amount: 2 },
+      { date: '10月26日', rained: true, hours: 2.0, compensated: false },
+      { date: '10月27日', rained: false, compensated: false },
+      { date: '10月28日', rained: true, hours: 4.5, compensated: true, amount: 2 },
+    ],
+  },
+  {
+    id: 'MHEE2N56789012',
+    location: '西安大雁塔',
+    startDate: '10月20日',
+    endDate: '10月24日',
+    days: 5,
+    status: '已完成',
+    statusColor: 'bg-green-100 text-green-600',
+    dailyPrice: 140,
+    serviceFee: 0.55,
+    totalCompensation: 2,
+    weatherData: [
+      { date: '10月20日', rained: false, compensated: false },
+      { date: '10月21日', rained: true, hours: 3.5, compensated: false },
+      { date: '10月22日', rained: true, hours: 5.0, compensated: true, amount: 2 },
+      { date: '10月23日', rained: false, compensated: false },
+      { date: '10月24日', rained: true, hours: 2.8, compensated: false },
     ],
   },
   {
@@ -71,8 +107,8 @@ const trips: Trip[] = [
     serviceFee: 0.45,
     totalCompensation: 0,
     weatherData: [
-      { date: '10月28日', rained: true, hours: 2.5, intensity: 1.2, compensated: false },
-      { date: '10月29日', rained: true, hours: 3.0, intensity: 0.8, compensated: false },
+      { date: '10月28日', rained: true, hours: 2.5, compensated: false },
+      { date: '10月29日', rained: true, hours: 3.0, compensated: false },
       { date: '10月30日', rained: false, compensated: false },
     ],
   },
@@ -323,27 +359,19 @@ function App() {
                             {day.compensated ? (
                               <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
                             ) : (
-                              <span className="text-xs text-gray-500">无需赔付</span>
+                              <span className="text-xs text-gray-500">无需补偿</span>
                             )}
                           </div>
-                          <div className="bg-gray-50 rounded-lg p-3 space-y-1.5">
+                          <div className="bg-gray-50 rounded-lg p-3">
                             {!day.rained ? (
                               <p className="text-sm text-gray-600">未触发</p>
                             ) : (
-                              <>
-                                <div className="flex justify-between text-sm">
-                                  <span className="text-gray-600">降雨时长</span>
-                                  <span className={`font-medium ${(day.hours || 0) >= 4 ? 'text-gray-900' : 'text-gray-500'}`}>
-                                    {day.hours} 小时 {(day.hours || 0) >= 4 ? '✓' : '(不足4小时)'}
-                                  </span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                  <span className="text-gray-600">降雨强度</span>
-                                  <span className={`font-medium ${(day.intensity || 0) >= 1.5 ? 'text-gray-900' : 'text-gray-500'}`}>
-                                    {day.intensity} mm/h {(day.intensity || 0) >= 1.5 ? '✓' : '(未达标)'}
-                                  </span>
-                                </div>
-                              </>
+                              <div className="flex justify-between text-sm">
+                                <span className="text-gray-600">降雨时长</span>
+                                <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
+                                  {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
+                                </span>
+                              </div>
                             )}
                           </div>
                         </div>
