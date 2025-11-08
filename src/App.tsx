@@ -436,7 +436,7 @@ function App() {
                               <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
                             </svg>
                             <span className="text-sm font-semibold text-gray-900">
-                              {selectedTrip.status === '已完成' ? '总补偿金额' : '累计补偿金额'}
+                              总补偿金额
                             </span>
                             {selectedTrip.status === '进行中' && (
                               <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-600 font-medium">
