@@ -258,7 +258,7 @@ function App() {
           </div>
 
           <div className="flex-1 overflow-y-auto bg-gray-50 px-6 pb-24">
-            <div className="space-y-4">
+            <div className="space-y-3">
               {trips.map((trip, index) => (
                 <button
                   key={trip.id}
@@ -266,26 +266,26 @@ function App() {
                     setSelectedTrip(trip);
                     setCurrentPage('tripDetail');
                   }}
-                  className={`w-full rounded-3xl p-6 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98] ${getCardGradient(index)}`}
+                  className={`w-full rounded-2xl p-4 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98] ${getCardGradient(index)}`}
                 >
-                  <div className="flex items-start justify-between mb-5">
-                    <div className="flex-1 pr-3">
-                      <div className="text-xs text-gray-500 mb-1.5 font-medium">订单号</div>
-                      <div className="text-base font-bold text-gray-900">{trip.id}</div>
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex-1 pr-2">
+                      <div className="text-xs text-gray-500 mb-1 font-medium">订单号</div>
+                      <div className="text-sm font-bold text-gray-900">{trip.id}</div>
                     </div>
-                    <span className={`text-xs px-3.5 py-1.5 rounded-full font-semibold whitespace-nowrap ${trip.statusColor}`}>{trip.status}</span>
+                    <span className={`text-xs px-3 py-1 rounded-full font-semibold whitespace-nowrap ${trip.statusColor}`}>{trip.status}</span>
                   </div>
-                  <div className="mb-5">
-                    <div className="text-xs text-gray-500 mb-2 font-medium">地点</div>
-                    <div className="text-xl font-bold text-gray-900">{trip.location}</div>
+                  <div className="mb-3">
+                    <div className="text-xs text-gray-500 mb-1 font-medium">地点</div>
+                    <div className="text-lg font-bold text-gray-900">{trip.location}</div>
                   </div>
                   <div className="flex items-end justify-between">
                     <div>
-                      <div className="text-xs text-gray-500 mb-1.5 font-medium">日期</div>
+                      <div className="text-xs text-gray-500 mb-1 font-medium">日期</div>
                       <div className="text-sm text-gray-700 font-medium">{trip.startDate} - {trip.endDate}</div>
-                      <div className="text-xs text-gray-600 mt-1.5">共{trip.days}天</div>
+                      <div className="text-xs text-gray-600 mt-0.5">共{trip.days}天</div>
                     </div>
-                    <div className="flex items-center gap-1 text-sm font-semibold" style={{ color: '#5B6FED' }}>
+                    <div className="flex items-center gap-0.5 text-sm font-semibold" style={{ color: '#5B6FED' }}>
                       查看详情
                       <ChevronRight className="w-4 h-4" />
                     </div>
