@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info } from 'lucide-react';
+import AboutPage from './AboutPage';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about';
 
 interface DayWeather {
   date: string;
@@ -755,6 +756,10 @@ function App() {
     );
   }
 
+  if (currentPage === 'about') {
+    return <AboutPage onBack={() => setCurrentPage('profile')} />;
+  }
+
   if (currentPage === 'profile') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -830,7 +835,7 @@ function App() {
               </button>
 
               <button
-                onClick={() => alert('关于陪你天气')}
+                onClick={() => setCurrentPage('about')}
                 className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
                 <div className="flex items-center gap-3.5">
