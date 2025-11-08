@@ -417,18 +417,14 @@ function App() {
                   </div>
                 )}
 
-                {selectedTrip.status === '已完成' && (
+                {(selectedTrip.status === '已完成' || selectedTrip.status === '进行中') && (
                   <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
                     <h2 className="text-base font-semibold text-gray-900 mb-3">费用明细</h2>
                     <div className="bg-gray-50 rounded-xl p-4">
                       <div className="space-y-2.5">
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">天气保障费用</span>
+                          <span className="text-gray-600">天气保障费用（{selectedTrip.days}天）</span>
                           <span className="text-gray-900">¥{selectedTrip.serviceFee}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">天气保障费用</span>
-                          <span className="text-gray-500">¥{selectedTrip.serviceFee}/{selectedTrip.days}天</span>
                         </div>
                         <div className="border-t border-gray-200 pt-2.5 mt-2.5"></div>
                         <div className="flex justify-between items-center">
@@ -436,7 +432,14 @@ function App() {
                             <svg className="w-4 h-4" style={{ color: '#5B6FED' }} viewBox="0 0 24 24" fill="currentColor">
                               <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
                             </svg>
-                            <span className="text-sm font-semibold text-gray-900">总补偿金额</span>
+                            <span className="text-sm font-semibold text-gray-900">
+                              {selectedTrip.status === '已完成' ? '总补偿金额' : '累计补偿金额'}
+                            </span>
+                            {selectedTrip.status === '进行中' && (
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-600 font-medium">
+                                持续更新中
+                              </span>
+                            )}
                           </div>
                           <span className="text-lg font-bold" style={{ color: selectedTrip.totalCompensation > 0 ? '#5B6FED' : '#6B7280' }}>
                             ¥{selectedTrip.totalCompensation}
