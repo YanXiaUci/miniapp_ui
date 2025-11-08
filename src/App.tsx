@@ -270,7 +270,7 @@ function App() {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <div className="text-xl font-bold text-gray-900 mb-1">{trip.location}</div>
+                      <div className="text-lg font-bold text-gray-900 mb-1">{trip.location}</div>
                       <div className="text-xs text-gray-500 font-medium">订单号 {trip.id}</div>
                     </div>
                     <span className={`text-xs px-3 py-1.5 rounded-full font-semibold whitespace-nowrap ${trip.statusColor}`}>{trip.status}</span>
