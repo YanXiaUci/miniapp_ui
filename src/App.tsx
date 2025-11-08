@@ -367,19 +367,14 @@ function App() {
           <div className="flex-1 overflow-y-auto bg-gray-50 px-4 pb-8">
             {selectedTrip && (
               <>
-                <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
+                <div className="bg-white rounded-2xl p-5 mt-3 shadow-sm">
                   <div className="mb-3">
-                    <div className="text-xs text-gray-400 mb-1">订单号</div>
-                    <div className="text-base font-medium text-gray-900">{selectedTrip.id}</div>
-                  </div>
-                  <div className="mb-3">
-                    <div className="text-xs text-gray-400 mb-1">地点</div>
-                    <div className="text-base text-gray-900">{selectedTrip.location}</div>
+                    <div className="text-lg font-bold text-gray-900 mb-1">{selectedTrip.location}</div>
+                    <div className="text-xs text-gray-500 font-medium">订单号 {selectedTrip.id}</div>
                   </div>
                   <div>
-                    <div className="text-xs text-gray-400 mb-1">日期</div>
-                    <div className="text-base text-gray-900">{selectedTrip.startDate} - {selectedTrip.endDate}</div>
-                    <div className="text-sm text-gray-500 mt-1">共{selectedTrip.days}天</div>
+                    <div className="text-sm text-gray-700 font-medium mb-0.5">{selectedTrip.startDate} - {selectedTrip.endDate}</div>
+                    <div className="text-xs text-gray-500">共{selectedTrip.days}天</div>
                   </div>
                 </div>
 
