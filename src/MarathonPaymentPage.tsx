@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Check, Shield, CloudRain, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Shield, CloudRain, ChevronRight } from 'lucide-react';
 import { MarathonEvent, ReferralData } from './marathonData';
 
 interface MarathonPaymentPageProps {
@@ -9,14 +9,11 @@ interface MarathonPaymentPageProps {
 }
 
 function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaymentPageProps) {
-  const [weatherInsuranceChecked, setWeatherInsuranceChecked] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
 
-  const weatherInsuranceFee = 0.20;
+  const weatherInsuranceFee = Math.round(event.registrationFee * event.insuranceRate * 100) / 100;
   const compensationAmount = Math.round(event.registrationFee * event.compensationRate);
-  const totalAmount = weatherInsuranceChecked
-    ? event.registrationFee + weatherInsuranceFee
-    : event.registrationFee;
+  const totalAmount = event.registrationFee;
 
   const handleJumpToWeather = () => {
     setShowTransition(true);
@@ -177,29 +174,28 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
               </div>
             </div>
 
-            <div className="flex items-center justify-between bg-white/80 rounded-xl px-4 py-3">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setWeatherInsuranceChecked(!weatherInsuranceChecked);
-                  }}
-                  className="flex-shrink-0"
-                >
-                  <div className={`w-5 h-5 rounded flex items-center justify-center border-2 transition-all ${
-                    weatherInsuranceChecked ? 'border-blue-500' : 'border-gray-300'
-                  }`} style={{ backgroundColor: weatherInsuranceChecked ? '#5B6FED' : 'transparent' }}>
-                    {weatherInsuranceChecked && <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />}
-                  </div>
-                </button>
-                <span className="text-sm font-medium text-gray-900">添加天气保障</span>
+            <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl px-4 py-3 mb-3 border border-orange-200">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-gray-900 mb-0.5">天气保障服务费</p>
+                  <p className="text-xs text-gray-600">仅需 ¥{weatherInsuranceFee.toFixed(2)}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xl font-bold" style={{ color: '#5B6FED' }}>¥{weatherInsuranceFee.toFixed(2)}</p>
+                  <p className="text-xs text-gray-500">报名费{Math.round(event.insuranceRate * 100)}%</p>
+                </div>
               </div>
-              <span className="text-sm font-bold" style={{ color: '#5B6FED' }}>+¥{weatherInsuranceFee.toFixed(2)}</span>
             </div>
 
-            <div className="flex items-center justify-center gap-1 mt-3 text-xs" style={{ color: '#5B6FED' }}>
-              <span className="font-medium">点击了解详情</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+            <div className="bg-blue-50 rounded-xl px-3 py-2.5 mb-3 border border-blue-200">
+              <p className="text-xs text-gray-700 leading-relaxed">
+                💡 点击此横幅跳转到陪你天气小程序购买天气保障
+              </p>
+            </div>
+
+            <div className="flex items-center justify-center gap-1 text-sm font-medium" style={{ color: '#5B6FED' }}>
+              <span>点击跳转购买</span>
+              <ChevronRight className="w-4 h-4" />
             </div>
           </button>
 
@@ -224,11 +220,9 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
             <span className="text-sm text-gray-600">实付金额</span>
             <div className="text-right">
               <div className="text-2xl font-bold text-gray-900">¥{totalAmount.toFixed(2)}</div>
-              {weatherInsuranceChecked && (
-                <div className="text-xs text-gray-500">
-                  含天气保障 ¥{weatherInsuranceFee.toFixed(2)}
-                </div>
-              )}
+              <div className="text-xs text-gray-500">
+                报名费（不含天气保障）
+              </div>
             </div>
           </div>
           <button

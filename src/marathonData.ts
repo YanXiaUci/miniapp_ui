@@ -9,6 +9,7 @@ export interface MarathonEvent {
   distance: string;
   startTime: string;
   compensationRate: number;
+  insuranceRate: number;
 }
 
 export const marathonEvents: MarathonEvent[] = [
@@ -23,6 +24,7 @@ export const marathonEvents: MarathonEvent[] = [
     distance: '42.195公里',
     startTime: '07:00',
     compensationRate: 0.5,
+    insuranceRate: 0.08,
   },
   {
     id: 'beijing-2025',
@@ -35,6 +37,7 @@ export const marathonEvents: MarathonEvent[] = [
     distance: '42.195公里',
     startTime: '07:30',
     compensationRate: 0.5,
+    insuranceRate: 0.10,
   },
   {
     id: 'guangzhou-2025',
@@ -47,6 +50,7 @@ export const marathonEvents: MarathonEvent[] = [
     distance: '42.195公里',
     startTime: '07:30',
     compensationRate: 0.5,
+    insuranceRate: 0.06,
   },
   {
     id: 'hangzhou-2025',
@@ -59,6 +63,7 @@ export const marathonEvents: MarathonEvent[] = [
     distance: '42.195公里',
     startTime: '07:00',
     compensationRate: 0.5,
+    insuranceRate: 0.07,
   },
   {
     id: 'xiamen-2025',
@@ -71,6 +76,7 @@ export const marathonEvents: MarathonEvent[] = [
     distance: '42.195公里',
     startTime: '08:00',
     compensationRate: 0.5,
+    insuranceRate: 0.05,
   },
   {
     id: 'chengdu-2025',
@@ -83,6 +89,7 @@ export const marathonEvents: MarathonEvent[] = [
     distance: '42.195公里',
     startTime: '07:30',
     compensationRate: 0.5,
+    insuranceRate: 0.09,
   },
 ];
 
