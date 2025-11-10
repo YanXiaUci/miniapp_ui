@@ -417,26 +417,10 @@ function App() {
                   </div>
                 </div>
 
-                {selectedTrip.status === '已支付' && (
-                  <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
-                    <h2 className="text-base font-semibold text-gray-900 mb-3">保障状态</h2>
-                    <div className="bg-gradient-to-br from-cyan-50 to-cyan-100/50 rounded-xl p-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0">
-                          <Clock className="w-5 h-5 text-cyan-600" />
-                        </div>
-                        <p className="text-sm text-gray-700 leading-relaxed">
-                          您的保障将在 <span className="font-semibold" style={{ color: '#5B6FED' }}>{selectedTrip.startDate}</span> 开始，祝您旅途愉快！
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {((selectedTrip.status === '已完成' || selectedTrip.status === '保障中' || selectedTrip.status === '结算中') && selectedTrip.weatherData.length > 0) && (
+                {(selectedTrip.status === '已支付' || selectedTrip.status === '保障中' || selectedTrip.status === '结算中' || selectedTrip.status === '已完成') && (
                   <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
                     <div className="flex items-center justify-between mb-3">
-                      <h2 className="text-base font-semibold text-gray-900">补偿进度</h2>
+                      <h2 className="text-base font-semibold text-gray-900">保障进度</h2>
                       {selectedTrip.status === '结算中' && (
                         <span className="text-xs px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-medium">
                           结算处理中
@@ -444,37 +428,53 @@ function App() {
                       )}
                     </div>
                     <div className="space-y-3">
-                      {selectedTrip.weatherData.map((day, index) => (
-                        <div key={index} className="border-l-2 pl-4" style={{ borderColor: day.compensated ? '#5B6FED' : '#E5E7EB' }}>
+                      {selectedTrip.status === '已支付' && selectedTrip.weatherData.length === 0 ? (
+                        <div className="border-l-2 pl-4" style={{ borderColor: '#5B6FED' }}>
                           <div className="flex items-start justify-between mb-2">
                             <div className="flex items-center gap-2">
-                              {day.rained ? (
-                                <CloudRain className="w-4 h-4" style={{ color: day.compensated ? '#5B6FED' : '#9CA3AF' }} />
-                              ) : (
-                                <Sun className="w-4 h-4 text-yellow-500" />
-                              )}
-                              <span className="text-sm font-medium text-gray-900">{day.date}</span>
+                              <Clock className="w-4 h-4" style={{ color: '#5B6FED' }} />
+                              <span className="text-sm font-medium text-gray-900">{selectedTrip.startDate}</span>
                             </div>
-                            {day.compensated ? (
-                              <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
-                            ) : (
-                              <span className="text-xs text-gray-500">无需补偿</span>
-                            )}
                           </div>
                           <div className="bg-gray-50 rounded-lg p-3">
-                            {!day.rained ? (
-                              <p className="text-sm text-gray-600">未触发</p>
-                            ) : (
-                              <div className="flex justify-between text-sm">
-                                <span className="text-gray-600">降雨时长</span>
-                                <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
-                                  {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
-                                </span>
-                              </div>
-                            )}
+                            <p className="text-sm text-gray-700 leading-relaxed">
+                              您的保障将在 <span className="font-semibold" style={{ color: '#5B6FED' }}>{selectedTrip.startDate}</span> 开始，祝您旅途愉快！
+                            </p>
                           </div>
                         </div>
-                      ))}
+                      ) : (
+                        selectedTrip.weatherData.map((day, index) => (
+                          <div key={index} className="border-l-2 pl-4" style={{ borderColor: day.compensated ? '#5B6FED' : '#E5E7EB' }}>
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                {day.rained ? (
+                                  <CloudRain className="w-4 h-4" style={{ color: day.compensated ? '#5B6FED' : '#9CA3AF' }} />
+                                ) : (
+                                  <Sun className="w-4 h-4 text-yellow-500" />
+                                )}
+                                <span className="text-sm font-medium text-gray-900">{day.date}</span>
+                              </div>
+                              {day.compensated ? (
+                                <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
+                              ) : (
+                                <span className="text-xs text-gray-500">无需补偿</span>
+                              )}
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              {!day.rained ? (
+                                <p className="text-sm text-gray-600">未触发</p>
+                              ) : (
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-gray-600">降雨时长</span>
+                                  <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
+                                    {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 )}
