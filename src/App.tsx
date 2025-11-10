@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock, MapPin, Phone } from 'lucide-react';
+import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock } from 'lucide-react';
 import AboutPage from './AboutPage';
 import Tooltip from './Tooltip';
 
@@ -692,51 +692,36 @@ function App() {
           </div>
 
           <div className="flex-1 overflow-y-auto bg-gray-50 pb-32">
-            <div className="bg-gradient-to-br from-blue-50 via-cyan-50/50 to-blue-50/30 rounded-2xl mx-4 mt-4 px-5 py-5 shadow-md border border-blue-100/50">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="p-2 bg-white/80 rounded-lg shadow-sm">
-                  <Calendar className="w-5 h-5" style={{ color: '#5B6FED' }} />
-                </div>
-                <div className="flex items-center gap-2.5 flex-1">
-                  <span className="text-base text-gray-900 font-semibold">11月6日</span>
-                  <span className="text-gray-400">→</span>
-                  <span className="text-base text-gray-900 font-semibold">11月7日</span>
-                  <span className="ml-auto text-sm px-3 py-1 bg-white/80 rounded-full font-semibold" style={{ color: '#5B6FED' }}>1晚</span>
-                </div>
+            <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-4 shadow-sm">
+              <div className="flex items-center gap-2.5 mb-3">
+                <span className="text-sm text-gray-900 font-medium">11月6日</span>
+                <span className="text-gray-400">→</span>
+                <span className="text-sm text-gray-900 font-medium">11月7日</span>
+                <span className="ml-auto text-sm font-medium text-gray-900">1晚</span>
               </div>
-              <div className="flex items-start justify-between bg-white/50 rounded-xl p-3.5">
-                <div className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 mt-0.5" style={{ color: '#5B6FED' }} />
-                  <div>
-                    <div className="text-base text-gray-900 font-semibold mb-1">北京市 · 朝阳区</div>
-                    <div className="text-xs text-gray-500">每日行程费用 ¥100</div>
-                  </div>
-                </div>
+              <div className="flex items-center justify-between">
+                <span className="text-base text-gray-900 font-medium">北京市 · 朝阳区</span>
+                <span className="text-sm text-gray-500">每日行程费用 ¥100</span>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl mx-4 mt-5 px-5 py-5 shadow-sm border-2" style={{ borderColor: '#5B6FED' }}>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(91, 111, 237, 0.1)' }}>
-                    <Shield className="w-5 h-5" style={{ color: '#5B6FED' }} />
-                  </div>
-                  <h2 className="text-base font-bold text-gray-900">服务详情</h2>
-                </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 rounded-full border border-amber-200">
+            <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-4 shadow-sm">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-base font-semibold text-gray-900">服务详情</h2>
+                <div className="flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#F59E0B' }} viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
                   </svg>
-                  <span className="text-xs font-bold" style={{ color: '#F59E0B' }}>{formatCountdown(countdown)}</span>
+                  <span className="text-xs font-semibold" style={{ color: '#F59E0B' }}>{formatCountdown(countdown)}</span>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50/50 rounded-xl p-4 border border-blue-100">
-                <p className="text-sm text-gray-700 leading-relaxed mb-4 font-medium">
+              <div className="bg-blue-50 rounded-xl p-3.5">
+                <p className="text-sm text-gray-700 leading-relaxed mb-3">
                   陪你天气®将在您行程期间每天监测天气预报。
                 </p>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-2.5 bg-white/60 rounded-lg p-3">
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                     <p className="text-sm text-gray-700 leading-relaxed">
                       如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>08:00-20:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
@@ -746,7 +731,7 @@ function App() {
                       ）
                     </p>
                   </div>
-                  <div className="flex items-start gap-2.5 bg-white/60 rounded-lg p-3">
+                  <div className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                     <p className="text-sm text-gray-700 leading-relaxed">
                       陪你天气®将向您退还<span className="font-semibold text-sm" style={{ color: '#5B6FED' }}>100元</span>
@@ -756,34 +741,29 @@ function App() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl mx-4 mt-5 mb-4 px-5 py-5 shadow-sm border border-gray-200">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="p-2 bg-gray-50 rounded-lg">
-                  <User className="w-5 h-5 text-gray-700" />
-                </div>
-                <h2 className="text-base font-bold text-gray-900">联系信息</h2>
-              </div>
+            <div className="bg-white rounded-2xl mx-4 mt-3 mb-4 px-4 py-4 shadow-sm">
+              <h2 className="text-base font-semibold text-gray-900 mb-3">联系信息</h2>
 
-              <div className="space-y-4 mb-4">
+              <div className="space-y-3 mb-3">
                 <div>
-                  <label className="text-sm text-gray-600 mb-2 block font-medium">姓名</label>
+                  <label className="text-sm text-gray-600 mb-1 block">姓名</label>
                   <input
                     type="text"
                     placeholder="请输入姓名"
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all"
+                    className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all"
                   />
                 </div>
                 <div>
-                  <label className="text-sm text-gray-600 mb-2 block font-medium">手机号码</label>
+                  <label className="text-sm text-gray-600 mb-1 block">手机号码</label>
                   <input
                     type="tel"
                     placeholder="请输入手机号码"
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all"
+                    className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all"
                   />
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-xl p-3 mb-4 border border-gray-100">
+              <div className="bg-blue-50 rounded-xl p-2.5 mb-2.5">
                 <p className="text-xs text-gray-600 leading-relaxed">
                   陪你天气仅保障出行期间的天气，如有需要，我们将要求您提供行程凭证（如机票、酒店订单）以核实补偿。
                 </p>
