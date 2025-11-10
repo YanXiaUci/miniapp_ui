@@ -35,12 +35,12 @@ function AboutPage({ onBack }: AboutPageProps) {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto bg-gray-50 px-6 pb-10">
-          <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-            <div className="flex justify-center mb-5">
+        <div className="flex-1 overflow-y-auto bg-gray-50 px-6 pb-8">
+          <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+            <div className="flex justify-center mb-4">
               <img src="/image copy copy.png" alt="陪你天气" className="h-12" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 text-center mb-4">
+            <h2 className="text-xl font-bold text-gray-900 text-center mb-3">
               每一次旅行，我们都在您身边
             </h2>
             <p className="text-sm text-gray-600 leading-relaxed text-center">
@@ -48,10 +48,10 @@ function AboutPage({ onBack }: AboutPageProps) {
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">陪你天气保障™如何工作</h3>
+          <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">陪你天气保障™如何工作</h3>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="flex gap-4">
                 <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
                   <span className="text-lg font-bold text-blue-600">1</span>
@@ -90,12 +90,12 @@ function AboutPage({ onBack }: AboutPageProps) {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-5">保障范围</h3>
-            <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+          <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">保障范围</h3>
+            <p className="text-sm text-gray-600 mb-3 leading-relaxed">
               哪些活动在保障范围内？
             </p>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               {[
                 { icon: '🏕️', name: '露营野餐' },
                 { icon: '⛺', name: '露营' },
@@ -115,9 +115,9 @@ function AboutPage({ onBack }: AboutPageProps) {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">为什么选择我们</h3>
-            <div className="space-y-5">
+          <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">为什么选择我们</h3>
+            <div className="space-y-4">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
                   <Shield className="w-5 h-5 text-blue-600" />
@@ -160,10 +160,10 @@ function AboutPage({ onBack }: AboutPageProps) {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">常见问题</h3>
+          <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">常见问题</h3>
 
-            <div className="space-y-5">
+            <div className="space-y-4">
               <div>
                 <h4 className="font-semibold text-gray-900 mb-2 text-sm">什么是天气保障？</h4>
                 <p className="text-sm text-gray-600 leading-relaxed">
@@ -187,8 +187,8 @@ function AboutPage({ onBack }: AboutPageProps) {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-6 mb-6">
-            <h3 className="text-base font-semibold text-gray-900 mb-3">公司信息</h3>
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-6 mb-4">
+            <h3 className="text-base font-semibold text-gray-900 mb-2">公司信息</h3>
             <div className="space-y-2 text-sm text-gray-700">
               <p>陪你天气科技有限公司</p>
               <p className="text-xs text-gray-500">版本 1.0.0</p>
