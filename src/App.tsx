@@ -420,35 +420,14 @@ function App() {
                 {selectedTrip.status === '已支付' && (
                   <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
                     <h2 className="text-base font-semibold text-gray-900 mb-3">保障状态</h2>
-                    <div className="bg-gradient-to-br from-cyan-50 to-cyan-100/50 rounded-xl p-5">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center">
-                          <Clock className="w-6 h-6 text-cyan-600" />
+                    <div className="bg-gradient-to-br from-cyan-50 to-cyan-100/50 rounded-xl p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0">
+                          <Clock className="w-5 h-5 text-cyan-600" />
                         </div>
-                        <div>
-                          <div className="text-sm font-semibold text-gray-900 mb-0.5">等待保障生效</div>
-                          <div className="text-xs text-gray-600">保障将在 {selectedTrip.startDate} 开始</div>
-                        </div>
-                      </div>
-                      <div className="space-y-2.5 bg-white/60 rounded-lg p-3">
-                        <div className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
-                          <p className="text-xs text-gray-700 leading-relaxed">
-                            保障期：{selectedTrip.startDate} 至 {selectedTrip.endDate}（共{selectedTrip.days}天）
-                          </p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
-                          <p className="text-xs text-gray-700 leading-relaxed">
-                            每天监测时间：08:00-20:00
-                          </p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
-                          <p className="text-xs text-gray-700 leading-relaxed">
-                            补偿标准：下雨≥4小时，获得2元/天
-                          </p>
-                        </div>
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          您的保障将在 <span className="font-semibold" style={{ color: '#5B6FED' }}>{selectedTrip.startDate}</span> 开始，祝您旅途愉快！
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -476,43 +455,21 @@ function App() {
                               )}
                               <span className="text-sm font-medium text-gray-900">{day.date}</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                              {day.compensated && (
-                                <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
-                              )}
-                              {day.compensationStatus === '已到账' && (
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">
-                                  已到账
-                                </span>
-                              )}
-                              {day.compensationStatus === '处理中' && (
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium flex items-center gap-1">
-                                  <Clock className="w-3 h-3" />
-                                  处理中
-                                </span>
-                              )}
-                              {day.compensationStatus === '无需补偿' && !day.compensated && (
-                                <span className="text-xs text-gray-500">无需补偿</span>
-                              )}
-                            </div>
+                            {day.compensated ? (
+                              <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
+                            ) : (
+                              <span className="text-xs text-gray-500">无需补偿</span>
+                            )}
                           </div>
                           <div className="bg-gray-50 rounded-lg p-3">
                             {!day.rained ? (
                               <p className="text-sm text-gray-600">未触发</p>
                             ) : (
-                              <div className="space-y-1.5">
-                                <div className="flex justify-between text-sm">
-                                  <span className="text-gray-600">降雨时长</span>
-                                  <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
-                                    {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
-                                  </span>
-                                </div>
-                                {day.compensationStatus === '已到账' && day.paidAt && (
-                                  <div className="flex justify-between text-xs text-gray-500">
-                                    <span>到账时间</span>
-                                    <span>{day.paidAt}</span>
-                                  </div>
-                                )}
+                              <div className="flex justify-between text-sm">
+                                <span className="text-gray-600">降雨时长</span>
+                                <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
+                                  {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
+                                </span>
                               </div>
                             )}
                           </div>
