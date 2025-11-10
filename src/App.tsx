@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock } from 'lucide-react';
 import AboutPage from './AboutPage';
 import Tooltip from './Tooltip';
@@ -236,6 +236,29 @@ function App() {
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [showMenu, setShowMenu] = useState(false);
   const [showRefundModal, setShowRefundModal] = useState(false);
+  const [countdown, setCountdown] = useState(1800);
+
+  useEffect(() => {
+    if (currentPage === 'add' && countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [currentPage, countdown]);
+
+  const formatCountdown = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const getCardGradient = (index: number) => {
     const gradients = [
@@ -689,7 +712,7 @@ function App() {
                   <svg className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#F59E0B' }} viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
                   </svg>
-                  <span className="text-xs font-semibold" style={{ color: '#F59E0B' }}>25:06</span>
+                  <span className="text-xs font-semibold" style={{ color: '#F59E0B' }}>{formatCountdown(countdown)}</span>
                 </div>
               </div>
 
@@ -742,7 +765,7 @@ function App() {
 
               <div className="bg-blue-50 rounded-xl p-2.5 mb-2.5">
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  陪你天气仅监测出行期间的天气。如有需要，可能需提供行程凭证（如机票、酒店订单）以核实退款。
+                  陪你天气仅保障出行期间的天气，如有需要，我们将要求您提供行程凭证（如机票、酒店订单）以核实补偿。
                 </p>
               </div>
 
