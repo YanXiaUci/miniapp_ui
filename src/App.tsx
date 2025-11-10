@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock } from 'lucide-react';
+import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock, Lock, Code } from 'lucide-react';
 import AboutPage from './AboutPage';
 import Tooltip from './Tooltip';
+import MarathonListPage from './MarathonListPage';
+import MarathonPaymentPage from './MarathonPaymentPage';
+import { MarathonEvent, ReferralData } from './marathonData';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment';
 
 interface DayWeather {
   date: string;
@@ -237,6 +240,8 @@ function App() {
   const [showMenu, setShowMenu] = useState(false);
   const [showRefundModal, setShowRefundModal] = useState(false);
   const [countdown, setCountdown] = useState(1800);
+  const [selectedMarathon, setSelectedMarathon] = useState<MarathonEvent | null>(null);
+  const [referralData, setReferralData] = useState<ReferralData | null>(null);
 
   useEffect(() => {
     if (currentPage === 'add' && countdown > 0) {
@@ -692,16 +697,33 @@ function App() {
           </div>
 
           <div className="flex-1 overflow-y-auto bg-gray-50 pb-32">
+            {referralData && (
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-blue-500 mx-4 mt-3 p-4 rounded-r-xl shadow-sm">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}>
+                    <Shield className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-gray-900 mb-1">来自 {referralData.eventName}</p>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      赛事信息已自动填入，请继续完成天气保障流程
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-4 shadow-sm">
               <div className="flex items-center gap-2.5 mb-3">
-                <span className="text-sm text-gray-900 font-medium">11月6日</span>
+                <span className="text-sm text-gray-900 font-medium">{referralData ? referralData.startDate : '11月6日'}</span>
                 <span className="text-gray-400">→</span>
-                <span className="text-sm text-gray-900 font-medium">11月7日</span>
+                <span className="text-sm text-gray-900 font-medium">{referralData ? referralData.endDate : '11月7日'}</span>
                 <span className="ml-auto text-sm font-medium text-gray-900">1晚</span>
+                {referralData && <Lock className="w-4 h-4 text-gray-400 ml-2" />}
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-base text-gray-900 font-medium">北京市 · 朝阳区</span>
-                <span className="text-sm text-gray-500">每日行程费用 ¥100</span>
+                <span className="text-base text-gray-900 font-medium">{referralData ? referralData.location : '北京市 · 朝阳区'}</span>
+                <span className="text-sm text-gray-500">每日行程费用 ¥{referralData ? referralData.amount : '100'}</span>
               </div>
             </div>
 
@@ -718,13 +740,13 @@ function App() {
 
               <div className="bg-blue-50 rounded-xl p-3.5">
                 <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                  陪你天气®将在您行程期间每天监测天气预报。
+                  陪你天气®将在您{referralData ? '比赛' : '行程'}期间每天监测天气预报。
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>08:00-20:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
+                      如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>{referralData ? '08:00-14:00' : '08:00-20:00'}</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
                       <Tooltip content="地面有小水坑的程度。">
                         <span className="font-semibold border-b border-dashed border-gray-400" style={{ color: '#5B6FED' }}>≥1.50mm/h</span>
                       </Tooltip>
@@ -734,7 +756,7 @@ function App() {
                   <div className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      陪你天气®将向您退还<span className="font-semibold text-sm" style={{ color: '#5B6FED' }}>100元</span>
+                      陪你天气®将向您退还<span className="font-semibold text-sm" style={{ color: '#5B6FED' }}>{referralData ? referralData.compensationAmount : '100'}元</span>
                     </p>
                   </div>
                 </div>
@@ -765,7 +787,10 @@ function App() {
 
               <div className="bg-blue-50 rounded-xl p-2.5 mb-2.5">
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  陪你天气仅保障出行期间的天气，如有需要，我们将要求您提供行程凭证（如机票、酒店订单）以核实补偿。
+                  {referralData
+                    ? `陪你天气仅保障${referralData.eventName}比赛当天的天气，如有需要，我们将要求您提供报名凭证以核实补偿。`
+                    : '陪你天气仅保障出行期间的天气，如有需要，我们将要求您提供行程凭证（如机票、酒店订单）以核实补偿。'
+                  }
                 </p>
               </div>
 
@@ -840,6 +865,31 @@ function App() {
           </div>
         </div>
       </div>
+    );
+  }
+
+  if (currentPage === 'marathonList') {
+    return (
+      <MarathonListPage
+        onBack={() => setCurrentPage('profile')}
+        onSelectMarathon={(event) => {
+          setSelectedMarathon(event);
+          setCurrentPage('marathonPayment');
+        }}
+      />
+    );
+  }
+
+  if (currentPage === 'marathonPayment' && selectedMarathon) {
+    return (
+      <MarathonPaymentPage
+        event={selectedMarathon}
+        onBack={() => setCurrentPage('marathonList')}
+        onJumpToWeatherApp={(data) => {
+          setReferralData(data);
+          setCurrentPage('home');
+        }}
+      />
     );
   }
 
@@ -933,6 +983,17 @@ function App() {
               </button>
 
               <button
+                onClick={() => setCurrentPage('marathonList')}
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+              >
+                <div className="flex items-center gap-3.5">
+                  <Code className="w-5 h-5 text-gray-900" strokeWidth={2} />
+                  <span className="text-base text-gray-900">第三方集成演示</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
+              </button>
+
+              <button
                 onClick={() => alert('加入用户社群')}
                 className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors"
               >
@@ -982,6 +1043,37 @@ function App() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-white"></div>
           </div>
 
+          {referralData && (
+            <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-blue-500 mx-6 mt-4 p-4 rounded-r-xl shadow-sm">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}>
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900 mb-1">来自 {referralData.eventName}</p>
+                      <p className="text-xs text-gray-600 leading-relaxed">
+                        赛事信息已自动填入，请继续完成天气保障流程
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setReferralData(null);
+                      setCurrentPage('marathonPayment');
+                    }}
+                    className="mt-2 text-xs font-medium flex items-center gap-1 hover:underline"
+                    style={{ color: '#5B6FED' }}
+                  >
+                    <ArrowLeft className="w-3 h-3" />
+                    返回{referralData.eventName}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="px-6 pt-8 pb-6 space-y-10 bg-white">
             <div className="flex justify-start pl-1">
               <img src="/image copy copy.png" alt="陪你天气" className="h-10" />
@@ -989,23 +1081,63 @@ function App() {
 
             <div className="space-y-2 pl-1">
               <div className="text-sm text-gray-500">目的地</div>
-              <div className="border-b border-gray-200 pb-3"></div>
+              {referralData ? (
+                <div className="relative">
+                  <div className="border-b border-gray-300 pb-3 flex items-center justify-between">
+                    <span className="text-base text-gray-900 font-medium">{referralData.location}</span>
+                    <Lock className="w-4 h-4 text-gray-400" />
+                  </div>
+                  <div className="absolute -bottom-5 left-0 text-xs text-gray-500 flex items-center gap-1">
+                    <Info className="w-3 h-3" />
+                    <span>此信息由赛事方提供，不可修改</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="border-b border-gray-200 pb-3"></div>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4 pl-1">
               <div className="space-y-2">
                 <div className="text-sm text-gray-500">开始日期</div>
-                <div className="border-b border-gray-200 pb-3"></div>
+                {referralData ? (
+                  <div className="relative">
+                    <div className="border-b border-gray-300 pb-3 flex items-center justify-between">
+                      <span className="text-sm text-gray-900 font-medium">{referralData.startDate}</span>
+                      <Lock className="w-3.5 h-3.5 text-gray-400" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border-b border-gray-200 pb-3"></div>
+                )}
               </div>
               <div className="space-y-2">
                 <div className="text-sm text-gray-500">结束日期</div>
-                <div className="border-b border-gray-200 pb-3"></div>
+                {referralData ? (
+                  <div className="relative">
+                    <div className="border-b border-gray-300 pb-3 flex items-center justify-between">
+                      <span className="text-sm text-gray-900 font-medium">{referralData.endDate}</span>
+                      <Lock className="w-3.5 h-3.5 text-gray-400" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border-b border-gray-200 pb-3"></div>
+                )}
               </div>
             </div>
 
             <div className="space-y-2 pl-1">
               <div className="text-sm text-gray-500">每日行程费用</div>
-              <div className="border-b border-gray-200 pb-3"></div>
+              {referralData ? (
+                <div className="relative">
+                  <div className="border-b border-gray-300 pb-3 flex items-center justify-between">
+                    <span className="text-base text-gray-900 font-medium">¥{referralData.amount}</span>
+                    <Lock className="w-4 h-4 text-gray-400" />
+                  </div>
+                </div>
+              ) : (
+                <div className="border-b border-gray-200 pb-3"></div>
+              )}
             </div>
 
             <button
