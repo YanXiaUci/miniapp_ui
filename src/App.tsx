@@ -320,7 +320,7 @@ function App() {
           </div>
 
           <div className="flex-1 overflow-y-auto bg-gray-50 px-6 pb-24">
-            <div className="space-y-3">
+            <div className="space-y-5">
               {trips.map((trip, index) => (
                 <button
                   key={trip.id}
@@ -328,11 +328,11 @@ function App() {
                     setSelectedTrip(trip);
                     setCurrentPage('tripDetail');
                   }}
-                  className={`w-full rounded-2xl p-5 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98] relative ${getCardGradient(index)}`}
+                  className={`w-full rounded-2xl p-6 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98] relative ${getCardGradient(index)}`}
                 >
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-6">
                     <div className="flex-1">
-                      <div className="text-lg font-bold text-gray-900 mb-1">{trip.location}</div>
+                      <div className="text-lg font-bold text-gray-900 mb-2">{trip.location}</div>
                       <div className="text-xs text-gray-500 font-medium">订单号 {trip.id}</div>
                     </div>
                     <span className={`text-xs px-3 py-1.5 rounded-full font-semibold whitespace-nowrap ${trip.statusColor}`}>{trip.status}</span>
@@ -340,7 +340,7 @@ function App() {
 
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-sm text-gray-700 font-medium mb-0.5">{trip.startDate} - {trip.endDate}</div>
+                      <div className="text-sm text-gray-700 font-medium mb-1">{trip.startDate} - {trip.endDate}</div>
                       <div className="text-xs text-gray-500">共{trip.days}天</div>
                     </div>
                     <ChevronRight className="w-5 h-5 text-gray-400" />
@@ -426,23 +426,23 @@ function App() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto bg-gray-50 px-4 pb-8">
+          <div className="flex-1 overflow-y-auto bg-gray-50 px-5 pb-10">
             {selectedTrip && (
               <>
-                <div className="bg-white rounded-2xl p-5 mt-3 shadow-sm">
-                  <div className="mb-3">
-                    <div className="text-lg font-bold text-gray-900 mb-1">{selectedTrip.location}</div>
+                <div className="bg-white rounded-2xl p-6 mt-5 shadow-sm">
+                  <div className="mb-5">
+                    <div className="text-lg font-bold text-gray-900 mb-2">{selectedTrip.location}</div>
                     <div className="text-xs text-gray-500 font-medium">订单号 {selectedTrip.id}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-gray-700 font-medium mb-0.5">{selectedTrip.startDate} - {selectedTrip.endDate}</div>
+                    <div className="text-sm text-gray-700 font-medium mb-1">{selectedTrip.startDate} - {selectedTrip.endDate}</div>
                     <div className="text-xs text-gray-500">共{selectedTrip.days}天</div>
                   </div>
                 </div>
 
                 {(selectedTrip.status === '已支付' || selectedTrip.status === '保障中' || selectedTrip.status === '结算中' || selectedTrip.status === '已完成') && (
-                  <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
+                  <div className="bg-white rounded-2xl p-6 mt-5 shadow-sm">
+                    <div className="flex items-center justify-between mb-5">
                       <h2 className="text-base font-semibold text-gray-900">保障进度</h2>
                       {selectedTrip.status === '结算中' && (
                         <span className="text-xs px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-medium">
@@ -450,7 +450,7 @@ function App() {
                         </span>
                       )}
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-5">
                       {selectedTrip.status === '已支付' && selectedTrip.weatherData.length === 0 ? (
                         <div className="border-l-2 pl-4" style={{ borderColor: '#5B6FED' }}>
                           <div className="flex items-start justify-between mb-2">
@@ -503,15 +503,15 @@ function App() {
                 )}
 
                 {(selectedTrip.status === '已完成' || selectedTrip.status === '保障中' || selectedTrip.status === '结算中' || selectedTrip.status === '已支付') && (
-                  <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
-                    <h2 className="text-base font-semibold text-gray-900 mb-3">费用明细</h2>
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <div className="space-y-2.5">
+                  <div className="bg-white rounded-2xl p-6 mt-5 shadow-sm">
+                    <h2 className="text-base font-semibold text-gray-900 mb-5">费用明细</h2>
+                    <div className="bg-gray-50 rounded-xl p-5">
+                      <div className="space-y-3.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">天气保障费用（{selectedTrip.days}天）</span>
                           <span className="text-gray-900">¥{selectedTrip.serviceFee}</span>
                         </div>
-                        <div className="border-t border-gray-200 pt-2.5 mt-2.5"></div>
+                        <div className="border-t border-gray-200 pt-3.5 mt-3.5"></div>
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-2">
                             <svg className="w-4 h-4" style={{ color: '#5B6FED' }} viewBox="0 0 24 24" fill="currentColor">
@@ -540,10 +540,10 @@ function App() {
                   </div>
                 )}
 
-                <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
-                  <h2 className="text-base font-semibold text-gray-900 mb-3">补偿规则</h2>
-                  <div className="bg-blue-50 rounded-xl p-4">
-                    <div className="space-y-3">
+                <div className="bg-white rounded-2xl p-6 mt-5 shadow-sm">
+                  <h2 className="text-base font-semibold text-gray-900 mb-5">补偿规则</h2>
+                  <div className="bg-blue-50 rounded-xl p-5">
+                    <div className="space-y-4">
                       <div className="flex items-start gap-2.5">
                         <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                         <p className="text-sm text-gray-700 leading-relaxed">
@@ -692,8 +692,8 @@ function App() {
           </div>
 
           <div className="flex-1 overflow-y-auto bg-gray-50 pb-32">
-            <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-4 shadow-sm">
-              <div className="flex items-center gap-2.5 mb-3">
+            <div className="bg-white rounded-2xl mx-5 mt-5 px-5 py-5 shadow-sm">
+              <div className="flex items-center gap-2.5 mb-4">
                 <span className="text-sm text-gray-900 font-medium">11月6日</span>
                 <span className="text-gray-400">→</span>
                 <span className="text-sm text-gray-900 font-medium">11月7日</span>
@@ -705,8 +705,8 @@ function App() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-4 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
+            <div className="bg-white rounded-2xl mx-5 mt-5 px-5 py-5 shadow-sm">
+              <div className="flex items-center justify-between mb-5">
                 <h2 className="text-base font-semibold text-gray-900">服务详情</h2>
                 <div className="flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#F59E0B' }} viewBox="0 0 24 24" fill="currentColor">
@@ -716,11 +716,11 @@ function App() {
                 </div>
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-3.5">
-                <p className="text-sm text-gray-700 leading-relaxed mb-3">
+              <div className="bg-blue-50 rounded-xl p-5">
+                <p className="text-sm text-gray-700 leading-relaxed mb-4">
                   陪你天气®将在您行程期间每天监测天气预报。
                 </p>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <div className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                     <p className="text-sm text-gray-700 leading-relaxed">
@@ -741,10 +741,10 @@ function App() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl mx-4 mt-3 mb-4 px-4 py-4 shadow-sm">
-              <h2 className="text-base font-semibold text-gray-900 mb-3">联系信息</h2>
+            <div className="bg-white rounded-2xl mx-5 mt-5 mb-4 px-5 py-5 shadow-sm">
+              <h2 className="text-base font-semibold text-gray-900 mb-5">联系信息</h2>
 
-              <div className="space-y-3 mb-3">
+              <div className="space-y-4 mb-4">
                 <div>
                   <label className="text-sm text-gray-600 mb-1 block">姓名</label>
                   <input
@@ -763,13 +763,13 @@ function App() {
                 </div>
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-2.5 mb-2.5">
+              <div className="bg-blue-50 rounded-xl p-4 mb-4">
                 <p className="text-xs text-gray-600 leading-relaxed">
                   陪你天气仅保障出行期间的天气，如有需要，我们将要求您提供行程凭证（如机票、酒店订单）以核实补偿。
                 </p>
               </div>
 
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-2.5">
                 <button
                   onClick={() => setAgreed(!agreed)}
                   className="flex-shrink-0 mt-0.5"
@@ -866,7 +866,7 @@ function App() {
             </div>
           </div>
 
-          <div className="px-6 pt-14 pb-6">
+          <div className="px-6 pt-14 pb-8">
             <button
               onClick={() => setCurrentPage('trips')}
               className="p-2 -ml-2 hover:bg-black/5 rounded-full transition-colors"
@@ -875,8 +875,8 @@ function App() {
             </button>
           </div>
 
-          <div className="flex flex-col items-center px-5 pb-10">
-            <div className="w-28 h-28 rounded-full shadow-lg mb-4 overflow-hidden">
+          <div className="flex flex-col items-center px-5 pb-12">
+            <div className="w-28 h-28 rounded-full shadow-lg mb-5 overflow-hidden">
               <img 
                 src="/4c3b9c4f58ed2b07bd1cf80f69b1b28f.jpg" 
                 alt="User Avatar" 
@@ -886,11 +886,11 @@ function App() {
             <h2 className="text-2xl font-bold text-gray-900 mb-0">xy</h2>
           </div>
 
-          <div className="flex-1 px-6 pb-8">
+          <div className="flex-1 px-6 pb-10">
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
               <button
                 onClick={() => alert('账号与安全功能即将推出')}
-                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
                 <div className="flex items-center gap-3.5">
                   <User className="w-5 h-5 text-gray-900" strokeWidth={2} />
@@ -901,7 +901,7 @@ function App() {
 
               <button
                 onClick={() => alert('和开发者聊聊')}
-                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
                 <div className="flex items-center gap-3.5">
                   <MessageCircle className="w-5 h-5 text-gray-900" strokeWidth={2} />
@@ -912,7 +912,7 @@ function App() {
 
               <button
                 onClick={() => alert('条款协议')}
-                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
                 <div className="flex items-center gap-3.5">
                   <Info className="w-5 h-5 text-gray-900" strokeWidth={2} />
@@ -923,7 +923,7 @@ function App() {
 
               <button
                 onClick={() => setCurrentPage('about')}
-                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
               >
                 <div className="flex items-center gap-3.5">
                   <HelpCircle className="w-5 h-5 text-gray-900" strokeWidth={2} />
@@ -934,7 +934,7 @@ function App() {
 
               <button
                 onClick={() => alert('加入用户社群')}
-                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors"
               >
                 <div className="flex items-center gap-3.5">
                   <svg className="w-5 h-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -982,28 +982,28 @@ function App() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-white"></div>
           </div>
 
-          <div className="px-6 pt-8 pb-6 space-y-10 bg-white">
+          <div className="px-6 pt-10 pb-8 space-y-12 bg-white">
             <div className="flex justify-start pl-1">
               <img src="/image copy copy.png" alt="陪你天气" className="h-10" />
             </div>
 
-            <div className="space-y-2 pl-1">
+            <div className="space-y-3 pl-1">
               <div className="text-sm text-gray-500">目的地</div>
               <div className="border-b border-gray-200 pb-3"></div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 pl-1">
-              <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-6 pl-1">
+              <div className="space-y-3">
                 <div className="text-sm text-gray-500">开始日期</div>
                 <div className="border-b border-gray-200 pb-3"></div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="text-sm text-gray-500">结束日期</div>
                 <div className="border-b border-gray-200 pb-3"></div>
               </div>
             </div>
 
-            <div className="space-y-2 pl-1">
+            <div className="space-y-3 pl-1">
               <div className="text-sm text-gray-500">每日行程费用</div>
               <div className="border-b border-gray-200 pb-3"></div>
             </div>
