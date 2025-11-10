@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info } from 'lucide-react';
+import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock } from 'lucide-react';
 import AboutPage from './AboutPage';
+import Tooltip from './Tooltip';
 
 type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about';
 
@@ -10,6 +11,8 @@ interface DayWeather {
   hours?: number;
   compensated: boolean;
   amount?: number;
+  compensationStatus: '无需补偿' | '待结算' | '处理中' | '已到账';
+  paidAt?: string;
 }
 
 interface Trip {
@@ -18,7 +21,7 @@ interface Trip {
   startDate: string;
   endDate: string;
   days: number;
-  status: '待支付' | '进行中' | '已完成' | '已失效';
+  status: '待支付' | '已支付' | '保障中' | '结算中' | '已完成' | '已失效';
   statusColor: string;
   dailyPrice: number;
   serviceFee: number;
@@ -43,20 +46,52 @@ const trips: Trip[] = [
     weatherData: [],
   },
   {
+    id: 'MHPP2K87654321',
+    location: '上海东方明珠',
+    startDate: '11月18日',
+    endDate: '11月20日',
+    days: 3,
+    status: '已支付',
+    statusColor: 'bg-cyan-100 text-cyan-600',
+    dailyPrice: 200,
+    serviceFee: 0.50,
+    totalAmount: 0.50,
+    totalCompensation: 0,
+    weatherData: [],
+  },
+  {
     id: 'MHGG3R23456789',
     location: '深圳欢乐谷',
-    startDate: '11月20日',
-    endDate: '11月22日',
+    startDate: '11月08日',
+    endDate: '11月10日',
     days: 3,
-    status: '进行中',
+    status: '保障中',
     statusColor: 'bg-blue-100 text-blue-600',
     dailyPrice: 160,
     serviceFee: 0.40,
     totalAmount: 0.40,
     totalCompensation: 2,
     weatherData: [
-      { date: '11月20日', rained: true, hours: 5, compensated: true, amount: 2 },
-      { date: '11月21日', rained: false, compensated: false },
+      { date: '11月08日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '11月09日 10:32' },
+      { date: '11月09日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+    ],
+  },
+  {
+    id: 'MHZZ9T34567890',
+    location: '厦门鼓浪屿',
+    startDate: '11月05日',
+    endDate: '11月07日',
+    days: 3,
+    status: '结算中',
+    statusColor: 'bg-amber-100 text-amber-600',
+    dailyPrice: 180,
+    serviceFee: 0.45,
+    totalAmount: 0.45,
+    totalCompensation: 4,
+    weatherData: [
+      { date: '11月05日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '11月06日 09:15' },
+      { date: '11月06日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '11月07日', rained: true, hours: 6, compensated: true, amount: 2, compensationStatus: '处理中' },
     ],
   },
   {
@@ -72,8 +107,8 @@ const trips: Trip[] = [
     totalAmount: 0.35,
     totalCompensation: 4,
     weatherData: [
-      { date: '11月03日', rained: true, hours: 5, compensated: true, amount: 2 },
-      { date: '11月04日', rained: true, hours: 4, compensated: true, amount: 2 },
+      { date: '11月03日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '11月04日 11:20' },
+      { date: '11月04日', rained: true, hours: 4, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '11月05日 10:05' },
     ],
   },
   {
@@ -89,10 +124,10 @@ const trips: Trip[] = [
     totalAmount: 0.50,
     totalCompensation: 4,
     weatherData: [
-      { date: '10月25日', rained: true, hours: 6, compensated: true, amount: 2 },
-      { date: '10月26日', rained: true, hours: 2, compensated: false },
-      { date: '10月27日', rained: false, compensated: false },
-      { date: '10月28日', rained: true, hours: 5, compensated: true, amount: 2 },
+      { date: '10月25日', rained: true, hours: 6, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '10月26日 10:15' },
+      { date: '10月26日', rained: true, hours: 2, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月27日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月28日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '10月29日 09:45' },
     ],
   },
   {
@@ -108,11 +143,11 @@ const trips: Trip[] = [
     totalAmount: 0.55,
     totalCompensation: 2,
     weatherData: [
-      { date: '10月20日', rained: false, compensated: false },
-      { date: '10月21日', rained: true, hours: 3, compensated: false },
-      { date: '10月22日', rained: true, hours: 5, compensated: true, amount: 2 },
-      { date: '10月23日', rained: false, compensated: false },
-      { date: '10月24日', rained: true, hours: 2, compensated: false },
+      { date: '10月20日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月21日', rained: true, hours: 3, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月22日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '10月23日 11:30' },
+      { date: '10月23日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月24日', rained: true, hours: 2, compensated: false, compensationStatus: '无需补偿' },
     ],
   },
   {
@@ -128,8 +163,8 @@ const trips: Trip[] = [
     totalAmount: 0.30,
     totalCompensation: 0,
     weatherData: [
-      { date: '11月01日', rained: false, compensated: false },
-      { date: '11月02日', rained: false, compensated: false },
+      { date: '11月01日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '11月02日', rained: false, compensated: false, compensationStatus: '无需补偿' },
     ],
   },
   {
@@ -145,9 +180,9 @@ const trips: Trip[] = [
     totalAmount: 0.45,
     totalCompensation: 0,
     weatherData: [
-      { date: '10月28日', rained: true, hours: 2, compensated: false },
-      { date: '10月29日', rained: true, hours: 3, compensated: false },
-      { date: '10月30日', rained: false, compensated: false },
+      { date: '10月28日', rained: true, hours: 2, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月29日', rained: true, hours: 3, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月30日', rained: false, compensated: false, compensationStatus: '无需补偿' },
     ],
   },
   {
@@ -324,7 +359,7 @@ function App() {
                 </button>
                 <h1 className="text-lg font-semibold text-gray-900">订单详情</h1>
               </div>
-{(selectedTrip?.status === '进行中' || selectedTrip?.status === '已完成') && (
+{(selectedTrip?.status === '已支付' || selectedTrip?.status === '保障中' || selectedTrip?.status === '结算中' || selectedTrip?.status === '已完成') && (
                 <div className="relative">
                   <button
                     onClick={() => setShowMenu(!showMenu)}
@@ -340,7 +375,7 @@ function App() {
                         onClick={() => setShowMenu(false)}
                       ></div>
                       <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-40">
-                        {selectedTrip?.status === '进行中' && selectedTrip.weatherData.length === 0 && (
+                        {selectedTrip?.status === '已支付' && (
                           <button
                             onClick={() => {
                               setShowMenu(false);
@@ -382,9 +417,53 @@ function App() {
                   </div>
                 </div>
 
-                {((selectedTrip.status === '已完成' || selectedTrip.status === '进行中') && selectedTrip.weatherData.length > 0) && (
+                {selectedTrip.status === '已支付' && (
                   <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
-                    <h2 className="text-base font-semibold text-gray-900 mb-3">补偿进度</h2>
+                    <h2 className="text-base font-semibold text-gray-900 mb-3">保障状态</h2>
+                    <div className="bg-gradient-to-br from-cyan-50 to-cyan-100/50 rounded-xl p-5">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center">
+                          <Clock className="w-6 h-6 text-cyan-600" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-gray-900 mb-0.5">等待保障生效</div>
+                          <div className="text-xs text-gray-600">保障将在 {selectedTrip.startDate} 开始</div>
+                        </div>
+                      </div>
+                      <div className="space-y-2.5 bg-white/60 rounded-lg p-3">
+                        <div className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
+                          <p className="text-xs text-gray-700 leading-relaxed">
+                            保障期：{selectedTrip.startDate} 至 {selectedTrip.endDate}（共{selectedTrip.days}天）
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
+                          <p className="text-xs text-gray-700 leading-relaxed">
+                            每天监测时间：08:00-20:00
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
+                          <p className="text-xs text-gray-700 leading-relaxed">
+                            补偿标准：下雨≥4小时，获得2元/天
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {((selectedTrip.status === '已完成' || selectedTrip.status === '保障中' || selectedTrip.status === '结算中') && selectedTrip.weatherData.length > 0) && (
+                  <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
+                    <div className="flex items-center justify-between mb-3">
+                      <h2 className="text-base font-semibold text-gray-900">补偿进度</h2>
+                      {selectedTrip.status === '结算中' && (
+                        <span className="text-xs px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-medium">
+                          结算处理中
+                        </span>
+                      )}
+                    </div>
                     <div className="space-y-3">
                       {selectedTrip.weatherData.map((day, index) => (
                         <div key={index} className="border-l-2 pl-4" style={{ borderColor: day.compensated ? '#5B6FED' : '#E5E7EB' }}>
@@ -397,21 +476,43 @@ function App() {
                               )}
                               <span className="text-sm font-medium text-gray-900">{day.date}</span>
                             </div>
-                            {day.compensated ? (
-                              <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
-                            ) : (
-                              <span className="text-xs text-gray-500">无需补偿</span>
-                            )}
+                            <div className="flex items-center gap-2">
+                              {day.compensated && (
+                                <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
+                              )}
+                              {day.compensationStatus === '已到账' && (
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">
+                                  已到账
+                                </span>
+                              )}
+                              {day.compensationStatus === '处理中' && (
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium flex items-center gap-1">
+                                  <Clock className="w-3 h-3" />
+                                  处理中
+                                </span>
+                              )}
+                              {day.compensationStatus === '无需补偿' && !day.compensated && (
+                                <span className="text-xs text-gray-500">无需补偿</span>
+                              )}
+                            </div>
                           </div>
                           <div className="bg-gray-50 rounded-lg p-3">
                             {!day.rained ? (
                               <p className="text-sm text-gray-600">未触发</p>
                             ) : (
-                              <div className="flex justify-between text-sm">
-                                <span className="text-gray-600">降雨时长</span>
-                                <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
-                                  {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
-                                </span>
+                              <div className="space-y-1.5">
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-gray-600">降雨时长</span>
+                                  <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
+                                    {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
+                                  </span>
+                                </div>
+                                {day.compensationStatus === '已到账' && day.paidAt && (
+                                  <div className="flex justify-between text-xs text-gray-500">
+                                    <span>到账时间</span>
+                                    <span>{day.paidAt}</span>
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
@@ -421,7 +522,7 @@ function App() {
                   </div>
                 )}
 
-                {(selectedTrip.status === '已完成' || selectedTrip.status === '进行中') && (
+                {(selectedTrip.status === '已完成' || selectedTrip.status === '保障中' || selectedTrip.status === '结算中' || selectedTrip.status === '已支付') && (
                   <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
                     <h2 className="text-base font-semibold text-gray-900 mb-3">费用明细</h2>
                     <div className="bg-gray-50 rounded-xl p-4">
@@ -439,9 +540,14 @@ function App() {
                             <span className="text-sm font-semibold text-gray-900">
                               总补偿金额
                             </span>
-                            {selectedTrip.status === '进行中' && (
+                            {selectedTrip.status === '保障中' && (
                               <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-600 font-medium">
                                 持续更新中
+                              </span>
+                            )}
+                            {selectedTrip.status === '结算中' && (
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium">
+                                结算中
                               </span>
                             )}
                           </div>
@@ -467,10 +573,10 @@ function App() {
                       <div className="flex items-start gap-2.5">
                         <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                         <p className="text-sm text-gray-700 leading-relaxed">
-                          降雨强度达到 <span className="font-semibold" style={{ color: '#5B6FED' }}>1.5 mm/h</span>
-                          <button className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full" style={{ backgroundColor: '#5B6FED' }}>
-                            <span className="text-white text-xs font-semibold">?</span>
-                          </button>
+                          降雨强度达到{' '}
+                          <Tooltip content="地面有小水坑的程度。">
+                            <span className="font-semibold border-b border-dashed border-gray-400" style={{ color: '#5B6FED' }}>1.5 mm/h</span>
+                          </Tooltip>
                         </p>
                       </div>
                       <div className="flex items-start gap-2.5">
@@ -640,7 +746,11 @@ function App() {
                   <div className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                     <p className="text-sm text-gray-700 leading-relaxed">
-                      如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>08:00-20:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上（≥1.50mm/h）</span>
+                      如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>08:00-20:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
+                      <Tooltip content="地面有小水坑的程度。">
+                        <span className="font-semibold border-b border-dashed border-gray-400" style={{ color: '#5B6FED' }}>≥1.50mm/h</span>
+                      </Tooltip>
+                      ）
                     </p>
                   </div>
                   <div className="flex items-start gap-2">
