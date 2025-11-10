@@ -15,7 +15,12 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
   const compensationAmount = Math.round(event.registrationFee * event.compensationRate);
   const totalAmount = event.registrationFee;
 
-  const handleJumpToWeather = () => {
+  const handleJumpToWeather = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    console.log('Jumping to weather app...');
     setShowTransition(true);
     setTimeout(() => {
       const referralData: ReferralData = {
@@ -27,6 +32,7 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
         eventName: event.name,
         compensationAmount: compensationAmount,
       };
+      console.log('Referral data:', referralData);
       onJumpToWeatherApp(referralData);
     }, 800);
   };
@@ -122,7 +128,8 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
 
           <button
             onClick={handleJumpToWeather}
-            className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl mx-4 mt-3 px-5 py-5 shadow-sm hover:shadow-md transition-all active:scale-[0.98] w-[calc(100%-2rem)]"
+            type="button"
+            className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl mx-4 mt-3 px-5 py-5 shadow-sm hover:shadow-md transition-all active:scale-[0.98] w-[calc(100%-2rem)] cursor-pointer"
           >
             <div className="flex items-start gap-3 mb-4">
               <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}>
