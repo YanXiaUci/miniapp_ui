@@ -126,10 +126,9 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
             </div>
           </div>
 
-          <button
+          <div
             onClick={handleJumpToWeather}
-            type="button"
-            className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl mx-4 mt-3 px-5 py-5 shadow-sm hover:shadow-md transition-all active:scale-[0.98] w-[calc(100%-2rem)] cursor-pointer"
+            className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl mx-4 mt-3 px-5 py-5 shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer"
           >
             <div className="flex items-start gap-3 mb-4">
               <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}>
@@ -204,7 +203,7 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
               <span>点击跳转购买</span>
               <ChevronRight className="w-4 h-4" />
             </div>
-          </button>
+          </div>
 
           <div className="bg-white rounded-2xl mx-4 mt-3 px-5 py-5 shadow-sm">
             <h2 className="text-base font-semibold text-gray-900 mb-4">支付方式</h2>
