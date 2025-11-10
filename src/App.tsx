@@ -669,37 +669,35 @@ function App() {
           </div>
 
           <div className="flex-1 overflow-y-auto bg-gray-50 pb-32">
-            <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-3.5 shadow-sm">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-sm text-gray-600">11月6日 今天</span>
+            <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-4 shadow-sm">
+              <div className="flex items-center gap-2.5 mb-3">
+                <span className="text-sm text-gray-900 font-medium">11月6日</span>
                 <span className="text-gray-400">→</span>
-                <span className="text-sm text-gray-600">11月7日 明天</span>
+                <span className="text-sm text-gray-900 font-medium">11月7日</span>
                 <span className="ml-auto text-sm font-medium text-gray-900">1晚</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-base text-gray-900">北京市 · 朝阳区</span>
+                <span className="text-base text-gray-900 font-medium">北京市 · 朝阳区</span>
                 <span className="text-sm text-gray-500">每日行程费用 ¥100</span>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl mx-4 mt-2.5 px-4 py-2.5 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
+            <div className="bg-white rounded-2xl mx-4 mt-3 px-4 py-4 shadow-sm">
+              <div className="flex items-center justify-between mb-3">
                 <h2 className="text-base font-semibold text-gray-900">服务详情</h2>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#F59E0B' }} viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
                   </svg>
-                  <span className="text-xs text-gray-700">
-                    <span className="font-semibold" style={{ color: '#F59E0B' }}>25:06</span>
-                  </span>
+                  <span className="text-xs font-semibold" style={{ color: '#F59E0B' }}>25:06</span>
                 </div>
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-4 mb-3">
+              <div className="bg-blue-50 rounded-xl p-3.5">
                 <p className="text-sm text-gray-700 leading-relaxed mb-3">
                   陪你天气®将在您行程期间每天监测天气预报。
                 </p>
-                <div className="space-y-2.5">
+                <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                     <p className="text-sm text-gray-700 leading-relaxed">
@@ -718,13 +716,12 @@ function App() {
                   </div>
                 </div>
               </div>
-
             </div>
 
-            <div className="bg-white rounded-2xl mx-4 mt-2.5 mb-4 px-4 py-2.5 shadow-sm">
-              <h2 className="text-base font-semibold text-gray-900 mb-2.5">联系信息</h2>
+            <div className="bg-white rounded-2xl mx-4 mt-3 mb-4 px-4 py-4 shadow-sm">
+              <h2 className="text-base font-semibold text-gray-900 mb-3">联系信息</h2>
 
-              <div className="space-y-2.5 mb-2.5">
+              <div className="space-y-3 mb-3">
                 <div>
                   <label className="text-sm text-gray-600 mb-1 block">姓名</label>
                   <input
