@@ -25,12 +25,13 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
     setTimeout(() => {
       const referralData: ReferralData = {
         source: event.id,
-        location: event.city,
+        location: event.address,
         startDate: event.date,
         endDate: event.date,
         amount: event.registrationFee,
         eventName: event.name,
         compensationAmount: compensationAmount,
+        weatherInsuranceFee: weatherInsuranceFee,
       };
       console.log('Referral data:', referralData);
       onJumpToWeatherApp(referralData);
@@ -143,38 +144,23 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
               </div>
             </div>
 
-            <div className="bg-white/80 rounded-xl p-4 mb-3">
-              <div className="space-y-2.5">
+            <div className="bg-blue-50 rounded-xl p-3.5 mb-3">
+              <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                陪你天气®将在您比赛期间每天监测天气预报。
+              </p>
+              <div className="space-y-2">
                 <div className="flex items-start gap-2">
-                  <CloudRain className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#5B6FED' }} />
+                  <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                   <p className="text-sm text-gray-700 leading-relaxed">
-                    <span className="font-semibold">保障日期：</span>{event.date}
+                    如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>08:00-14:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
+                    <span className="font-semibold border-b border-dashed border-gray-400" style={{ color: '#5B6FED' }}>≥1.50mm/h</span>
+                    ）
                   </p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <svg className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#5B6FED' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
+                  <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                   <p className="text-sm text-gray-700 leading-relaxed">
-                    <span className="font-semibold">保障地点：</span>{event.city}
-                  </p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <svg className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#5B6FED' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                  </svg>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    <span className="font-semibold">补偿金额：</span>比赛时段降雨≥2小时，补偿¥{compensationAmount}
-                  </p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <svg className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#5B6FED' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    <span className="font-semibold">监测时段：</span>08:00-14:00（比赛时段）
+                    陪你天气®将向您退还<span className="font-semibold text-sm" style={{ color: '#5B6FED' }}>{compensationAmount}元</span>
                   </p>
                 </div>
               </div>
@@ -182,14 +168,8 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
 
             <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl px-4 py-3 mb-3 border border-orange-200">
               <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-900 mb-0.5">天气保障服务费</p>
-                  <p className="text-xs text-gray-600">仅需 ¥{weatherInsuranceFee.toFixed(2)}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xl font-bold" style={{ color: '#5B6FED' }}>¥{weatherInsuranceFee.toFixed(2)}</p>
-                  <p className="text-xs text-gray-500">报名费{Math.round(event.insuranceRate * 100)}%</p>
-                </div>
+                <p className="text-sm font-semibold text-gray-900">天气保障</p>
+                <p className="text-xl font-bold" style={{ color: '#5B6FED' }}>¥{weatherInsuranceFee.toFixed(2)}</p>
               </div>
             </div>
 
@@ -205,20 +185,6 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl mx-4 mt-3 px-5 py-5 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">支付方式</h2>
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border-2 border-blue-400">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8.5 3A5.5 5.5 0 003 8.5v7A5.5 5.5 0 008.5 21h7a5.5 5.5 0 005.5-5.5v-7A5.5 5.5 0 0015.5 3h-7zm5.5 7h-4v2h4v2l3-3-3-3v2z"/>
-                  </svg>
-                </div>
-                <span className="text-sm font-medium text-gray-900">微信支付</span>
-              </div>
-              <Check className="w-5 h-5 text-blue-500" strokeWidth={2.5} />
-            </div>
-          </div>
         </div>
 
         <div className="fixed bottom-0 w-[375px] bg-white border-t border-gray-200 px-5 py-4 shadow-lg">
@@ -226,9 +192,6 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
             <span className="text-sm text-gray-600">实付金额</span>
             <div className="text-right">
               <div className="text-2xl font-bold text-gray-900">¥{totalAmount.toFixed(2)}</div>
-              <div className="text-xs text-gray-500">
-                报名费（不含天气保障）
-              </div>
             </div>
           </div>
           <button

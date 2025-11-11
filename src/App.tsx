@@ -4,7 +4,7 @@ import AboutPage from './AboutPage';
 import Tooltip from './Tooltip';
 import MarathonListPage from './MarathonListPage';
 import MarathonPaymentPage from './MarathonPaymentPage';
-import { MarathonEvent, ReferralData } from './marathonData';
+import { MarathonEvent, ReferralData, marathonEvents } from './marathonData';
 
 type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment';
 
@@ -34,6 +34,20 @@ interface Trip {
 }
 
 const trips: Trip[] = [
+  {
+    id: 'MHSH20251130',
+    location: '上海市黄浦区外滩路',
+    startDate: '11月30日',
+    endDate: '11月30日',
+    days: 1,
+    status: '保障中',
+    statusColor: 'bg-blue-100 text-blue-600',
+    dailyPrice: 200,
+    serviceFee: 16.00,
+    totalAmount: 16.00,
+    totalCompensation: 0,
+    weatherData: [],
+  },
   {
     id: 'MHFF8Q12345678',
     location: '广州长隆欢乐世界',
@@ -242,6 +256,8 @@ function App() {
   const [countdown, setCountdown] = useState(1800);
   const [selectedMarathon, setSelectedMarathon] = useState<MarathonEvent | null>(null);
   const [referralData, setReferralData] = useState<ReferralData | null>(null);
+  const [contactName, setContactName] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
 
   useEffect(() => {
     if (currentPage === 'add' && countdown > 0) {
@@ -258,6 +274,13 @@ function App() {
       return () => clearInterval(timer);
     }
   }, [currentPage, countdown]);
+
+  useEffect(() => {
+    if (referralData) {
+      setContactName('张三');
+      setContactPhone('138****8888');
+    }
+  }, [referralData]);
 
   const formatCountdown = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -456,7 +479,7 @@ function App() {
                       )}
                     </div>
                     <div className="space-y-3">
-                      {selectedTrip.status === '已支付' && selectedTrip.weatherData.length === 0 ? (
+                      {(selectedTrip.status === '已支付' || selectedTrip.status === '保障中') && selectedTrip.weatherData.length === 0 ? (
                         <div className="border-l-2 pl-4" style={{ borderColor: '#5B6FED' }}>
                           <div className="flex items-start justify-between mb-2">
                             <div className="flex items-center gap-2">
@@ -722,7 +745,7 @@ function App() {
                 {referralData && <Lock className="w-4 h-4 text-gray-400 ml-2" />}
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-base text-gray-900 font-medium">{referralData ? referralData.location : '北京市 · 朝阳区'}</span>
+                <span className="text-base text-gray-900 font-medium">{referralData ? referralData.location : '北京市朝阳区'}</span>
                 <span className="text-sm text-gray-500">每日行程费用 ¥{referralData ? referralData.amount : '100'}</span>
               </div>
             </div>
@@ -771,6 +794,8 @@ function App() {
                   <label className="text-sm text-gray-600 mb-1 block">姓名</label>
                   <input
                     type="text"
+                    value={contactName}
+                    onChange={(e) => setContactName(e.target.value)}
                     placeholder="请输入姓名"
                     className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all"
                   />
@@ -779,6 +804,8 @@ function App() {
                   <label className="text-sm text-gray-600 mb-1 block">手机号码</label>
                   <input
                     type="tel"
+                    value={contactPhone}
+                    onChange={(e) => setContactPhone(e.target.value)}
                     placeholder="请输入手机号码"
                     className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all"
                   />
@@ -821,7 +848,7 @@ function App() {
             <div className="flex items-center justify-between mb-2.5">
               <div className="flex items-baseline gap-2">
                 <span className="text-sm text-gray-600">服务费用</span>
-                <span className="text-2xl font-bold text-gray-900">¥0.20</span>
+                <span className="text-2xl font-bold text-gray-900">¥{referralData ? referralData.weatherInsuranceFee.toFixed(2) : '0.20'}</span>
               </div>
               <button
                 onClick={() => setShowDetail(!showDetail)}
@@ -843,19 +870,26 @@ function App() {
               <div className="text-xs text-gray-500 space-y-0.5">
                 <div className="flex justify-between">
                   <span>单价</span>
-                  <span>¥0.1/天</span>
+                  <span>¥{referralData ? referralData.weatherInsuranceFee.toFixed(2) : '0.1'}/天</span>
                 </div>
                 <div className="flex justify-between">
                   <span>天数</span>
-                  <span>2天</span>
+                  <span>{referralData ? '1天' : '2天'}</span>
                 </div>
                 <div className="flex justify-between font-medium text-gray-700">
                   <span>总价</span>
-                  <span>¥0.20</span>
+                  <span>¥{referralData ? referralData.weatherInsuranceFee.toFixed(2) : '0.20'}</span>
                 </div>
               </div>
             </div>
             <button
+              onClick={() => {
+                const shanghaiMarathonTrip = trips.find(trip => trip.id === 'MHSH20251130');
+                if (shanghaiMarathonTrip) {
+                  setSelectedTrip(shanghaiMarathonTrip);
+                  setCurrentPage('tripDetail');
+                }
+              }}
               className="w-full text-white text-base font-semibold py-3 rounded-full transition-all shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ backgroundColor: '#5B6FED' }}
               disabled={!agreed}
@@ -1060,8 +1094,12 @@ function App() {
                   </div>
                   <button
                     onClick={() => {
-                      setReferralData(null);
-                      setCurrentPage('marathonPayment');
+                      const marathon = marathonEvents.find(e => e.id === referralData.source);
+                      if (marathon) {
+                        setSelectedMarathon(marathon);
+                        setReferralData(null);
+                        setCurrentPage('marathonPayment');
+                      }
                     }}
                     className="mt-2 text-xs font-medium flex items-center gap-1 hover:underline"
                     style={{ color: '#5B6FED' }}
