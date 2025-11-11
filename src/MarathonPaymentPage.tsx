@@ -12,7 +12,7 @@ function MarathonPaymentPage({ event, onBack, onJumpToWeatherApp }: MarathonPaym
   const [showTransition, setShowTransition] = useState(false);
 
   const weatherInsuranceFee = Math.round(event.registrationFee * event.insuranceRate * 100) / 100;
-  const compensationAmount = Math.round(event.registrationFee * event.compensationRate);
+  const compensationAmount = event.registrationFee;
   const totalAmount = event.registrationFee;
 
   const handleJumpToWeather = (e?: React.MouseEvent) => {
