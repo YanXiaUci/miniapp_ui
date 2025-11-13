@@ -4,7 +4,7 @@ import AboutPage from './AboutPage';
 import Tooltip from './Tooltip';
 import MarathonListPage from './MarathonListPage';
 import MarathonPaymentPage from './MarathonPaymentPage';
-import LoginPage from './LoginPage';
+import LoginPage from './LoginPageWithBackground';
 import { MarathonEvent, ReferralData, marathonEvents } from './marathonData';
 
 type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'login';
