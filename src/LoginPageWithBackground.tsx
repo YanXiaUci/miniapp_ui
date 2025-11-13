@@ -72,7 +72,7 @@ function LoginPageWithBackground({ onLoginSuccess }: LoginPageWithBackgroundProp
             </div>
           </div>
 
-          <div className="pb-8">
+          <div className="pb-20">
             <div className="flex items-start gap-2.5 mb-3 bg-white/70 backdrop-blur-sm p-3 rounded-xl">
               <button
                 onClick={() => setAgreed(!agreed)}

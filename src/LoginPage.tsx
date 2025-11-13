@@ -56,7 +56,7 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
             </div>
           </div>
 
-          <div className="pb-8">
+          <div className="pb-20">
             <div className="flex items-start gap-2.5 mb-3">
               <button
                 onClick={() => setAgreed(!agreed)}
