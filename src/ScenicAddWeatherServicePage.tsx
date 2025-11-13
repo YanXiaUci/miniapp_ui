@@ -17,8 +17,8 @@ function ScenicAddWeatherServicePage({ referralData, onBack, onComplete }: Sceni
   const [contactPhone, setContactPhone] = useState('');
 
   const isHouErTianKeng = referralData.scenicName.includes('猴耳天坑');
-  const timeRange = isHouErTianKeng ? '13:00-14:00' : '08:00-18:00';
-  const minDuration = isHouErTianKeng ? '30分钟' : '2小时';
+  const timeRange = isHouErTianKeng ? '09:00-18:00' : '08:00-18:00';
+  const minDuration = isHouErTianKeng ? '2小时' : '2小时';
 
   useEffect(() => {
     if (countdown > 0) {

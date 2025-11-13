@@ -148,7 +148,7 @@ function ScenicReservationSuccessPage({ spot, onBack, onJumpToWeatherApp }: Scen
                 <div className="flex items-start gap-2">
                   <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                   <p className="text-sm text-gray-700 leading-relaxed">
-                    如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>13:00-14:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>30分钟或以上</span>（{' '}
+                    如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>09:00-18:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
                     <span className="font-semibold border-b border-dashed border-gray-400" style={{ color: '#5B6FED' }}>≥1.50mm/h</span>
                     ）
                   </p>

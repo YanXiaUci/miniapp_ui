@@ -10,8 +10,8 @@ interface ScenicOrderDetailPageProps {
 function ScenicOrderDetailPage({ referralData, onBack }: ScenicOrderDetailPageProps) {
   const orderId = `MHJQ${referralData.source === 'guizhou-houertk' ? 'GZ' : 'LY'}${new Date().getTime().toString().slice(-8)}`;
   const isHouErTianKeng = referralData.scenicName.includes('猴耳天坑');
-  const timeRange = isHouErTianKeng ? '13:00-14:00' : '08:00-18:00';
-  const minDuration = isHouErTianKeng ? '30分钟' : '2小时';
+  const timeRange = isHouErTianKeng ? '09:00-18:00' : '08:00-18:00';
+  const minDuration = isHouErTianKeng ? '2小时' : '2小时';
   const status = '已支付';
   const statusColor = 'bg-cyan-100 text-cyan-600';
 
