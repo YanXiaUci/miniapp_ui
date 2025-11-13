@@ -15,7 +15,7 @@ function LoginPageWithBackground({ onLoginSuccess }: LoginPageWithBackgroundProp
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-white flex items-center justify-center">
       <div className="w-[375px] min-h-screen flex flex-col relative overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"

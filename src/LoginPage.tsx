@@ -15,8 +15,8 @@ function LoginPage({ onLoginSuccess }: LoginPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="w-[375px] bg-gray-50 min-h-screen flex flex-col relative">
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="w-[375px] bg-white min-h-screen flex flex-col relative">
         <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-gray-800 text-sm z-10">
           <span className="font-semibold">8:40</span>
           <div className="flex items-center gap-1">
