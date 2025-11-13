@@ -9,9 +9,11 @@ import { MarathonEvent, ReferralData, marathonEvents } from './marathonData';
 import ScenicListPage from './ScenicListPage';
 import ScenicReservationSuccessPage from './ScenicReservationSuccessPage';
 import ScenicPaymentPage from './ScenicPaymentPage';
+import ScenicAddWeatherServicePage from './ScenicAddWeatherServicePage';
+import ScenicOrderDetailPage from './ScenicOrderDetailPage';
 import { ScenicSpot, ScenicReferralData } from './scenicData';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'login';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'scenicAddWeather' | 'scenicOrderDetail' | 'login';
 
 interface DayWeather {
   date: string;
@@ -958,7 +960,7 @@ function App() {
         onBack={() => setCurrentPage('scenicList')}
         onJumpToWeatherApp={(data) => {
           setScenicReferralData(data);
-          setCurrentPage('home');
+          setCurrentPage('scenicAddWeather');
         }}
       />
     );
@@ -971,8 +973,33 @@ function App() {
         onBack={() => setCurrentPage('scenicList')}
         onJumpToWeatherApp={(data) => {
           setScenicReferralData(data);
-          setCurrentPage('home');
+          setCurrentPage('scenicAddWeather');
         }}
+      />
+    );
+  }
+
+  if (currentPage === 'scenicAddWeather' && scenicReferralData) {
+    return (
+      <ScenicAddWeatherServicePage
+        referralData={scenicReferralData}
+        onBack={() => {
+          if (selectedScenic?.type === 'reservation') {
+            setCurrentPage('scenicReservation');
+          } else {
+            setCurrentPage('scenicPayment');
+          }
+        }}
+        onComplete={() => setCurrentPage('scenicOrderDetail')}
+      />
+    );
+  }
+
+  if (currentPage === 'scenicOrderDetail' && scenicReferralData) {
+    return (
+      <ScenicOrderDetailPage
+        referralData={scenicReferralData}
+        onBack={() => setCurrentPage('trips')}
       />
     );
   }
