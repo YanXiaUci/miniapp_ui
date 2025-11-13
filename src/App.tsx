@@ -4,9 +4,10 @@ import AboutPage from './AboutPage';
 import Tooltip from './Tooltip';
 import MarathonListPage from './MarathonListPage';
 import MarathonPaymentPage from './MarathonPaymentPage';
+import LoginPage from './LoginPage';
 import { MarathonEvent, ReferralData, marathonEvents } from './marathonData';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'login';
 
 interface DayWeather {
   date: string;
@@ -247,6 +248,7 @@ const trips: Trip[] = [
 ];
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [agreed, setAgreed] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
@@ -929,6 +931,10 @@ function App() {
 
   if (currentPage === 'about') {
     return <AboutPage onBack={() => setCurrentPage('profile')} />;
+  }
+
+  if (!isLoggedIn) {
+    return <LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />;
   }
 
   if (currentPage === 'profile') {
