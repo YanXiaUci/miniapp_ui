@@ -25,6 +25,8 @@ function ScenicReservationSuccessPage({ spot, onBack, onJumpToWeatherApp }: Scen
         scenicName: spot.name,
         compensationAmount: compensationAmount,
         weatherInsuranceFee: weatherInsuranceFee,
+        contactName: '李丽',
+        contactPhone: '13912345678',
       };
       onJumpToWeatherApp(referralData);
     }, 800);

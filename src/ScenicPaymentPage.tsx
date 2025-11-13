@@ -34,6 +34,8 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
         scenicName: spot.name,
         compensationAmount: compensationAmount,
         weatherInsuranceFee: weatherInsuranceFee,
+        contactName: '王强',
+        contactPhone: '13898765432',
       };
       onJumpToWeatherApp(referralData);
     }, 800);

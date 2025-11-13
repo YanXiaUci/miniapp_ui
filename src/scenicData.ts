@@ -46,4 +46,6 @@ export interface ScenicReferralData {
   scenicName: string;
   compensationAmount: number;
   weatherInsuranceFee: number;
+  contactName?: string;
+  contactPhone?: string;
 }
