@@ -6,8 +6,12 @@ import MarathonListPage from './MarathonListPage';
 import MarathonPaymentPage from './MarathonPaymentPage';
 import LoginPage from './LoginPage';
 import { MarathonEvent, ReferralData, marathonEvents } from './marathonData';
+import ScenicListPage from './ScenicListPage';
+import ScenicReservationSuccessPage from './ScenicReservationSuccessPage';
+import ScenicPaymentPage from './ScenicPaymentPage';
+import { ScenicSpot, ScenicReferralData } from './scenicData';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'login';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'login';
 
 interface DayWeather {
   date: string;
@@ -258,6 +262,8 @@ function App() {
   const [countdown, setCountdown] = useState(1800);
   const [selectedMarathon, setSelectedMarathon] = useState<MarathonEvent | null>(null);
   const [referralData, setReferralData] = useState<ReferralData | null>(null);
+  const [selectedScenic, setSelectedScenic] = useState<ScenicSpot | null>(null);
+  const [scenicReferralData, setScenicReferralData] = useState<ScenicReferralData | null>(null);
   const [contactName, setContactName] = useState('');
   const [contactPhone, setContactPhone] = useState('');
 
@@ -929,6 +935,48 @@ function App() {
     );
   }
 
+  if (currentPage === 'scenicList') {
+    return (
+      <ScenicListPage
+        onBack={() => setCurrentPage('profile')}
+        onSelectScenic={(spot) => {
+          setSelectedScenic(spot);
+          if (spot.type === 'reservation') {
+            setCurrentPage('scenicReservation');
+          } else {
+            setCurrentPage('scenicPayment');
+          }
+        }}
+      />
+    );
+  }
+
+  if (currentPage === 'scenicReservation' && selectedScenic) {
+    return (
+      <ScenicReservationSuccessPage
+        spot={selectedScenic}
+        onBack={() => setCurrentPage('scenicList')}
+        onJumpToWeatherApp={(data) => {
+          setScenicReferralData(data);
+          setCurrentPage('home');
+        }}
+      />
+    );
+  }
+
+  if (currentPage === 'scenicPayment' && selectedScenic) {
+    return (
+      <ScenicPaymentPage
+        spot={selectedScenic}
+        onBack={() => setCurrentPage('scenicList')}
+        onJumpToWeatherApp={(data) => {
+          setScenicReferralData(data);
+          setCurrentPage('home');
+        }}
+      />
+    );
+  }
+
   if (currentPage === 'about') {
     return <AboutPage onBack={() => setCurrentPage('profile')} />;
   }
@@ -1028,7 +1076,21 @@ function App() {
               >
                 <div className="flex items-center gap-3.5">
                   <Code className="w-5 h-5 text-gray-900" strokeWidth={2} />
-                  <span className="text-base text-gray-900">第三方集成演示</span>
+                  <span className="text-base text-gray-900">马拉松集成演示</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
+              </button>
+
+              <button
+                onClick={() => setCurrentPage('scenicList')}
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+              >
+                <div className="flex items-center gap-3.5">
+                  <svg className="w-5 h-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg>
+                  <span className="text-base text-gray-900">景区集成演示</span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
