@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock, Lock, Code } from 'lucide-react';
+import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock, Lock, Code, Camera, Image as ImageIcon } from 'lucide-react';
 import AboutPage from './AboutPage';
 import Tooltip from './Tooltip';
 import MarathonListPage from './MarathonListPage';
@@ -17,8 +17,10 @@ import MickeyKingdomPaymentPage from './MickeyKingdomPaymentPage';
 import AmusementParkAddWeatherServicePage from './AmusementParkAddWeatherServicePage';
 import AmusementParkOrderDetailPage from './AmusementParkOrderDetailPage';
 import { AmusementPark, AmusementParkReferralData } from './amusementParkData';
+import CameraPage from './CameraPage';
+import CheckInRecordsPage from './CheckInRecordsPage';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'scenicAddWeather' | 'scenicOrderDetail' | 'amusementParkList' | 'mickeyKingdomPayment' | 'amusementParkAddWeather' | 'amusementParkOrderDetail' | 'login';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'scenicAddWeather' | 'scenicOrderDetail' | 'amusementParkList' | 'mickeyKingdomPayment' | 'amusementParkAddWeather' | 'amusementParkOrderDetail' | 'login' | 'camera' | 'checkInRecords';
 
 interface DayWeather {
   date: string;
@@ -275,6 +277,7 @@ function App() {
   const [amusementParkReferralData, setAmusementParkReferralData] = useState<AmusementParkReferralData | null>(null);
   const [contactName, setContactName] = useState('');
   const [contactPhone, setContactPhone] = useState('');
+  const [preselectedOrderId, setPreselectedOrderId] = useState<string>('');
 
   useEffect(() => {
     if (currentPage === 'add' && countdown > 0) {
@@ -495,6 +498,30 @@ function App() {
                         </span>
                       )}
                     </div>
+
+                    {selectedTrip.status === '保障中' && (
+                      <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 mb-3 border-l-4 border-blue-500">
+                        <div className="flex items-start gap-3">
+                          <Camera className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#5B6FED' }} />
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-gray-900 mb-2">
+                              记得打卡拍照，作为您到场游玩的凭证
+                            </p>
+                            <button
+                              onClick={() => {
+                                setPreselectedOrderId(selectedTrip.id);
+                                setCurrentPage('camera');
+                              }}
+                              className="px-4 py-2 rounded-lg text-white text-sm font-medium transition-all hover:opacity-90"
+                              style={{ backgroundColor: '#5B6FED' }}
+                            >
+                              立即打卡
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="space-y-3">
                       {(selectedTrip.status === '已支付' || selectedTrip.status === '保障中') && selectedTrip.weatherData.length === 0 ? (
                         <div className="border-l-2 pl-4" style={{ borderColor: '#5B6FED' }}>
@@ -1059,6 +1086,23 @@ function App() {
     return <AboutPage onBack={() => setCurrentPage('profile')} />;
   }
 
+  if (currentPage === 'camera') {
+    return (
+      <CameraPage
+        onBack={() => setCurrentPage('home')}
+        preselectedOrderId={preselectedOrderId}
+        trips={trips}
+        onPhotoSaved={() => {
+          setPreselectedOrderId('');
+        }}
+      />
+    );
+  }
+
+  if (currentPage === 'checkInRecords') {
+    return <CheckInRecordsPage onBack={() => setCurrentPage('profile')} trips={trips} />;
+  }
+
   if (!isLoggedIn) {
     return <LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />;
   }
@@ -1111,6 +1155,17 @@ function App() {
                 <div className="flex items-center gap-3.5">
                   <User className="w-5 h-5 text-gray-900" strokeWidth={2} />
                   <span className="text-base text-gray-900">账号与安全</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
+              </button>
+
+              <button
+                onClick={() => setCurrentPage('checkInRecords')}
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+              >
+                <div className="flex items-center gap-3.5">
+                  <ImageIcon className="w-5 h-5 text-gray-900" strokeWidth={2} />
+                  <span className="text-base text-gray-900">打卡记录</span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
@@ -1366,6 +1421,16 @@ function App() {
             >
               <Calendar className="w-6 h-6 mb-1 text-gray-400" />
               <span className="text-xs text-gray-400">行程</span>
+            </button>
+            <button
+              onClick={() => {
+                setPreselectedOrderId('');
+                setCurrentPage('camera');
+              }}
+              className="flex flex-col items-center justify-center py-1 px-6 text-center"
+            >
+              <Camera className="w-6 h-6 mb-1 text-gray-400" />
+              <span className="text-xs text-gray-400">相机</span>
             </button>
           </div>
         </div>
