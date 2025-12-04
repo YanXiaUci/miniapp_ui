@@ -162,7 +162,7 @@ function MickeyKingdomPaymentPage({ park, onBack, onJumpToWeatherApp }: MickeyKi
                 <div className="flex items-start gap-2">
                   <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                   <p className="text-sm text-gray-700 leading-relaxed">
-                    陪你天气®将向您退还<span className="font-semibold text-sm" style={{ color: '#5B6FED' }}>{compensationAmount}元</span>
+                    陪你天气®将向您退还<span className="font-semibold text-sm" style={{ color: '#5B6FED' }}>{compensationAmount}元/天</span>
                   </p>
                 </div>
               </div>
