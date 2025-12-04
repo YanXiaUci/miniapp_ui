@@ -12,8 +12,11 @@ import ScenicPaymentPage from './ScenicPaymentPage';
 import ScenicAddWeatherServicePage from './ScenicAddWeatherServicePage';
 import ScenicOrderDetailPage from './ScenicOrderDetailPage';
 import { ScenicSpot, ScenicReferralData } from './scenicData';
+import AmusementParkListPage from './AmusementParkListPage';
+import MickeyKingdomPaymentPage from './MickeyKingdomPaymentPage';
+import { AmusementPark, AmusementParkReferralData } from './amusementParkData';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'scenicAddWeather' | 'scenicOrderDetail' | 'login';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'scenicAddWeather' | 'scenicOrderDetail' | 'amusementParkList' | 'mickeyKingdomPayment' | 'login';
 
 interface DayWeather {
   date: string;
@@ -266,6 +269,8 @@ function App() {
   const [referralData, setReferralData] = useState<ReferralData | null>(null);
   const [selectedScenic, setSelectedScenic] = useState<ScenicSpot | null>(null);
   const [scenicReferralData, setScenicReferralData] = useState<ScenicReferralData | null>(null);
+  const [selectedAmusementPark, setSelectedAmusementPark] = useState<AmusementPark | null>(null);
+  const [amusementParkReferralData, setAmusementParkReferralData] = useState<AmusementParkReferralData | null>(null);
   const [contactName, setContactName] = useState('');
   const [contactPhone, setContactPhone] = useState('');
 
@@ -1004,6 +1009,31 @@ function App() {
     );
   }
 
+  if (currentPage === 'amusementParkList') {
+    return (
+      <AmusementParkListPage
+        onBack={() => setCurrentPage('profile')}
+        onSelectPark={(park) => {
+          setSelectedAmusementPark(park);
+          setCurrentPage('mickeyKingdomPayment');
+        }}
+      />
+    );
+  }
+
+  if (currentPage === 'mickeyKingdomPayment' && selectedAmusementPark) {
+    return (
+      <MickeyKingdomPaymentPage
+        park={selectedAmusementPark}
+        onBack={() => setCurrentPage('amusementParkList')}
+        onJumpToWeatherApp={(data) => {
+          setAmusementParkReferralData(data);
+          setCurrentPage('home');
+        }}
+      />
+    );
+  }
+
   if (currentPage === 'about') {
     return <AboutPage onBack={() => setCurrentPage('profile')} />;
   }
@@ -1118,6 +1148,21 @@ function App() {
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                   </svg>
                   <span className="text-base text-gray-900">景区集成演示</span>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
+              </button>
+
+              <button
+                onClick={() => setCurrentPage('amusementParkList')}
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100"
+              >
+                <div className="flex items-center gap-3.5">
+                  <svg className="w-5 h-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="2"/>
+                    <path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+                    <circle cx="12" cy="12" r="8"/>
+                  </svg>
+                  <span className="text-base text-gray-900">游乐园集成演示</span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" strokeWidth={2} />
               </button>
