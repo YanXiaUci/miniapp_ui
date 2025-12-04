@@ -15,9 +15,10 @@ import { ScenicSpot, ScenicReferralData } from './scenicData';
 import AmusementParkListPage from './AmusementParkListPage';
 import MickeyKingdomPaymentPage from './MickeyKingdomPaymentPage';
 import AmusementParkAddWeatherServicePage from './AmusementParkAddWeatherServicePage';
+import AmusementParkOrderDetailPage from './AmusementParkOrderDetailPage';
 import { AmusementPark, AmusementParkReferralData } from './amusementParkData';
 
-type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'scenicAddWeather' | 'scenicOrderDetail' | 'amusementParkList' | 'mickeyKingdomPayment' | 'amusementParkAddWeather' | 'login';
+type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'scenicAddWeather' | 'scenicOrderDetail' | 'amusementParkList' | 'mickeyKingdomPayment' | 'amusementParkAddWeather' | 'amusementParkOrderDetail' | 'login';
 
 interface DayWeather {
   date: string;
@@ -1040,7 +1041,16 @@ function App() {
       <AmusementParkAddWeatherServicePage
         referralData={amusementParkReferralData}
         onBack={() => setCurrentPage('mickeyKingdomPayment')}
-        onComplete={() => setCurrentPage('trips')}
+        onComplete={() => setCurrentPage('amusementParkOrderDetail')}
+      />
+    );
+  }
+
+  if (currentPage === 'amusementParkOrderDetail' && amusementParkReferralData) {
+    return (
+      <AmusementParkOrderDetailPage
+        referralData={amusementParkReferralData}
+        onBack={() => setCurrentPage('trips')}
       />
     );
   }
