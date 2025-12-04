@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Trash2, MapPin, Clock, Image as ImageIcon, Sparkles, Heart } from 'lucide-react';
+import { ArrowLeft, Trash2, MapPin, Clock, Image as ImageIcon } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -10,15 +10,6 @@ interface CheckInPhoto {
   id: string;
   order_id: string;
   photo_data: string;
-  original_image?: string;
-  cutout_image?: string;
-  card_image?: string;
-  ai_title?: string;
-  ai_description?: string;
-  subject_type?: string;
-  card_template?: string;
-  processing_status?: string;
-  mood_tags?: string[];
   timestamp: string;
   location: string;
   latitude: number | null;
@@ -122,67 +113,46 @@ export default function CheckInRecordsPage({ onBack, trips }: CheckInRecordsPage
           </div>
         </div>
 
-        <div className="sticky top-0 bg-gradient-to-br from-orange-50 to-pink-50 z-20 px-5 pt-16 pb-4 shadow-sm">
+        <div className="sticky top-0 bg-white z-20 px-5 pt-16 pb-4 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <button onClick={onBack} className="p-1 hover:bg-white/50 rounded-full transition-colors">
+              <button onClick={onBack} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
                 <ArrowLeft className="w-5 h-5 text-gray-800" />
               </button>
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-orange-500" />
-                <h1 className="text-lg font-semibold text-gray-900">我的采集</h1>
-              </div>
+              <h1 className="text-lg font-semibold text-gray-900">打卡记录</h1>
             </div>
-            <div className="flex items-center gap-1 text-sm">
-              <Heart className="w-4 h-4 text-pink-500 fill-pink-500" />
-              <span className="text-gray-700 font-medium">{photos.length}</span>
-            </div>
+            <span className="text-sm text-gray-500">{photos.length} 张照片</span>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 py-4 bg-gradient-to-br from-orange-50/30 to-pink-50/30">
+        <div className="flex-1 overflow-y-auto px-4 py-4">
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <div className="flex flex-col items-center gap-3">
-                <Sparkles className="w-8 h-8 text-orange-500 animate-pulse" />
-                <div className="text-gray-500">加载中...</div>
-              </div>
+              <div className="text-gray-500">加载中...</div>
             </div>
           ) : photos.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-200 to-pink-200 flex items-center justify-center mb-4">
-                <Sparkles className="w-10 h-10 text-orange-600" />
-              </div>
-              <p className="text-gray-700 text-base font-medium">还没有采集记录</p>
-              <p className="text-gray-500 text-sm mt-2">使用AI采集功能记录精彩瞬间吧</p>
+              <ImageIcon className="w-16 h-16 text-gray-300 mb-4" />
+              <p className="text-gray-500 text-sm">还没有打卡记录</p>
+              <p className="text-gray-400 text-xs mt-2">使用水印相机打卡拍照吧</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-3">
-              {photos.map((photo) => {
-                const displayImage = photo.card_image || photo.photo_data;
-                const isAICard = !!photo.card_image;
-
-                return (
-                  <button
-                    key={photo.id}
-                    onClick={() => setSelectedPhoto(photo)}
-                    className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
-                  >
-                    <img src={displayImage} alt="Collection" className="w-full h-full object-cover" />
-                    {isAICard && (
-                      <div className="absolute top-2 right-2 w-7 h-7 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg">
-                        <Sparkles className="w-4 h-4 text-white" />
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
+              {photos.map((photo) => (
+                <button
+                  key={photo.id}
+                  onClick={() => setSelectedPhoto(photo)}
+                  className="aspect-square rounded-xl overflow-hidden bg-gray-200 hover:opacity-90 transition-opacity"
+                >
+                  <img src={photo.photo_data} alt="Check-in" className="w-full h-full object-cover" />
+                </button>
+              ))}
             </div>
           )}
         </div>
 
         {selectedPhoto && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
             <div className="w-[375px] h-full flex flex-col">
               <div className="flex items-center justify-between px-5 py-4">
                 <button
@@ -199,64 +169,39 @@ export default function CheckInRecordsPage({ onBack, trips }: CheckInRecordsPage
                 </button>
               </div>
 
-              <div className="flex-1 flex items-center justify-center px-4 overflow-y-auto">
-                <div className="w-full">
-                  <img
-                    src={selectedPhoto.card_image || selectedPhoto.photo_data}
-                    alt="Collection detail"
-                    className="w-full rounded-2xl shadow-2xl"
-                  />
-                </div>
+              <div className="flex-1 flex items-center justify-center px-4">
+                <img
+                  src={selectedPhoto.photo_data}
+                  alt="Check-in detail"
+                  className="max-w-full max-h-full object-contain rounded-lg"
+                />
               </div>
 
-              <div className="bg-gradient-to-t from-black to-transparent mx-4 mb-4 rounded-2xl p-5 space-y-4">
-                {selectedPhoto.ai_title && (
+              <div className="bg-white/10 backdrop-blur-md mx-4 mb-4 rounded-xl p-4">
+                <div className="space-y-3">
                   <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Sparkles className="w-5 h-5 text-yellow-400" />
-                      <h3 className="text-white font-bold text-lg">{selectedPhoto.ai_title}</h3>
-                    </div>
-                    {selectedPhoto.ai_description && (
-                      <p className="text-gray-200 text-sm leading-relaxed">{selectedPhoto.ai_description}</p>
-                    )}
+                    <div className="text-xs text-gray-300 mb-1">关联订单</div>
+                    <div className="text-white font-medium">{getOrderLocation(selectedPhoto.order_id)}</div>
+                    <div className="text-xs text-gray-400 mt-0.5">{selectedPhoto.order_id}</div>
                   </div>
-                )}
 
-                {selectedPhoto.mood_tags && selectedPhoto.mood_tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {selectedPhoto.mood_tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs font-medium"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="flex items-center gap-2 text-gray-300">
+                  <div className="flex items-center gap-2 text-white text-sm">
                     <Clock className="w-4 h-4" />
-                    <span className="text-xs">{formatDate(selectedPhoto.timestamp)}</span>
+                    <span>{formatDate(selectedPhoto.timestamp)}</span>
                   </div>
 
-                  <div className="flex items-center gap-2 text-gray-300">
+                  <div className="flex items-center gap-2 text-white text-sm">
                     <MapPin className="w-4 h-4" />
-                    <span className="text-xs truncate">{selectedPhoto.location}</span>
+                    <span>{selectedPhoto.location}</span>
                   </div>
-                </div>
 
-                {selectedPhoto.card_template && (
-                  <div className="text-center">
-                    <span className="text-xs text-gray-400">
-                      {selectedPhoto.card_template === 'stamp' && '📮 邮票'}
-                      {selectedPhoto.card_template === 'postcard' && '💌 明信片'}
-                      {selectedPhoto.card_template === 'polaroid' && '📷 拍立得'}
-                      {selectedPhoto.card_template === 'magazine' && '📖 杂志'}
-                    </span>
-                  </div>
-                )}
+                  {selectedPhoto.weather && (
+                    <div className="flex items-center gap-2 text-white text-sm">
+                      <span>☀️</span>
+                      <span>{selectedPhoto.weather}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
