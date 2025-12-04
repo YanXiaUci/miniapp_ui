@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, Camera, RotateCcw, Check, Image as ImageIcon, MapPin, Clock } from 'lucide-react';
+import { ArrowLeft, Camera, RotateCcw, Sparkles, MapPin, Clock } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
+import CollectionCardPreviewPage from './CollectionCardPreviewPage';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -32,9 +33,9 @@ export default function CameraPage({ onBack, preselectedOrderId, trips, onPhotoS
   const [weather, setWeather] = useState<string>('晴天');
   const [currentTime, setCurrentTime] = useState<string>('');
   const [selectedOrderId, setSelectedOrderId] = useState<string>(preselectedOrderId || '');
-  const [isSaving, setIsSaving] = useState(false);
   const [showOrderSelect, setShowOrderSelect] = useState(false);
   const [cameraError, setCameraError] = useState<string>('');
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     updateTime();
@@ -120,21 +121,7 @@ export default function CameraPage({ onBack, preselectedOrderId, trips, onPhotoS
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        const watermarkHeight = 120;
-        const padding = 20;
-
-        context.fillStyle = 'rgba(0, 0, 0, 0.6)';
-        context.fillRect(0, canvas.height - watermarkHeight, canvas.width, watermarkHeight);
-
-        context.fillStyle = '#ffffff';
-        context.font = 'bold 32px sans-serif';
-        context.fillText(`📍 ${location}`, padding, canvas.height - watermarkHeight + 40);
-
-        context.font = '28px sans-serif';
-        context.fillText(`🕐 ${currentTime}`, padding, canvas.height - watermarkHeight + 75);
-        context.fillText(`☀️ ${weather}`, padding, canvas.height - watermarkHeight + 105);
-
-        const imageData = canvas.toDataURL('image/jpeg', 0.9);
+        const imageData = canvas.toDataURL('image/jpeg', 0.95);
         setCapturedImage(imageData);
         stopCamera();
       }
@@ -145,46 +132,37 @@ export default function CameraPage({ onBack, preselectedOrderId, trips, onPhotoS
     setCapturedImage(null);
   };
 
-  const savePhoto = async () => {
-    if (!capturedImage) return;
-
+  const handleStartCollection = () => {
     if (!selectedOrderId) {
       alert('请选择关联订单');
       return;
     }
+    setShowPreview(true);
+  };
 
-    setIsSaving(true);
-
-    try {
-      const { error } = await supabase.from('checkin_photos').insert({
-        order_id: selectedOrderId,
-        photo_data: capturedImage,
-        timestamp: new Date().toISOString(),
-        location: location,
-        latitude: latitude,
-        longitude: longitude,
-        weather: weather,
-      });
-
-      if (error) {
-        console.error('保存照片失败:', error);
-        alert('保存照片失败，请重试');
-      } else {
-        alert('打卡成功！');
-        if (onPhotoSaved) {
-          onPhotoSaved();
-        }
-        onBack();
-      }
-    } catch (error) {
-      console.error('保存照片时出错:', error);
-      alert('保存照片时出错，请重试');
-    } finally {
-      setIsSaving(false);
+  const handleCollectionSaved = () => {
+    if (onPhotoSaved) {
+      onPhotoSaved();
     }
+    onBack();
   };
 
   const activeTrips = trips.filter((trip) => trip.status === '保障中' || trip.status === '已支付');
+
+  if (showPreview && capturedImage) {
+    return (
+      <CollectionCardPreviewPage
+        imageData={capturedImage}
+        location={location}
+        orderId={selectedOrderId}
+        onBack={() => setShowPreview(false)}
+        onSaved={handleCollectionSaved}
+        latitude={latitude}
+        longitude={longitude}
+        weather={weather}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -210,7 +188,10 @@ export default function CameraPage({ onBack, preselectedOrderId, trips, onPhotoS
               <button onClick={onBack} className="p-1 hover:bg-gray-800 rounded-full transition-colors">
                 <ArrowLeft className="w-5 h-5 text-white" />
               </button>
-              <h1 className="text-lg font-semibold text-white">水印相机</h1>
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-yellow-400" />
+                <h1 className="text-lg font-semibold text-white">AI采集</h1>
+              </div>
             </div>
           </div>
         </div>
@@ -327,13 +308,11 @@ export default function CameraPage({ onBack, preselectedOrderId, trips, onPhotoS
                       重拍
                     </button>
                     <button
-                      onClick={savePhoto}
-                      disabled={isSaving}
-                      className="flex-1 py-4 rounded-xl text-white font-semibold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
-                      style={{ backgroundColor: '#5B6FED' }}
+                      onClick={handleStartCollection}
+                      className="flex-1 py-4 rounded-xl text-white font-semibold flex items-center justify-center gap-2 transition-colors bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
                     >
-                      <Check className="w-5 h-5" />
-                      {isSaving ? '保存中...' : '保存'}
+                      <Sparkles className="w-5 h-5" />
+                      开始AI采集
                     </button>
                   </div>
                 ) : (
