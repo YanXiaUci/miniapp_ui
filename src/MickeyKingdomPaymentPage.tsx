@@ -21,7 +21,7 @@ function MickeyKingdomPaymentPage({ park, onBack, onJumpToWeatherApp }: MickeyKi
       const referralData: AmusementParkReferralData = {
         source: park.id,
         location: park.address,
-        visitDate: '2025年12月18日',
+        visitDate: '2025年12月17日',
         amount: park.ticketPrice,
         parkName: park.name,
         compensationAmount: compensationAmount,
@@ -34,8 +34,8 @@ function MickeyKingdomPaymentPage({ park, onBack, onJumpToWeatherApp }: MickeyKi
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="w-[375px] bg-gray-50 min-h-screen flex flex-col relative">
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="w-[375px] bg-white min-h-screen flex flex-col relative">
         <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-sm z-10">
           <span className="font-semibold">9:41</span>
           <div className="flex items-center gap-1">
@@ -52,73 +52,86 @@ function MickeyKingdomPaymentPage({ park, onBack, onJumpToWeatherApp }: MickeyKi
         </div>
 
         <div className="sticky top-0 z-20 px-4 pt-16 pb-4" style={{ backgroundColor: '#1E90FF' }}>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onBack}
-              className="p-1 hover:bg-white/10 rounded-full transition-colors"
-            >
-              <ArrowLeft className="w-6 h-6 text-white" />
-            </button>
-            <h1 className="text-xl font-semibold text-white">订单支付</h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={onBack}
+                className="p-1 hover:bg-white/10 rounded-full transition-colors"
+              >
+                <ArrowLeft className="w-6 h-6 text-white" />
+              </button>
+              <h1 className="text-xl font-semibold text-white">订单详情</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10">
+                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="5" cy="12" r="2"/>
+                  <circle cx="12" cy="12" r="2"/>
+                  <circle cx="19" cy="12" r="2"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto bg-gray-50 pb-32">
+        <div className="flex-1 overflow-y-auto bg-white pb-28">
           <div className="px-4 pt-4">
-            <h2 className="text-lg font-bold text-gray-900 mb-3">成人畅玩票</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-3">四人票</h2>
 
             <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 mb-4 border-2 border-red-200">
-              <div className="flex items-start justify-between mb-3">
+              <div className="flex items-start justify-between mb-2">
                 <div className="flex-1">
-                  <h3 className="text-base font-semibold text-gray-900 mb-3">成人畅玩票</h3>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="px-2 py-1 bg-green-600 text-white text-xs rounded">随时退</span>
-                    <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded">无需换票</span>
-                    <span className="px-2 py-1 bg-green-600 text-white text-xs rounded">1日票</span>
+                  <h3 className="text-base font-semibold text-gray-900 mb-3">四人票</h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="px-2 py-0.5 bg-green-600 text-white text-xs rounded">随时退</span>
+                    <span className="px-2 py-0.5 bg-blue-600 text-white text-xs rounded">无需换票</span>
+                    <span className="px-2 py-0.5 bg-green-600 text-white text-xs rounded">1日票</span>
                   </div>
+                  <button className="text-sm text-red-600 flex items-center gap-1">
+                    游玩须知 〉
+                  </button>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm text-gray-500 mb-1">票价</div>
-                  <div className="text-sm text-gray-400 line-through mb-1">¥60.00</div>
-                  <div className="text-2xl font-bold text-red-600">¥60.00</div>
+                <div className="text-right ml-4">
+                  <div className="text-xs text-gray-600 mb-0.5">票价</div>
+                  <div className="text-xs text-gray-400 line-through mb-0.5">¥169.00</div>
+                  <div className="text-2xl font-bold text-red-600">¥169.00</div>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-2.5 text-sm mb-4">
+            <div className="space-y-2 text-base mb-4">
               <div className="flex items-center">
-                <span className="text-gray-700 w-24">游玩人数：</span>
-                <span className="text-gray-900 font-semibold">1</span>
+                <span className="text-gray-900 font-semibold">游玩人数：</span>
+                <span className="text-gray-900 font-semibold ml-1">1</span>
               </div>
               <div className="flex items-center">
-                <span className="text-gray-700 w-24">游玩日期：</span>
-                <span className="text-gray-900 font-semibold">2025-12-18</span>
+                <span className="text-gray-900 font-semibold">游玩日期：</span>
+                <span className="text-gray-900 font-semibold ml-1">2025-12-17</span>
               </div>
               <div className="flex items-center">
-                <span className="text-gray-700 w-24">订单状态：</span>
-                <span className="text-orange-600 font-semibold">待支付</span>
+                <span className="text-gray-900 font-semibold">订单状态：</span>
+                <span className="text-orange-600 font-semibold ml-1">待支付</span>
               </div>
               <div className="flex items-center">
-                <span className="text-gray-700 w-24">订单编号：</span>
-                <span className="text-gray-900 font-medium">PDSL417648703378895270O</span>
+                <span className="text-gray-900 font-semibold">订单编号：</span>
+                <span className="text-gray-900 font-semibold ml-1">PDSL417648717186074849797</span>
               </div>
               <div className="flex items-center">
-                <span className="text-gray-700 w-24">下单时间：</span>
-                <span className="text-gray-900 font-medium">2025-12-05 01:45:37</span>
+                <span className="text-gray-900 font-semibold">下单时间：</span>
+                <span className="text-gray-900 font-semibold ml-1">2025-12-05 02:08:38</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-gray-900 font-semibold">订单金额：</span>
+                <span className="text-gray-900 font-semibold ml-1">169.00</span>
               </div>
             </div>
 
-            <div className="mb-4">
-              <div className="flex items-center text-lg">
-                <span className="text-gray-700">应付金额：</span>
-                <span className="text-2xl font-bold text-red-600 ml-2">¥ 60.00</span>
-              </div>
-            </div>
+            <h2 className="text-lg font-bold text-gray-900 mb-4 mt-6">游客信息</h2>
           </div>
 
           <div
             onClick={handleJumpToWeather}
-            className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl mx-4 mt-6 px-5 py-5 shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer"
+            className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl mx-4 mt-4 px-5 py-5 shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer"
           >
             <div className="flex items-start gap-3 mb-4">
               <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}>
@@ -141,7 +154,7 @@ function MickeyKingdomPaymentPage({ park, onBack, onJumpToWeatherApp }: MickeyKi
                 <div className="flex items-start gap-2">
                   <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
                   <p className="text-sm text-gray-700 leading-relaxed">
-                    如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>09:00-21:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
+                    如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>09:30-19:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
                     <span className="font-semibold border-b border-dashed border-gray-400" style={{ color: '#5B6FED' }}>≥1.50mm/h</span>
                     ）
                   </p>
@@ -176,20 +189,26 @@ function MickeyKingdomPaymentPage({ park, onBack, onJumpToWeatherApp }: MickeyKi
         </div>
 
         <div className="fixed bottom-0 w-[375px] bg-white border-t border-gray-200 px-4 py-3 shadow-lg">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center text-base">
+              <span className="text-gray-900 font-semibold">应付金额：</span>
+              <span className="text-red-600 font-bold text-xl ml-2">¥ {totalAmount.toFixed(2)}</span>
+            </div>
+          </div>
           <div className="flex gap-3">
             <button
               onClick={() => alert('支付功能仅为演示')}
-              className="flex-1 text-white text-lg font-semibold py-4 rounded-lg transition-all shadow-sm active:scale-[0.98]"
+              className="flex-1 text-white text-base font-semibold py-3 rounded-lg transition-all shadow-sm active:scale-[0.98]"
               style={{ backgroundColor: '#4CAF50' }}
             >
-              支付
+              付款
             </button>
             <button
               onClick={() => alert('取消订单')}
-              className="flex-1 text-white text-lg font-semibold py-4 rounded-lg transition-all shadow-sm active:scale-[0.98]"
+              className="flex-1 text-white text-base font-semibold py-3 rounded-lg transition-all shadow-sm active:scale-[0.98]"
               style={{ backgroundColor: '#F44336' }}
             >
-              取消
+              取消订单
             </button>
           </div>
         </div>

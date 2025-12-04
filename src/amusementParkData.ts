@@ -14,12 +14,12 @@ export const amusementParks: AmusementPark[] = [
   {
     id: 'mickey-kingdom',
     name: '米奇王国',
-    city: '上海',
-    address: '上海市浦东新区米奇大道1号',
-    ticketPrice: 60,
+    city: '平顶山',
+    address: '河南省平顶山市鲁山县',
+    ticketPrice: 169,
     imageUrl: '/image copy.png',
     description: '欢乐畅玩，梦幻体验',
-    openingHours: '09:00-21:00',
+    openingHours: '09:30-19:00',
     insuranceRate: 0.08,
   },
 ];
