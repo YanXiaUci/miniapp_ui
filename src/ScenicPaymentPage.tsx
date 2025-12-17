@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { ArrowLeft, Shield, ChevronRight, Minus, Plus } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowLeft, Minus, Plus, Shield, ChevronRight } from 'lucide-react';
 import { ScenicSpot, ScenicReferralData } from './scenicData';
+import WeatherGuaranteeModal from './WeatherGuaranteeModal';
+import WeatherGuaranteeDetailsModal from './WeatherGuaranteeDetailsModal';
 
 interface ScenicPaymentPageProps {
   spot: ScenicSpot;
@@ -12,6 +14,12 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
   const [showTransition, setShowTransition] = useState(false);
   const [selectedDate, setSelectedDate] = useState('11-15');
   const [ticketCount, setTicketCount] = useState(1);
+  const [isGuaranteeModalOpen, setIsGuaranteeModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setIsGuaranteeModalOpen(true);
+  }, []);
 
   const weatherInsuranceFee = Math.round(spot.ticketPrice * spot.insuranceRate * 100) / 100;
   const compensationAmount = spot.ticketPrice;
@@ -24,6 +32,7 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
   ];
 
   const handleJumpToWeather = () => {
+    setIsGuaranteeModalOpen(false);
     setShowTransition(true);
     setTimeout(() => {
       const referralData: ScenicReferralData = {
@@ -48,13 +57,13 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
           <span className="font-semibold">9:41</span>
           <div className="flex items-center gap-1">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+              <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z" />
             </svg>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+              <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" />
             </svg>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+              <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
             </svg>
           </div>
         </div>
@@ -75,8 +84,8 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
           <div className="bg-orange-50 border-l-4 border-pink-400 mx-4 mt-3 p-3 rounded-r-lg">
             <div className="flex items-start gap-2">
               <svg className="w-4 h-4 text-pink-600 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M12 8v4M12 16h.01" stroke="white" strokeWidth="2"/>
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v4M12 16h.01" stroke="white" strokeWidth="2" />
               </svg>
               <p className="text-xs text-gray-700">请先选择使用日期和场次，选择完成后即可查看购买须知</p>
             </div>
@@ -89,11 +98,10 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
                 <button
                   key={date.id}
                   onClick={() => setSelectedDate(date.id)}
-                  className={`flex-shrink-0 rounded-xl px-4 py-3 min-w-[120px] transition-all ${
-                    selectedDate === date.id
-                      ? 'bg-green-700 text-white shadow-md'
-                      : 'bg-white text-gray-900 border border-gray-200'
-                  }`}
+                  className={`flex-shrink-0 rounded-xl px-4 py-3 min-w-[120px] transition-all ${selectedDate === date.id
+                    ? 'bg-green-700 text-white shadow-md'
+                    : 'bg-white text-gray-900 border border-gray-200'
+                    }`}
                 >
                   <div className="text-sm font-medium mb-1">{date.label}</div>
                   <div className={`text-lg font-bold ${selectedDate === date.id ? 'text-white' : 'text-red-600'}`}>
@@ -154,8 +162,8 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3">
                 <div className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 8v4M12 16h.01" stroke="white" strokeWidth="2"/>
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 8v4M12 16h.01" stroke="white" strokeWidth="2" />
                   </svg>
                   <p className="text-xs text-amber-900">应景区要求，购买1张票需提供1位游客信息！</p>
                 </div>
@@ -164,7 +172,7 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
                 <button className="flex-1 py-3 rounded-lg bg-green-700 text-white font-medium text-sm flex items-center justify-center gap-1">
                   <span>夏颜</span>
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                   </svg>
                 </button>
                 <button className="flex-1 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium text-sm">
@@ -177,7 +185,7 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
                 <div className="space-y-1.5 text-xs text-gray-600">
                   <div className="flex items-center gap-2">
                     <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"/>
+                      <circle cx="12" cy="12" r="10" />
                     </svg>
                     <span>游客</span>
                   </div>
@@ -194,63 +202,7 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
             </div>
           </div>
 
-          <div
-            onClick={handleJumpToWeather}
-            className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl mx-4 mt-4 px-5 py-5 shadow-sm hover:shadow-md transition-all active:scale-[0.98] cursor-pointer"
-          >
-            <div className="flex items-start gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}>
-                <Shield className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 text-left">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-base font-bold text-gray-900">游玩天气保障</h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-600 font-semibold">推荐</span>
-                </div>
-                <p className="text-xs text-gray-600">由陪你天气®提供</p>
-              </div>
-            </div>
-
-            <div className="bg-blue-50 rounded-xl p-3.5 mb-3">
-              <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                陪你天气®将在您游玩期间监测天气预报。
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    如果国家权威数据源显示<span className="font-semibold" style={{ color: '#5B6FED' }}>08:00-18:00</span>之间下雨<span className="font-semibold" style={{ color: '#5B6FED' }}>2小时或以上</span>（{' '}
-                    <span className="font-semibold border-b border-dashed border-gray-400" style={{ color: '#5B6FED' }}>≥1.50mm/h</span>
-                    ）
-                  </p>
-                </div>
-                <div className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: '#5B6FED' }}></div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    陪你天气®将向您退还<span className="font-semibold text-sm" style={{ color: '#5B6FED' }}>{compensationAmount}元</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl px-4 py-3 mb-3 border border-orange-200">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-gray-900">天气保障</p>
-                <p className="text-xl font-bold" style={{ color: '#5B6FED' }}>¥{weatherInsuranceFee.toFixed(2)}</p>
-              </div>
-            </div>
-
-            <div className="bg-blue-50 rounded-xl px-3 py-2.5 mb-3 border border-blue-200">
-              <p className="text-xs text-gray-700 leading-relaxed">
-                💡 点击此横幅跳转到陪你天气小程序购买天气保障
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center gap-1 text-sm font-medium" style={{ color: '#5B6FED' }}>
-              <span>点击跳转购买</span>
-              <ChevronRight className="w-4 h-4" />
-            </div>
-          </div>
+          {/* Weather Guarantee Banner Removed - Replaced by Auto-Modal */}
         </div>
 
         <div className="fixed bottom-0 w-[375px] bg-white border-t border-gray-200 px-4 py-3 shadow-lg">
@@ -261,7 +213,7 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
               <button className="text-sm text-gray-600 flex items-center">
                 明细
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="6 9 12 15 18 9"/>
+                  <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
             </div>
@@ -286,6 +238,22 @@ function ScenicPaymentPage({ spot, onBack, onJumpToWeatherApp }: ScenicPaymentPa
             </div>
           </div>
         )}
+
+        <WeatherGuaranteeModal
+          isOpen={isGuaranteeModalOpen}
+          onClose={() => setIsGuaranteeModalOpen(false)}
+          onAdd={handleJumpToWeather}
+          onOpenDetails={() => setIsDetailsModalOpen(true)}
+          price={weatherInsuranceFee}
+          compensationAmount={compensationAmount}
+        />
+
+        <WeatherGuaranteeDetailsModal
+          isOpen={isDetailsModalOpen}
+          onClose={() => setIsDetailsModalOpen(false)}
+          onAdd={handleJumpToWeather}
+          price={weatherInsuranceFee}
+        />
       </div>
     </div>
   );

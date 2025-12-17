@@ -1,31 +1,29 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface TooltipProps {
   content: string;
   children: React.ReactNode;
 }
 
-function Tooltip({ content, children }: TooltipProps) {
+const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <span className="relative inline-block">
-      <span
-        onMouseEnter={() => setIsVisible(true)}
-        onMouseLeave={() => setIsVisible(false)}
-        onClick={() => setIsVisible(!isVisible)}
-        className="cursor-help"
-      >
-        {children}
-      </span>
+    <div
+      className="relative inline-block cursor-help group"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+    >
+      {children}
       {isVisible && (
-        <span className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-gray-700 bg-white rounded-lg whitespace-nowrap shadow-md border border-gray-200">
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-slate-800 rounded-lg whitespace-nowrap z-50 animate-in fade-in zoom-in-95 duration-200">
           {content}
-          <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-white" style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.05))' }}></span>
-        </span>
+          {/* Arrow */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-slate-800" />
+        </div>
       )}
-    </span>
+    </div>
   );
-}
+};
 
 export default Tooltip;

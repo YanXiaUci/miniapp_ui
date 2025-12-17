@@ -19,6 +19,7 @@ import AmusementParkOrderDetailPage from './AmusementParkOrderDetailPage';
 import { AmusementPark, AmusementParkReferralData } from './amusementParkData';
 import CameraPage from './CameraPage';
 import CheckInRecordsPage from './CheckInRecordsPage';
+import OnboardingPage from './OnboardingPage';
 
 type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'marathonList' | 'marathonPayment' | 'scenicList' | 'scenicReservation' | 'scenicPayment' | 'scenicAddWeather' | 'scenicOrderDetail' | 'amusementParkList' | 'mickeyKingdomPayment' | 'amusementParkAddWeather' | 'amusementParkOrderDetail' | 'login' | 'camera' | 'checkInRecords';
 
@@ -262,6 +263,9 @@ const trips: Trip[] = [
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(() => {
+    return localStorage.getItem('hasSeenOnboarding') === 'true';
+  });
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [agreed, setAgreed] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
@@ -332,13 +336,13 @@ function App() {
             <span className="font-semibold">9:41</span>
             <div className="flex items-center gap-1">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z" />
               </svg>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" />
               </svg>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
               </svg>
             </div>
           </div>
@@ -411,13 +415,13 @@ function App() {
             <span className="font-semibold">9:41</span>
             <div className="flex items-center gap-1">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z" />
               </svg>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" />
               </svg>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
               </svg>
             </div>
           </div>
@@ -430,7 +434,7 @@ function App() {
                 </button>
                 <h1 className="text-lg font-semibold text-gray-900">订单详情</h1>
               </div>
-{(selectedTrip?.status === '已支付' || selectedTrip?.status === '保障中' || selectedTrip?.status === '结算中' || selectedTrip?.status === '已完成') && (
+              {(selectedTrip?.status === '已支付' || selectedTrip?.status === '保障中' || selectedTrip?.status === '结算中' || selectedTrip?.status === '已完成') && (
                 <div className="relative">
                   <button
                     onClick={() => setShowMenu(!showMenu)}
@@ -587,7 +591,7 @@ function App() {
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-2">
                             <svg className="w-4 h-4" style={{ color: '#5B6FED' }} viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                              <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
                             </svg>
                             <span className="text-sm font-semibold text-gray-900">
                               总补偿金额
@@ -734,13 +738,13 @@ function App() {
             <span className="font-semibold">9:41</span>
             <div className="flex items-center gap-1">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z" />
               </svg>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" />
               </svg>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
               </svg>
             </div>
           </div>
@@ -755,9 +759,9 @@ function App() {
               </div>
               <button className="p-1 hover:bg-gray-100 rounded-full transition-colors">
                 <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="1" fill="currentColor"/>
-                  <circle cx="19" cy="12" r="1" fill="currentColor"/>
-                  <circle cx="5" cy="12" r="1" fill="currentColor"/>
+                  <circle cx="12" cy="12" r="1" fill="currentColor" />
+                  <circle cx="19" cy="12" r="1" fill="currentColor" />
+                  <circle cx="5" cy="12" r="1" fill="currentColor" />
                 </svg>
               </button>
             </div>
@@ -799,7 +803,7 @@ function App() {
                 <h2 className="text-base font-semibold text-gray-900">服务详情</h2>
                 <div className="flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#F59E0B' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
                   </svg>
                   <span className="text-xs font-semibold" style={{ color: '#F59E0B' }}>{formatCountdown(countdown)}</span>
                 </div>
@@ -870,11 +874,10 @@ function App() {
                   onClick={() => setAgreed(!agreed)}
                   className="flex-shrink-0 mt-0.5"
                 >
-                  <div className={`w-4 h-4 rounded flex items-center justify-center border-2 transition-all ${
-                    agreed
+                  <div className={`w-4 h-4 rounded flex items-center justify-center border-2 transition-all ${agreed
                       ? 'border-blue-500'
                       : 'border-gray-300'
-                  }`} style={{ backgroundColor: agreed ? '#5B6FED' : 'transparent' }}>
+                    }`} style={{ backgroundColor: agreed ? '#5B6FED' : 'transparent' }}>
                     {agreed && <Check className="w-3 h-3 text-white" />}
                   </div>
                 </button>
@@ -906,7 +909,7 @@ function App() {
                   stroke="currentColor"
                   strokeWidth="2"
                 >
-                  <polyline points="6 9 12 15 18 9"/>
+                  <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
             </div>
@@ -1103,6 +1106,17 @@ function App() {
     return <CheckInRecordsPage onBack={() => setCurrentPage('profile')} trips={trips} />;
   }
 
+  if (!hasSeenOnboarding) {
+    return (
+      <OnboardingPage
+        onComplete={() => {
+          setHasSeenOnboarding(true);
+          localStorage.setItem('hasSeenOnboarding', 'true');
+        }}
+      />
+    );
+  }
+
   if (!isLoggedIn) {
     return <LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />;
   }
@@ -1115,13 +1129,13 @@ function App() {
             <span className="font-semibold">9:41</span>
             <div className="flex items-center gap-1">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+                <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z" />
               </svg>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" />
               </svg>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+                <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
               </svg>
             </div>
           </div>
@@ -1137,9 +1151,9 @@ function App() {
 
           <div className="flex flex-col items-center px-5 pb-10">
             <div className="w-28 h-28 rounded-full shadow-lg mb-4 overflow-hidden">
-              <img 
-                src="/4c3b9c4f58ed2b07bd1cf80f69b1b28f.jpg" 
-                alt="User Avatar" 
+              <img
+                src="/4c3b9c4f58ed2b07bd1cf80f69b1b28f.jpg"
+                alt="User Avatar"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -1234,9 +1248,9 @@ function App() {
               >
                 <div className="flex items-center gap-3.5">
                   <svg className="w-5 h-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="2"/>
-                    <path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
-                    <circle cx="12" cy="12" r="8"/>
+                    <circle cx="12" cy="12" r="2" />
+                    <path d="M12 2v4m0 12v4M2 12h4m12 0h4" />
+                    <circle cx="12" cy="12" r="8" />
                   </svg>
                   <span className="text-base text-gray-900">游乐园集成演示</span>
                 </div>
@@ -1272,13 +1286,13 @@ function App() {
           <span className="font-semibold">9:41</span>
           <div className="flex items-center gap-1">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+              <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z" />
             </svg>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+              <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" />
             </svg>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+              <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
             </svg>
           </div>
         </div>
@@ -1408,10 +1422,10 @@ function App() {
           <div className="flex items-center justify-around py-2">
             <button className="flex flex-col items-center justify-center py-1 px-6 text-center">
               <svg className="w-6 h-6 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="7" height="7" rx="1" fill="#5B6FED"/>
-                <rect x="14" y="3" width="7" height="7" rx="1" fill="#5B6FED"/>
-                <rect x="3" y="14" width="7" height="7" rx="1" fill="#5B6FED"/>
-                <rect x="14" y="14" width="7" height="7" rx="1" fill="#5B6FED"/>
+                <rect x="3" y="3" width="7" height="7" rx="1" fill="#5B6FED" />
+                <rect x="14" y="3" width="7" height="7" rx="1" fill="#5B6FED" />
+                <rect x="3" y="14" width="7" height="7" rx="1" fill="#5B6FED" />
+                <rect x="14" y="14" width="7" height="7" rx="1" fill="#5B6FED" />
               </svg>
               <span className="text-xs" style={{ color: '#5B6FED' }}>首页</span>
             </button>

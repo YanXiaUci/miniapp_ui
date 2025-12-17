@@ -21,7 +21,7 @@ export const scenicSpots: ScenicSpot[] = [
     imageUrl: '/image copy.png',
     description: '世界级天坑群，壮观的喀斯特地貌',
     openingHours: '08:00-18:00',
-    insuranceRate: 0.08,
+    insuranceRate: 0.15,
     type: 'reservation',
   },
   {
