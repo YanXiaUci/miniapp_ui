@@ -22,13 +22,13 @@ function ScenicOrderDetailPage({ referralData, onBack }: ScenicOrderDetailPagePr
           <span className="font-semibold">9:41</span>
           <div className="flex items-center gap-1">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z"/>
+              <path d="M2 20h4v-4H2v4zm6 0h4v-8H8v8zm6 0h4V10h-4v10zm6-18v18h4V2h-4z" />
             </svg>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+              <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" />
             </svg>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+              <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
             </svg>
           </div>
         </div>
@@ -58,7 +58,10 @@ function ScenicOrderDetailPage({ referralData, onBack }: ScenicOrderDetailPagePr
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-sm text-gray-700 font-medium mb-0.5">{referralData.visitDate}</div>
-                <div className="text-xs text-gray-500">共1天</div>
+                <div className="text-xs text-gray-500">共{(() => {
+                  const dates = calculateDays(referralData.visitDate);
+                  return dates.length > 0 ? dates.length : 1;
+                })()}天</div>
               </div>
               <span className={`text-xs px-3 py-1.5 rounded-full font-semibold whitespace-nowrap ${statusColor}`}>{status}</span>
             </div>
@@ -69,19 +72,83 @@ function ScenicOrderDetailPage({ referralData, onBack }: ScenicOrderDetailPagePr
               <h2 className="text-base font-semibold text-gray-900">保障进度</h2>
             </div>
             <div className="space-y-3">
-              <div className="border-l-2 pl-4" style={{ borderColor: '#5B6FED' }}>
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" style={{ color: '#5B6FED' }} />
-                    <span className="text-sm font-medium text-gray-900">{referralData.visitDate}</span>
-                  </div>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    您的保障将在 <span className="font-semibold" style={{ color: '#5B6FED' }}>{referralData.visitDate}</span> 开始，祝您游玩愉快！
-                  </p>
-                </div>
-              </div>
+              {(() => {
+                const dates = calculateDays(referralData.visitDate);
+
+                // If only 1 day or empty, fall back to simple display (or treat as single day list)
+                if (dates.length <= 1) {
+                  return (
+                    <div className="border-l-2 pl-4" style={{ borderColor: '#5B6FED' }}>
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" style={{ color: '#5B6FED' }} />
+                          <span className="text-sm font-medium text-gray-900">{referralData.visitDate}</span>
+                        </div>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          您的保障将在 <span className="font-semibold" style={{ color: '#5B6FED' }}>{referralData.visitDate}</span> 开始，祝您游玩愉快！
+                        </p>
+                      </div>
+                    </div>
+                  );
+                }
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const pastOrTodayDates = dates.filter(d => d.getTime() <= today.getTime());
+                const futureDates = dates.filter(d => d.getTime() > today.getTime());
+
+                return (
+                  <>
+                    {pastOrTodayDates.map((date) => {
+                      const dateStr = formatDate(date);
+                      const isToday = date.getTime() === today.getTime();
+
+                      return (
+                        <div key={dateStr} className="border-l-2 pl-4" style={{ borderColor: '#E5E7EB' }}>
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              {/* Use CloudRain for example past day to match screenshot vibes if we wanted, but Sun is safe */}
+                              <Sun className="w-4 h-4 text-gray-400" />
+                              <span className="text-sm font-medium text-gray-900">{dateStr}</span>
+                            </div>
+                            <span className="text-xs text-gray-500">无需补偿</span>
+                          </div>
+                          <div className="bg-gray-50 rounded-lg p-3">
+                            <p className="text-sm text-gray-600">
+                              {isToday ? '保障生效中' : '未触发'}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {futureDates.length > 0 && (
+                      <div className="border-l-2 pl-4" style={{ borderColor: '#5B6FED' }}>
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4" style={{ color: '#5B6FED' }} />
+                            <span className="text-sm font-medium text-gray-900">
+                              {futureDates.length === 1
+                                ? formatDate(futureDates[0])
+                                : `${formatDate(futureDates[0])}-${formatDate(futureDates[futureDates.length - 1])}`
+                              }
+                            </span>
+                          </div>
+                          <span className="text-xs font-medium text-blue-600">待开始</span>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <p className="text-sm text-gray-700 leading-relaxed">
+                            保障将于当日08:00生效
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           </div>
 
@@ -90,7 +157,10 @@ function ScenicOrderDetailPage({ referralData, onBack }: ScenicOrderDetailPagePr
             <div className="bg-gray-50 rounded-xl p-4">
               <div className="space-y-2.5">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">天气保障费用（1天）</span>
+                  <span className="text-gray-600">天气保障费用（{(() => {
+                    const dates = calculateDays(referralData.visitDate);
+                    return dates.length > 0 ? dates.length : 1;
+                  })()}天）</span>
                   <span className="text-gray-900">¥{referralData.weatherInsuranceFee.toFixed(2)}</span>
                 </div>
                 <div className="border-t border-gray-200 pt-2.5 mt-2.5"></div>
@@ -166,6 +236,65 @@ function ScenicOrderDetailPage({ referralData, onBack }: ScenicOrderDetailPagePr
       </div>
     </div>
   );
+}
+
+// Helper functions placed outside component to keep it clean
+function calculateDays(dateRangeVal: string): Date[] {
+  // Handle simple range format: "12月28日-01月03日" or "12月28日"
+
+  const currentYear = new Date().getFullYear();
+  const parts = dateRangeVal.split('-');
+
+  if (parts.length === 1) {
+    const d = parseDateStr(parts[0], currentYear);
+    return d ? [d] : [];
+  }
+
+  if (parts.length === 2 && parts[0].includes('月') && parts[1].includes('月')) {
+    const start = parseDateStr(parts[0], currentYear);
+    // For end date, if month is smaller than start month, assume next year
+    let endYear = currentYear;
+    const startMatch = parts[0].match(/(\d+)月/);
+    const endMatch = parts[1].match(/(\d+)月/);
+    const startMonth = parseInt(startMatch ? startMatch[1] : '0');
+    const endMonth = parseInt(endMatch ? endMatch[1] : '0');
+
+    if (endMonth < startMonth) {
+      endYear += 1;
+    }
+
+    const end = parseDateStr(parts[1], endYear);
+
+    if (start && end) {
+      const days: Date[] = [];
+      const current = new Date(start);
+      // Safety break
+      let count = 0;
+      while (current <= end && count < 365) {
+        days.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+        count++;
+      }
+      return days;
+    }
+  }
+
+  // Fallback for unexpected format: return empty, effectively just 1 day logic will trigger if length <= 1
+  return [];
+}
+
+function parseDateStr(str: string, year: number): Date | null {
+  const match = str.match(/(\d+)月(\d+)日/);
+  if (!match) return null;
+  const month = parseInt(match[1]) - 1;
+  const day = parseInt(match[2]);
+  return new Date(year, month, day);
+}
+
+function formatDate(date: Date): string {
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  return `${m.toString().padStart(2, '0')}月${d.toString().padStart(2, '0')}日`;
 }
 
 export default ScenicOrderDetailPage;

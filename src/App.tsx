@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, Shield, HelpCircle, MessageCircle, FileText, Info, Clock, Lock, Code, Camera, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Check, User, Calendar, CloudRain, Sun, AlertCircle, X, MoreVertical, Plus, ChevronRight, ChevronDown, ChevronUp, Shield, HelpCircle, MessageCircle, FileText, Info, Clock, Lock, Code, Camera, Image as ImageIcon } from 'lucide-react';
 import AboutPage from './AboutPage';
 import Tooltip from './Tooltip';
 import MarathonListPage from './MarathonListPage';
@@ -49,6 +49,23 @@ interface Trip {
 }
 
 const trips: Trip[] = [
+  {
+    id: 'MHNEW20251229',
+    location: '哈尔滨冰雪大世界',
+    startDate: '12月28日',
+    endDate: '01月03日',
+    days: 7,
+    status: '保障中',
+    statusColor: 'bg-blue-100 text-blue-600',
+    dailyPrice: 280,
+    serviceFee: 25.00,
+    totalAmount: 25.00,
+    totalCompensation: 0,
+    weatherData: [
+      { date: '12月28日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '12月29日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+    ],
+  },
   {
     id: 'MHSH20251130',
     location: '上海市黄浦区外滩路',
@@ -270,6 +287,16 @@ function App() {
   const [agreed, setAgreed] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+  const [expandedDates, setExpandedDates] = useState<Set<string>>(new Set());
+  const toggleDate = (date: string) => {
+    const newSet = new Set(expandedDates);
+    if (newSet.has(date)) {
+      newSet.delete(date);
+    } else {
+      newSet.add(date);
+    }
+    setExpandedDates(newSet);
+  };
   const [showMenu, setShowMenu] = useState(false);
   const [showRefundModal, setShowRefundModal] = useState(false);
   const [countdown, setCountdown] = useState(1800);
@@ -379,6 +406,7 @@ function App() {
                   onClick={() => {
                     setSelectedTrip(trip);
                     setCurrentPage('tripDetail');
+                    setExpandedDates(new Set(['12月29日']));
                   }}
                   className={`w-full rounded-2xl p-5 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98] relative ${getCardGradient(index)}`}
                 >
@@ -504,117 +532,160 @@ function App() {
                     </div>
 
                     {selectedTrip.status === '保障中' && (
-                      <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 mb-3 border-l-4 border-blue-500">
-                        <div className="flex items-start gap-3">
-                          <Camera className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: '#5B6FED' }} />
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-gray-900 mb-2">
-                              记得打卡拍照，作为您到场游玩的凭证
-                            </p>
-                            <button
-                              onClick={() => {
-                                setPreselectedOrderId(selectedTrip.id);
-                                setCurrentPage('camera');
-                              }}
-                              className="px-4 py-2 rounded-lg text-white text-sm font-medium transition-all hover:opacity-90"
-                              style={{ backgroundColor: '#5B6FED' }}
-                            >
-                              立即打卡
-                            </button>
+                      <div className="rounded-xl p-4 mb-6 border-l-4" style={{ backgroundColor: '#F6F9FF', borderColor: '#5B6FED' }}>
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <div className="text-xs mb-1" style={{ color: '#7E8DA6' }}>总补偿金额</div>
+                            <div className="text-2xl font-bold" style={{ color: '#5B6FED' }}>
+                              {selectedTrip.totalCompensation} <span className="text-sm font-normal" style={{ color: '#7E8DA6' }}>元</span>
+                            </div>
+                          </div>
+                          <div className="h-8 w-[1px] mx-4" style={{ backgroundColor: '#E3E8F0' }}></div>
+                          <div>
+                            <div className="text-xs mb-1" style={{ color: '#7E8DA6' }}>保障费用</div>
+                            <div className="text-base text-gray-900">
+                              {selectedTrip.serviceFee} 元 <span className="text-xs font-normal" style={{ color: '#9AA5B8' }}>({selectedTrip.days}天)</span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    <div className="space-y-3">
-                      {(selectedTrip.status === '已支付' || selectedTrip.status === '保障中') && selectedTrip.weatherData.length === 0 ? (
-                        <div className="border-l-2 pl-4" style={{ borderColor: '#5B6FED' }}>
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <Clock className="w-4 h-4" style={{ color: '#5B6FED' }} />
-                              <span className="text-sm font-medium text-gray-900">{selectedTrip.startDate}</span>
-                            </div>
-                          </div>
-                          <div className="bg-gray-50 rounded-lg p-3">
-                            <p className="text-sm text-gray-700 leading-relaxed">
-                              您的保障将在 <span className="font-semibold" style={{ color: '#5B6FED' }}>{selectedTrip.startDate}</span> 开始，祝您旅途愉快！
-                            </p>
-                          </div>
-                        </div>
-                      ) : (
-                        selectedTrip.weatherData.map((day, index) => (
-                          <div key={index} className="border-l-2 pl-4" style={{ borderColor: day.compensated ? '#5B6FED' : '#E5E7EB' }}>
-                            <div className="flex items-start justify-between mb-2">
-                              <div className="flex items-center gap-2">
-                                {day.rained ? (
-                                  <CloudRain className="w-4 h-4" style={{ color: day.compensated ? '#5B6FED' : '#9CA3AF' }} />
-                                ) : (
-                                  <Sun className="w-4 h-4 text-yellow-500" />
-                                )}
-                                <span className="text-sm font-medium text-gray-900">{day.date}</span>
-                              </div>
-                              {day.compensated ? (
-                                <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
-                              ) : (
-                                <span className="text-xs text-gray-500">无需补偿</span>
-                              )}
-                            </div>
-                            <div className="bg-gray-50 rounded-lg p-3">
-                              {!day.rained ? (
-                                <p className="text-sm text-gray-600">未触发</p>
-                              ) : (
-                                <div className="flex justify-between text-sm">
-                                  <span className="text-gray-600">降雨时长</span>
-                                  <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
-                                    {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
-                                  </span>
+                    <div className="mt-8">
+                      {(() => {
+                        const dates = getTripDateStrings(selectedTrip.startDate, selectedTrip.days);
+                        const groups: any[] = [];
+                        let pendingBuffer: string[] = [];
+
+                        dates.forEach((date) => {
+                          const data = selectedTrip.weatherData.find(d => d.date === date);
+                          if (data) {
+                            if (pendingBuffer.length > 0) {
+                              groups.push({ type: 'pending', dates: [...pendingBuffer] });
+                              pendingBuffer = [];
+                            }
+                            groups.push({ type: 'processed', date, data });
+                          } else {
+                            pendingBuffer.push(date);
+                          }
+                        });
+
+                        if (pendingBuffer.length > 0) {
+                          groups.push({ type: 'pending', dates: [...pendingBuffer] });
+                        }
+
+                        const today = new Date();
+                        const todayStr = `${(today.getMonth() + 1).toString().padStart(2, '0')}月${today.getDate().toString().padStart(2, '0')}日`;
+
+                        return groups.map((g, idx) => {
+                          const isLast = idx === groups.length - 1;
+
+                          if (g.type === 'processed' && g.data) {
+                            const day = g.data;
+                            // Just for demo purposes, if the date is 12月29日, treat it as today since user is testing that date range.
+                            // In production this would just be day.date === todayStr
+                            const isToday = day.date === '12月29日';
+                            const isExpanded = expandedDates.has(day.date);
+
+                            return (
+                              <div key={idx} className={`relative pl-6 ${isLast ? 'pb-0' : 'pb-8'} border-l-2 ${isLast && !isExpanded ? 'border-transparent' : ''}`} style={{ borderColor: (isLast && !isExpanded) ? 'transparent' : (day.compensated ? '#5B6FED' : '#E5E7EB') }}>
+                                {/* Icon on the line */}
+                                <div
+                                  className={`absolute -left-[9px] top-0 w-[18px] h-[18px] rounded-full flex items-center justify-center z-10 transition-all bg-white`}
+                                >
+                                  {day.rained ? (
+                                    <CloudRain className="w-4 h-4" style={{ color: isToday ? '#5B6FED' : (day.compensated ? '#5B6FED' : '#9CA3AF') }} />
+                                  ) : (
+                                    <Sun className="w-4 h-4 text-yellow-500" />
+                                  )}
                                 </div>
-                              )}
-                            </div>
-                          </div>
-                        ))
-                      )}
+
+                                <div
+                                  className="flex items-start justify-between mb-2 -mt-1 cursor-pointer select-none"
+                                  onClick={() => toggleDate(day.date)}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-medium text-gray-900">{day.date}</span>
+                                    {isToday && (
+                                      <span className="text-[10px] px-1.5 py-0.5 rounded-full text-white font-medium shadow-sm transform -translate-y-[1px]" style={{ backgroundColor: '#5B6FED' }}>
+                                        今天
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    {day.compensated ? (
+                                      <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
+                                    ) : (
+                                      <span className="text-xs text-gray-500">无需补偿</span>
+                                    )}
+
+                                  </div>
+                                </div>
+
+                                {isExpanded && (
+                                  <div className={`rounded-lg p-3 overflow-hidden transition-all bg-gray-50`}>
+                                    {!day.rained ? (
+                                      <p className={`text-sm ${isToday ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
+                                        {isToday ? '当前天气良好，保障生效中' : '未触发'}
+                                      </p>
+                                    ) : (
+                                      <div className="flex justify-between text-sm">
+                                        <span className="text-gray-600">降雨时长</span>
+                                        <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
+                                          {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          } else if (g.type === 'pending' && g.dates) {
+                            const dateRange = g.dates.length > 1
+                              ? `${g.dates[0]}-${g.dates[g.dates.length - 1]}`
+                              : g.dates[0];
+
+                            const pendingKey = `pending-${g.dates[0]}`;
+                            const isPendingExpanded = expandedDates.has(pendingKey);
+
+                            return (
+                              <div key={idx} className={`relative pl-6 ${isLast ? 'pb-0' : 'pb-8'} border-l-2 ${isLast && !isPendingExpanded ? 'border-transparent' : ''}`} style={{ borderColor: (isLast && !isPendingExpanded) ? 'transparent' : '#E5E7EB' }}>
+                                <div
+                                  className="absolute -left-[9px] top-0 w-[18px] h-[18px] rounded-full bg-white flex items-center justify-center z-10"
+                                >
+                                  <Clock className="w-4 h-4" style={{ color: '#5B6FED' }} />
+                                </div>
+
+                                <div
+                                  className="flex items-start justify-between mb-2 -mt-1 cursor-pointer select-none"
+                                  onClick={() => toggleDate(pendingKey)}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-medium text-gray-900">{dateRange}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-xs font-medium text-blue-600">待开始</span>
+
+                                  </div>
+                                </div>
+                                {isPendingExpanded && (
+                                  <div className="bg-gray-50 rounded-lg p-3">
+                                    <p className="text-sm text-gray-700 leading-relaxed">
+                                      保障将于当日08:00生效，祝您旅途愉快！
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          }
+                          return null;
+                        });
+                      })()}
                     </div>
                   </div>
                 )}
 
-                {(selectedTrip.status === '已完成' || selectedTrip.status === '保障中' || selectedTrip.status === '结算中' || selectedTrip.status === '已支付') && (
-                  <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
-                    <h2 className="text-base font-semibold text-gray-900 mb-3">费用明细</h2>
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <div className="space-y-2.5">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">天气保障费用（{selectedTrip.days}天）</span>
-                          <span className="text-gray-900">¥{selectedTrip.serviceFee}</span>
-                        </div>
-                        <div className="border-t border-gray-200 pt-2.5 mt-2.5"></div>
-                        <div className="flex justify-between items-center">
-                          <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4" style={{ color: '#5B6FED' }} viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
-                            </svg>
-                            <span className="text-sm font-semibold text-gray-900">
-                              总补偿金额
-                            </span>
-                            {selectedTrip.status === '保障中' && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-600 font-medium">
-                                持续更新中
-                              </span>
-                            )}
-                            {selectedTrip.status === '结算中' && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium">
-                                结算中
-                              </span>
-                            )}
-                          </div>
-                          <span className="text-lg font-bold" style={{ color: selectedTrip.totalCompensation > 0 ? '#5B6FED' : '#6B7280' }}>
-                            ¥{selectedTrip.totalCompensation}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+
 
                 <div className="bg-white rounded-2xl p-4 mt-3 shadow-sm">
                   <h2 className="text-base font-semibold text-gray-900 mb-3">补偿规则</h2>
@@ -875,8 +946,8 @@ function App() {
                   className="flex-shrink-0 mt-0.5"
                 >
                   <div className={`w-4 h-4 rounded flex items-center justify-center border-2 transition-all ${agreed
-                      ? 'border-blue-500'
-                      : 'border-gray-300'
+                    ? 'border-blue-500'
+                    : 'border-gray-300'
                     }`} style={{ backgroundColor: agreed ? '#5B6FED' : 'transparent' }}>
                     {agreed && <Check className="w-3 h-3 text-white" />}
                   </div>
@@ -1451,6 +1522,38 @@ function App() {
       </div>
     </div>
   );
+}
+
+
+function getTripDateStrings(startDateStr: string, days: number): string[] {
+  const dates: string[] = [];
+  const currentYear = new Date().getFullYear();
+
+  const start = parseDateStub(startDateStr, currentYear);
+  if (!start) return [];
+
+  const current = new Date(start);
+  for (let i = 0; i < days; i++) {
+    const m = current.getMonth() + 1;
+    const d = current.getDate();
+    dates.push(`${m.toString().padStart(2, '0')}月${d.toString().padStart(2, '0')}日`);
+    current.setDate(current.getDate() + 1);
+  }
+
+  return dates;
+}
+
+function parseDateStub(str: string, year: number): Date | null {
+  const match = str.match(/(\d+)月(\d+)日/);
+  if (!match) return null;
+  const month = parseInt(match[1]) - 1;
+  const day = parseInt(match[2]);
+
+  // Handle overlap year case briefly if needed, but for now strict
+  // If parsing logic needs to be smarter about year boundaries (e.g. Dec -> Jan), 
+  // it would need more context, but assuming linear progression from start date is fine.
+
+  return new Date(year, month, day);
 }
 
 export default App;
