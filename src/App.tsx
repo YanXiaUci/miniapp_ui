@@ -520,7 +520,7 @@ function App() {
               <>
                 <div className="bg-white rounded-2xl p-5 mt-3 shadow-sm">
                   <div className="mb-3">
-                    <div className="text-lg font-bold text-gray-900 mb-1">{selectedTrip.location}</div>
+                    <div className="text-base font-bold text-gray-900 mb-1">{selectedTrip.location}</div>
                     <div className="text-xs text-gray-500 font-medium">订单号 {selectedTrip.id}</div>
                   </div>
                   <div>
@@ -541,26 +541,26 @@ function App() {
                     </div>
 
                     {selectedTrip.status === '保障中' && (
-                      <div className="rounded-xl p-4 mb-6 border-l-4" style={{ backgroundColor: '#F6F9FF', borderColor: '#5B6FED' }}>
-                        <div className="flex justify-between items-center">
+                      <div className="rounded-xl p-4 mb-8 bg-gradient-to-br from-blue-50 to-blue-50/30">
+                        <div className="space-y-3">
                           <div>
-                            <div className="text-xs mb-1" style={{ color: '#7E8DA6' }}>总补偿金额</div>
-                            <div className="text-2xl font-bold" style={{ color: '#5B6FED' }}>
-                              {selectedTrip.totalCompensation} <span className="text-sm font-normal" style={{ color: '#7E8DA6' }}>元</span>
+                            <div className="text-xs text-gray-500 mb-1">总补偿金额</div>
+                            <div className="text-3xl font-bold text-blue-600">
+                              {selectedTrip.totalCompensation}<span className="text-lg text-gray-500 ml-1">元</span>
                             </div>
                           </div>
-                          <div className="h-8 w-[1px] mx-4" style={{ backgroundColor: '#E3E8F0' }}></div>
-                          <div>
-                            <div className="text-xs mb-1" style={{ color: '#7E8DA6' }}>保障费用</div>
-                            <div className="text-base text-gray-900">
-                              {selectedTrip.serviceFee} 元 <span className="text-xs font-normal" style={{ color: '#9AA5B8' }}>({selectedTrip.days}天)</span>
-                            </div>
+                          <div className="flex items-center justify-between pt-3 border-t border-blue-100">
+                            <span className="text-xs text-gray-500">保障费用</span>
+                            <span className="text-sm text-gray-700">{selectedTrip.serviceFee}元 / {selectedTrip.days}天</span>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    <div className="mt-8">
+                    {/* Divider */}
+                    <div className="border-t border-gray-100 my-6"></div>
+
+                    <div>
                       {(() => {
                         const dates = getTripDateStrings(selectedTrip.startDate, selectedTrip.days);
                         const groups: any[] = [];
@@ -609,8 +609,8 @@ function App() {
                             switch (day.status) {
                               case '待开始':
                                 statusText = '待开始';
-                                statusColor = 'text-blue-600';
-                                statusBgColor = 'bg-blue-50';
+                                statusColor = 'text-gray-500';
+                                statusBgColor = ''; // Plain text
                                 iconColor = '#5B6FED';
                                 description = '保障将于当日 08:00 开始，祝您行程愉快！';
                                 isBlueBorder = false;
@@ -618,15 +618,15 @@ function App() {
                               case '保障中':
                                 statusText = '保障中';
                                 statusColor = 'text-blue-600';
-                                statusBgColor = 'bg-blue-50';
-                                iconColor = '#F59E0B'; // Yellow Sun for active/forecast
+                                statusBgColor = 'bg-blue-50'; // Keep pill
+                                iconColor = '#F59E0B';
                                 description = '保障已生效，正在持续监测天气。';
                                 isBlueBorder = false;
                                 break;
                               case '确认中':
                                 statusText = '确认中';
-                                statusColor = 'text-blue-600';
-                                statusBgColor = 'bg-blue-50';
+                                statusColor = 'text-gray-500';
+                                statusBgColor = ''; // Plain text
                                 iconColor = '#5B6FED';
                                 description = '当日保障已结束，补偿结果确认中。';
                                 isBlueBorder = false;
@@ -634,7 +634,7 @@ function App() {
                               case '待补偿':
                                 statusText = '待补偿';
                                 statusColor = 'text-emerald-600';
-                                statusBgColor = 'bg-emerald-50';
+                                statusBgColor = 'bg-emerald-50'; // Keep pill
                                 iconColor = '#5B6FED';
                                 description = '已达到补偿条件，请及时领取补偿金。';
                                 isBlueBorder = true;
@@ -642,7 +642,7 @@ function App() {
                               case '已补偿':
                                 statusText = '已补偿';
                                 statusColor = 'text-emerald-600';
-                                statusBgColor = 'bg-emerald-50';
+                                statusBgColor = 'bg-emerald-50'; // Green pill for compensated
                                 iconColor = '#3B82F6';
                                 description = `补偿金${day.amount}元已到账，祝您行程顺利！`;
                                 isBlueBorder = true;
@@ -650,15 +650,15 @@ function App() {
                               case '未达标':
                                 statusText = '未达标';
                                 statusColor = 'text-gray-500';
-                                statusBgColor = 'bg-gray-100';
-                                iconColor = '#9CA3AF'; // Gray icon
+                                statusBgColor = ''; // Plain text
+                                iconColor = '#9CA3AF';
                                 description = '当日未达到补偿条件，祝您行程顺利！';
                                 isBlueBorder = false;
                                 break;
                               default:
                                 statusText = '未达标';
                                 statusColor = 'text-gray-500';
-                                statusBgColor = 'bg-gray-100';
+                                statusBgColor = '';
                                 break;
                             }
 
@@ -666,7 +666,7 @@ function App() {
                             const isToday = day.status === '保障中';
 
                             return (
-                              <div key={idx} className={`relative pl-6 ${isLast ? 'pb-0' : 'pb-8'} border-l-2 ${isLast && !isExpanded ? 'border-transparent' : ''}`} style={{ borderColor: (isLast && !isExpanded) ? 'transparent' : (isBlueBorder ? '#5B6FED' : '#E5E7EB') }}>
+                              <div key={idx} className={`relative pl-6 ${isLast ? 'pb-0' : 'pb-8'} border-l-2 ${isLast && !isExpanded ? 'border-transparent' : ''} group`} style={{ borderColor: (isLast && !isExpanded) ? 'transparent' : (isBlueBorder ? '#5B6FED' : '#E5E7EB') }}>
                                 <div
                                   className={`absolute -left-[9px] top-0 w-[18px] h-[18px] rounded-full flex items-center justify-center z-10 transition-all bg-white`}
                                 >
@@ -680,7 +680,7 @@ function App() {
                                 </div>
 
                                 <div
-                                  className="flex items-start justify-between mb-2 -mt-1 cursor-pointer select-none"
+                                  className="flex items-start justify-between mb-2 -mt-1 cursor-pointer select-none hover:bg-blue-50/80 active:bg-blue-100/50 -mx-2 px-2 py-1.5 rounded-lg transition-all hover:shadow-sm"
                                   onClick={() => toggleDate(day.date)}
                                 >
                                   <div className="flex items-center gap-2">
@@ -692,18 +692,18 @@ function App() {
                                     )}
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusBgColor} ${statusColor}`}>{statusText}</span>
+                                    <span className={`text-xs ${statusBgColor ? 'px-2.5 py-1 rounded-full' : 'px-2.5'} font-medium ${statusBgColor} ${statusColor}`}>{statusText}</span>
                                   </div>
                                 </div>
 
                                 {
                                   isExpanded && (
-                                    <div className={`rounded-lg p-3 overflow-hidden transition-all bg-gray-50`}>
-                                      <p className="text-sm text-gray-700 leading-relaxed mb-1">
+                                    <div className={`rounded-lg p-3 overflow-hidden transition-all bg-blue-50/30`}>
+                                      <p className="text-xs text-gray-700 leading-relaxed mb-1">
                                         {description}
                                       </p>
                                       {(day.status === '未达标' || day.status === '已补偿' || day.status === '待补偿') && (
-                                        <div className="flex justify-between items-center text-sm mt-3 pt-3 border-t border-gray-100">
+                                        <div className="flex justify-between items-center text-xs mt-3 pt-3 border-t border-gray-100">
                                           <span className="text-gray-500">降雨时长</span>
                                           <span className="text-gray-900 flex items-center gap-1">
                                             {day.hours || 0}小时
@@ -742,7 +742,7 @@ function App() {
                                           }}
                                         >
                                           <span>领取补偿</span>
-                                          <span className="font-bold text-base">¥{day.amount}</span>
+                                          <span className="font-bold text-base">{day.amount}元</span>
                                         </button>
                                       )}
                                     </div>
@@ -767,19 +767,19 @@ function App() {
                                 </div>
 
                                 <div
-                                  className="flex items-start justify-between mb-2 -mt-1 cursor-pointer select-none"
+                                  className="flex items-start justify-between mb-2 -mt-1 cursor-pointer select-none hover:bg-blue-50/80 active:bg-blue-100/50 -mx-2 px-2 py-1.5 rounded-lg transition-all hover:shadow-sm"
                                   onClick={() => toggleDate(pendingKey)}
                                 >
                                   <div className="flex items-center gap-2">
                                     <span className="text-sm font-medium text-gray-900">{dateRange}</span>
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-blue-50 text-blue-600">待开始</span>
+                                    <span className="text-xs font-medium text-gray-500 px-2.5">待开始</span>
                                   </div>
                                 </div>
                                 {isPendingExpanded && (
-                                  <div className="bg-gray-50 rounded-lg p-3">
-                                    <p className="text-sm text-gray-700 leading-relaxed">
+                                  <div className="bg-blue-50/30 rounded-lg p-3">
+                                    <p className="text-xs text-gray-700 leading-relaxed">
                                       保障将于当日 08:00 开始，祝您行程愉快！
                                     </p>
                                   </div>
@@ -793,6 +793,8 @@ function App() {
                     </div>
                   </div>
                 )}
+
+                {/* Progress Info Modal removed */}
 
 
 
