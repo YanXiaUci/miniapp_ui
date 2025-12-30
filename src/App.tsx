@@ -25,11 +25,10 @@ type Page = 'home' | 'add' | 'trips' | 'tripDetail' | 'profile' | 'about' | 'mar
 
 interface DayWeather {
   date: string;
-  rained: boolean;
+  status: '待开始' | '保障中' | '确认中' | '未达标' | '待补偿' | '已补偿';
+  rained?: boolean;
   hours?: number;
-  compensated: boolean;
   amount?: number;
-  compensationStatus: '无需补偿' | '待结算' | '处理中' | '已到账';
   paidAt?: string;
 }
 
@@ -62,8 +61,13 @@ const trips: Trip[] = [
     totalAmount: 25.00,
     totalCompensation: 0,
     weatherData: [
-      { date: '12月28日', rained: false, compensated: false, compensationStatus: '无需补偿' },
-      { date: '12月29日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '12月28日', status: '已补偿', rained: true, hours: 5, amount: 2, paidAt: '12月29日 10:00' },
+      { date: '12月29日', status: '待补偿', rained: true, hours: 4, amount: 2 },
+      { date: '12月30日', status: '确认中', rained: true, hours: 3.5 },
+      { date: '12月31日', status: '未达标', rained: true, hours: 2 },
+      { date: '01月01日', status: '保障中', rained: false },
+      // 01月02日 and 01月03日 will be handled as pending (待开始) by logic if missing or explicitly added
+      { date: '01月02日', status: '待开始', rained: false },
     ],
   },
   {
@@ -121,8 +125,8 @@ const trips: Trip[] = [
     totalAmount: 0.40,
     totalCompensation: 2,
     weatherData: [
-      { date: '11月08日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '11月09日 10:32' },
-      { date: '11月09日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '11月08日', status: '已补偿', rained: true, hours: 5, amount: 2, paidAt: '11月09日 10:32' },
+      { date: '11月09日', status: '未达标', rained: false },
     ],
   },
   {
@@ -138,9 +142,9 @@ const trips: Trip[] = [
     totalAmount: 0.45,
     totalCompensation: 4,
     weatherData: [
-      { date: '11月05日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '11月06日 09:15' },
-      { date: '11月06日', rained: false, compensated: false, compensationStatus: '无需补偿' },
-      { date: '11月07日', rained: true, hours: 6, compensated: true, amount: 2, compensationStatus: '处理中' },
+      { date: '11月05日', status: '已补偿', rained: true, hours: 5, amount: 2, paidAt: '11月06日 09:15' },
+      { date: '11月06日', status: '未达标', rained: false },
+      { date: '11月07日', status: '确认中', rained: true, hours: 6, amount: 2 },
     ],
   },
   {
@@ -156,8 +160,8 @@ const trips: Trip[] = [
     totalAmount: 0.35,
     totalCompensation: 4,
     weatherData: [
-      { date: '11月03日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '11月04日 11:20' },
-      { date: '11月04日', rained: true, hours: 4, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '11月05日 10:05' },
+      { date: '11月03日', status: '已补偿', rained: true, hours: 5, amount: 2, paidAt: '11月04日 11:20' },
+      { date: '11月04日', status: '已补偿', rained: true, hours: 4, amount: 2, paidAt: '11月05日 10:05' },
     ],
   },
   {
@@ -173,10 +177,10 @@ const trips: Trip[] = [
     totalAmount: 0.50,
     totalCompensation: 4,
     weatherData: [
-      { date: '10月25日', rained: true, hours: 6, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '10月26日 10:15' },
-      { date: '10月26日', rained: true, hours: 2, compensated: false, compensationStatus: '无需补偿' },
-      { date: '10月27日', rained: false, compensated: false, compensationStatus: '无需补偿' },
-      { date: '10月28日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '10月29日 09:45' },
+      { date: '10月25日', status: '已补偿', rained: true, hours: 6, amount: 2, paidAt: '10月26日 10:15' },
+      { date: '10月26日', status: '未达标', rained: true, hours: 2 },
+      { date: '10月27日', status: '未达标', rained: false },
+      { date: '10月28日', status: '已补偿', rained: true, hours: 5, amount: 2, paidAt: '10月29日 09:45' },
     ],
   },
   {
@@ -192,11 +196,11 @@ const trips: Trip[] = [
     totalAmount: 0.55,
     totalCompensation: 2,
     weatherData: [
-      { date: '10月20日', rained: false, compensated: false, compensationStatus: '无需补偿' },
-      { date: '10月21日', rained: true, hours: 3, compensated: false, compensationStatus: '无需补偿' },
-      { date: '10月22日', rained: true, hours: 5, compensated: true, amount: 2, compensationStatus: '已到账', paidAt: '10月23日 11:30' },
-      { date: '10月23日', rained: false, compensated: false, compensationStatus: '无需补偿' },
-      { date: '10月24日', rained: true, hours: 2, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月20日', status: '未达标', rained: false },
+      { date: '10月21日', status: '未达标', rained: true, hours: 3 },
+      { date: '10月22日', status: '已补偿', rained: true, hours: 5, amount: 2, paidAt: '10月23日 11:30' },
+      { date: '10月23日', status: '未达标', rained: false },
+      { date: '10月24日', status: '未达标', rained: true, hours: 2 },
     ],
   },
   {
@@ -212,8 +216,8 @@ const trips: Trip[] = [
     totalAmount: 0.30,
     totalCompensation: 0,
     weatherData: [
-      { date: '11月01日', rained: false, compensated: false, compensationStatus: '无需补偿' },
-      { date: '11月02日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '11月01日', status: '未达标', rained: false },
+      { date: '11月02日', status: '未达标', rained: false },
     ],
   },
   {
@@ -229,9 +233,9 @@ const trips: Trip[] = [
     totalAmount: 0.45,
     totalCompensation: 0,
     weatherData: [
-      { date: '10月28日', rained: true, hours: 2, compensated: false, compensationStatus: '无需补偿' },
-      { date: '10月29日', rained: true, hours: 3, compensated: false, compensationStatus: '无需补偿' },
-      { date: '10月30日', rained: false, compensated: false, compensationStatus: '无需补偿' },
+      { date: '10月28日', status: '未达标', rained: true, hours: 2 },
+      { date: '10月29日', status: '未达标', rained: true, hours: 3 },
+      { date: '10月30日', status: '未达标', rained: false },
     ],
   },
   {
@@ -406,7 +410,12 @@ function App() {
                   onClick={() => {
                     setSelectedTrip(trip);
                     setCurrentPage('tripDetail');
-                    setExpandedDates(new Set(['12月29日']));
+                    const autoExpandDates = trip.weatherData
+                      .filter(d => d.status === '保障中' || d.status === '待补偿')
+                      .map(d => d.date);
+                    // If no specific dates found, default to our demo date if needed, otherwise just use found ones
+                    if (autoExpandDates.length === 0) autoExpandDates.push('01月01日');
+                    setExpandedDates(new Set(autoExpandDates));
                   }}
                   className={`w-full rounded-2xl p-5 shadow-sm text-left hover:shadow-md transition-all active:scale-[0.98] relative ${getCardGradient(index)}`}
                 >
@@ -564,7 +573,13 @@ function App() {
                               groups.push({ type: 'pending', dates: [...pendingBuffer] });
                               pendingBuffer = [];
                             }
-                            groups.push({ type: 'processed', date, data });
+
+                            // Treat explicit '待开始' same as missing data -> group into pending
+                            if (data.status === '待开始') {
+                              pendingBuffer.push(date);
+                            } else {
+                              groups.push({ type: 'processed', date, data });
+                            }
                           } else {
                             pendingBuffer.push(date);
                           }
@@ -574,29 +589,93 @@ function App() {
                           groups.push({ type: 'pending', dates: [...pendingBuffer] });
                         }
 
-                        const today = new Date();
-                        const todayStr = `${(today.getMonth() + 1).toString().padStart(2, '0')}月${today.getDate().toString().padStart(2, '0')}日`;
+                        // We might need to mock 'today' for the demo to show '保障中' correctly with 'Today' badge
+                        // Let's assume 01月01日 is today for the visual logic if status is 保障中
 
                         return groups.map((g, idx) => {
                           const isLast = idx === groups.length - 1;
 
                           if (g.type === 'processed' && g.data) {
                             const day = g.data;
-                            // Just for demo purposes, if the date is 12月29日, treat it as today since user is testing that date range.
-                            // In production this would just be day.date === todayStr
-                            const isToday = day.date === '12月29日';
                             const isExpanded = expandedDates.has(day.date);
 
+                            let statusText = '';
+                            let statusColor = '';
+                            let statusBgColor = '';
+                            let iconColor = '#9CA3AF';
+                            let description = '';
+                            let isBlueBorder = false;
+
+                            switch (day.status) {
+                              case '待开始':
+                                statusText = '待开始';
+                                statusColor = 'text-blue-600';
+                                statusBgColor = 'bg-blue-50';
+                                iconColor = '#5B6FED';
+                                description = '保障将于当日 08:00 开始，祝您行程愉快！';
+                                isBlueBorder = false;
+                                break;
+                              case '保障中':
+                                statusText = '保障中';
+                                statusColor = 'text-blue-600';
+                                statusBgColor = 'bg-blue-50';
+                                iconColor = '#F59E0B'; // Yellow Sun for active/forecast
+                                description = '保障已生效，正在持续监测天气。';
+                                isBlueBorder = false;
+                                break;
+                              case '确认中':
+                                statusText = '确认中';
+                                statusColor = 'text-blue-600';
+                                statusBgColor = 'bg-blue-50';
+                                iconColor = '#5B6FED';
+                                description = '当日保障已结束，补偿结果确认中。';
+                                isBlueBorder = false;
+                                break;
+                              case '待补偿':
+                                statusText = '待补偿';
+                                statusColor = 'text-emerald-600';
+                                statusBgColor = 'bg-emerald-50';
+                                iconColor = '#5B6FED';
+                                description = '已达到补偿条件，请及时领取补偿金。';
+                                isBlueBorder = true;
+                                break;
+                              case '已补偿':
+                                statusText = '已补偿';
+                                statusColor = 'text-emerald-600';
+                                statusBgColor = 'bg-emerald-50';
+                                iconColor = '#3B82F6';
+                                description = '补偿金已到账，祝您行程顺利！';
+                                isBlueBorder = true;
+                                break;
+                              case '未达标':
+                                statusText = '未达标';
+                                statusColor = 'text-gray-500';
+                                statusBgColor = 'bg-gray-100';
+                                iconColor = '#9CA3AF'; // Gray icon
+                                description = '当日未达到补偿条件，祝您行程顺利！';
+                                isBlueBorder = false;
+                                break;
+                              default:
+                                statusText = '未达标';
+                                statusColor = 'text-gray-500';
+                                statusBgColor = 'bg-gray-100';
+                                break;
+                            }
+
+                            // Show 'Today' badge if status is '保障中'
+                            const isToday = day.status === '保障中';
+
                             return (
-                              <div key={idx} className={`relative pl-6 ${isLast ? 'pb-0' : 'pb-8'} border-l-2 ${isLast && !isExpanded ? 'border-transparent' : ''}`} style={{ borderColor: (isLast && !isExpanded) ? 'transparent' : (day.compensated ? '#5B6FED' : '#E5E7EB') }}>
-                                {/* Icon on the line */}
+                              <div key={idx} className={`relative pl-6 ${isLast ? 'pb-0' : 'pb-8'} border-l-2 ${isLast && !isExpanded ? 'border-transparent' : ''}`} style={{ borderColor: (isLast && !isExpanded) ? 'transparent' : (isBlueBorder ? '#5B6FED' : '#E5E7EB') }}>
                                 <div
                                   className={`absolute -left-[9px] top-0 w-[18px] h-[18px] rounded-full flex items-center justify-center z-10 transition-all bg-white`}
                                 >
-                                  {day.rained ? (
-                                    <CloudRain className="w-4 h-4" style={{ color: isToday ? '#5B6FED' : (day.compensated ? '#5B6FED' : '#9CA3AF') }} />
+                                  {day.status === '待开始' ? (
+                                    <Clock className="w-4 h-4 text-blue-500" />
+                                  ) : day.rained && (day.status === '未达标' || day.status === '已补偿' || day.status === '待补偿' || day.status === '确认中') ? (
+                                    <CloudRain className="w-4 h-4" style={{ color: (day.status === '已补偿' || day.status === '待补偿' || day.status === '确认中') ? '#3B82F6' : '#9CA3AF' }} />
                                   ) : (
-                                    <Sun className="w-4 h-4 text-yellow-500" />
+                                    <Sun className="w-4 h-4" style={{ color: '#F59E0B' }} />
                                   )}
                                 </div>
 
@@ -613,31 +692,43 @@ function App() {
                                     )}
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    {day.compensated ? (
-                                      <span className="text-sm font-semibold" style={{ color: '#5B6FED' }}>+¥{day.amount}</span>
-                                    ) : (
-                                      <span className="text-xs text-gray-500">无需补偿</span>
-                                    )}
-
+                                    <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusBgColor} ${statusColor}`}>{statusText}</span>
                                   </div>
                                 </div>
 
-                                {isExpanded && (
-                                  <div className={`rounded-lg p-3 overflow-hidden transition-all bg-gray-50`}>
-                                    {!day.rained ? (
-                                      <p className={`text-sm ${isToday ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
-                                        {isToday ? '当前天气良好，保障生效中' : '未触发'}
+                                {
+                                  isExpanded && (
+                                    <div className={`rounded-lg p-3 overflow-hidden transition-all bg-gray-50`}>
+                                      <p className="text-sm text-gray-700 leading-relaxed mb-1">
+                                        {description}
                                       </p>
-                                    ) : (
-                                      <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">降雨时长</span>
-                                        <span className={`font-medium ${day.compensated ? 'text-gray-900' : 'text-gray-500'}`}>
-                                          {day.hours} 小时 {day.compensated ? '✓' : '(不足4小时)'}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
+                                      {(day.status === '未达标' || day.status === '已补偿' || day.status === '待补偿') && (
+                                        <div className="flex justify-between items-center text-sm mt-3 pt-3 border-t border-gray-100">
+                                          <span className="text-gray-500">降雨时长</span>
+                                          <span className="text-gray-900 flex items-center gap-1">
+                                            {day.hours || 0}小时
+                                            {day.status === '未达标' && <span className="text-gray-400">（不足4小时）</span>}
+                                            {(day.status === '已补偿' || day.status === '待补偿') && <Check className="w-4 h-4 text-emerald-500" />}
+                                          </span>
+                                        </div>
+                                      )}
+
+                                      {day.status === '待补偿' && (
+                                        <button
+                                          className="w-full mt-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            // Handle claim logic
+                                            alert(`已领取 ${day.date} 补偿金 ¥${day.amount}`);
+                                          }}
+                                        >
+                                          <span>领取补偿</span>
+                                          <span className="font-bold text-base">¥{day.amount}</span>
+                                        </button>
+                                      )}
+                                    </div>
+                                  )
+                                }
                               </div>
                             );
                           } else if (g.type === 'pending' && g.dates) {
@@ -664,14 +755,13 @@ function App() {
                                     <span className="text-sm font-medium text-gray-900">{dateRange}</span>
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    <span className="text-xs font-medium text-blue-600">待开始</span>
-
+                                    <span className="text-xs px-2.5 py-1 rounded-full font-medium bg-blue-50 text-blue-600">待开始</span>
                                   </div>
                                 </div>
                                 {isPendingExpanded && (
                                   <div className="bg-gray-50 rounded-lg p-3">
                                     <p className="text-sm text-gray-700 leading-relaxed">
-                                      保障将于当日08:00生效，祝您旅途愉快！
+                                      保障将于当日 08:00 开始，祝您行程愉快！
                                     </p>
                                   </div>
                                 )}
@@ -797,7 +887,7 @@ function App() {
             </div>
           )}
         </div>
-      </div>
+      </div >
     );
   }
 
