@@ -644,7 +644,7 @@ function App() {
                                 statusColor = 'text-emerald-600';
                                 statusBgColor = 'bg-emerald-50';
                                 iconColor = '#3B82F6';
-                                description = '补偿金已到账，祝您行程顺利！';
+                                description = `补偿金${day.amount}元已到账，祝您行程顺利！`;
                                 isBlueBorder = true;
                                 break;
                               case '未达标':
@@ -719,6 +719,25 @@ function App() {
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             // Handle claim logic
+                                            if (!selectedTrip) return;
+
+                                            // 1. Update the status of this specific day
+                                            const updatedWeatherData = selectedTrip.weatherData.map(d => {
+                                              if (d.date === day.date) {
+                                                return { ...d, status: '已补偿' as const };
+                                              }
+                                              return d;
+                                            });
+
+                                            // 2. Update total compensation
+                                            const updatedTrip = {
+                                              ...selectedTrip,
+                                              totalCompensation: selectedTrip.totalCompensation + (day.amount || 0),
+                                              weatherData: updatedWeatherData
+                                            };
+
+                                            // 3. Update state to reflect changes
+                                            setSelectedTrip(updatedTrip);
                                             alert(`已领取 ${day.date} 补偿金 ¥${day.amount}`);
                                           }}
                                         >
