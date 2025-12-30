@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* CSS 自定义属性 - Design Tokens */
+  :root {
+    /* 颜色 */
+    --color-primary: #5B6FED;
+    --color-primary-light: #818CF8;
+    --color-primary-dark: #4F46E5;
+    
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+    
+    /* 动画 */
+    --transition-fast: 150ms;
+    --transition-base: 250ms;
+    --transition-slow: 350ms;
+    --transition-slower: 500ms;
+    
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    /* 阴影 */
+    --shadow-primary: 0 4px 12px rgba(91, 111, 237, 0.3);
+    --shadow-success: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+  
+  /* 全局样式 */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+@layer utilities {
+  /* 自定义工具类 */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .transition-smooth {
+    transition-timing-function: var(--ease-smooth);
+  }
+  
+  .transition-bounce {
+    transition-timing-function: var(--ease-bounce);
+  }
+  
+  .transition-spring {
+    transition-timing-function: var(--ease-spring);
+  }
+}
